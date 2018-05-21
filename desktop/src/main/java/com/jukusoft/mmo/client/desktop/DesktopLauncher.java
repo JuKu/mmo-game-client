@@ -4,8 +4,11 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.jukusoft.mmo.client.desktop.config.WindowConfig;
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.GameGUI;
 import com.jukusoft.mmo.client.network.NClient;
+
+import java.io.File;
 
 public class DesktopLauncher {
 
@@ -22,6 +25,9 @@ public class DesktopLauncher {
     protected static void start () throws Exception {
         //start game
         WritableGame game = null;
+
+        //load servers
+        ServerManager.getInstance().loadConfig(new File("./config/server.cfg"));
 
         //TODO: init game
 
