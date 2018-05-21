@@ -27,6 +27,7 @@ public class DesktopLauncher {
 
         //TODO: start networking
         NClient nClient = new NClient(game);
+        nClient.start();
 
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 

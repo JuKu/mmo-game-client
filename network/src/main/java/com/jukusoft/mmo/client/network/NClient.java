@@ -15,4 +15,18 @@ public class NClient {
         //
     }
 
+    /**
+    * start network module, connect to proxy server
+    */
+    public void start () {
+        //
+    }
+
+    /**
+     * disconnect server
+     */
+    public void stop () {
+        //
+    }
+
 }
