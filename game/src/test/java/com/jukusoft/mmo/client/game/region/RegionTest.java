@@ -45,4 +45,14 @@ public class RegionTest {
         region.join(1, 1, "");
     }
 
+    @Test
+    public void testJoin () {
+        WritableRegion region = new WritableRegion();
+        region.join(10, 20, "test-title");
+
+        assertEquals(10, region.getRegionID());
+        assertEquals(20, region.getInstanceID());
+        assertEquals("test-title", region.getTitle());
+    }
+
 }
