@@ -30,6 +30,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- game networking -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>client-network</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- ini4j -->
 		<dependency>
 			<groupId>org.ini4j</groupId>

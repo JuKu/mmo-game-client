@@ -4,7 +4,9 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.jukusoft.mmo.client.desktop.config.WindowConfig;
 import com.jukusoft.mmo.client.game.Game;
+import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.gui.GameGUI;
+import com.jukusoft.mmo.client.network.NClient;
 
 public class DesktopLauncher {
 
@@ -20,11 +22,12 @@ public class DesktopLauncher {
 
     protected static void start () throws Exception {
         //start game
-        Game game = null;
+        WritableGame game = null;
 
         //TODO: init game
 
         //TODO: start networking
+        NClient nClient = new NClient(game);
 
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
