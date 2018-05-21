@@ -41,6 +41,6 @@ Network Protocol is specified [here](https://github.com/JuKu/mmo-proxy-server) (
 
 See [MMO Proxy Server](https://github.com/JuKu/mmo-proxy-server).
 
+## License Check
 
-## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FJuKu%2Fmmo-game-client.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FJuKu%2Fmmo-game-client?ref=badge_large)
