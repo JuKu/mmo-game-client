@@ -11,6 +11,10 @@
 
 	<artifactId>client-game</artifactId>
 
+	<dependencies>
+		
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>

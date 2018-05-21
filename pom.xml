@@ -30,6 +30,12 @@
 		<!-- hppc, high performance lists & maps, https://github.com/carrotsearch/hppc -->
 		<hppc.version>0.7.3</hppc.version>
 
+		<!-- libGDX version -->
+		<libgdx.version>1.9.6</libgdx.version>
+
+		<!-- VisUI - ui library for libGDX -->
+		<vis.ui.version>1.4.0</vis.ui.version>
+
 		<!-- ini4j parser -->
 		<ini4j.version>0.5.4</ini4j.version>
 
