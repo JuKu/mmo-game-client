@@ -12,6 +12,9 @@
 		<fileSet>
 			<directory>../config</directory>
 			<outputDirectory>config</outputDirectory>
+			<excludes>
+				<exclude>*junit*</exclude>
+			</excludes>
 		</fileSet>
 
 		<!-- data directory -->
