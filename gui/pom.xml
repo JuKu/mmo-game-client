@@ -25,14 +25,6 @@
 			<version>${libgdx.version}</version>
 		</dependency>
 
-		<!-- libGDX JUnit Tests -->
-		<dependency>
-			<groupId>com.badlogicgames.gdx</groupId>
-			<artifactId>gdx-backend-headless</artifactId>
-			<version>${libgdx.version}</version>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- libGDX platform for JUnit tests -->
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
