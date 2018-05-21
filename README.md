@@ -1,7 +1,8 @@
 # mmo-game-client
 A client (tooling) for a mmo game. This is only a tool, not a complete game!
 
-[![Build Status](https://travis-ci.org/JuKu/mmo-game-client.svg?branch=master)](https://travis-ci.org/JuKu/mmo-game-client) 
+[![Build Status](https://travis-ci.org/JuKu/mmo-game-client.svg?branch=master)](https://travis-ci.org/JuKu/mmo-game-client) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FJuKu%2Fmmo-game-client.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FJuKu%2Fmmo-game-client?ref=badge_shield)
+
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-game-client&metric=ncloc)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client) 
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-game-client&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client) 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-game-client&metric=coverage)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client) 
@@ -39,3 +40,7 @@ Network Protocol is specified [here](https://github.com/JuKu/mmo-proxy-server) (
 ## Server Architecture
 
 See [MMO Proxy Server](https://github.com/JuKu/mmo-proxy-server).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FJuKu%2Fmmo-game-client.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FJuKu%2Fmmo-game-client?ref=badge_large)
