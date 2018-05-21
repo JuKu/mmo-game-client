@@ -6,8 +6,6 @@ import com.jukusoft.mmo.client.desktop.config.WindowConfig;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.gui.GameGUI;
 
-import java.io.IOException;
-
 public class DesktopLauncher {
 
     public static void main (String[] args) {
