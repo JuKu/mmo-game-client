@@ -19,6 +19,12 @@ A client (tooling) for a mmo game. This is only a tool, not a complete game!
   
 See also [MMO Proxy Server](https://github.com/JuKu/mmo-proxy-server)
 
+## Supported Platforms
+
+  - Windows 10
+  - Linux
+  - ~~Mac OSX~~ (support dropped! Not official supported anymore!)
+
 ## Network Protocol
 
 Network Protocol is specified [here](https://github.com/JuKu/mmo-proxy-server) (proxy is transparent).
