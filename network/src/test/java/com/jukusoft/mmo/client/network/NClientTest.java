@@ -14,4 +14,13 @@ public class NClientTest {
         new NClient(game);
     }
 
+    @Test
+    public void testStartAndStop () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+
+        NClient client = new NClient(game);
+        client.start();
+        client.stop();
+    }
+
 }
