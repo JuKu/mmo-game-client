@@ -27,7 +27,7 @@ public class DesktopLauncher {
         WritableGame game = null;
 
         //load servers
-        ServerManager.getInstance().loadConfig(new File("./config/server.cfg"));
+        ServerManager.getInstance().loadFromConfig(new File("./config/servers.json"));
 
         //TODO: init game
 
