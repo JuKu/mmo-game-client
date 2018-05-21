@@ -11,5 +11,13 @@
 
 	<artifactId>client-desktop</artifactId>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>client-game</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
 
 </project>
