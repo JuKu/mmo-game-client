@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.jukusoft</groupId>
-			<artifactId>client-network</artifactId>
+			<artifactId>client-game</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

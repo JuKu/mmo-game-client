@@ -3,6 +3,8 @@ package com.jukusoft.mmo.client.game.region;
 public class Region {
 
     protected String title = "";
+    protected int regionID = 0;
+    protected int instanceID = 0;
 
     public Region () {
         //
@@ -17,8 +19,12 @@ public class Region {
         return this.title;
     }
 
-    public void setTitle (String title) {
-        this.title = title;
+    public int getRegionID() {
+        return regionID;
+    }
+
+    public int getInstanceID() {
+        return instanceID;
     }
 
 }
