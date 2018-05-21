@@ -1,1 +1,1 @@
-java -jar Desktop.jar
+java -jar client-desktop-1.0.0-SNAPSHOT.jar
