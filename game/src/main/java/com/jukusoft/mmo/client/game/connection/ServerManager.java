@@ -1,10 +1,8 @@
 package com.jukusoft.mmo.client.game.connection;
 
 import com.jukusoft.mmo.client.game.utils.FileUtils;
-import com.sun.org.apache.xml.internal.security.Init;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import org.ini4j.Ini;
 
 import java.io.File;
 import java.io.IOException;
