@@ -11,6 +11,10 @@
 
 	<artifactId>client-desktop</artifactId>
 
+	<properties>
+		<mainClass>com.jukusoft.mmo.client.desktop.DesktopLauncher</mainClass>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.jukusoft</groupId>
