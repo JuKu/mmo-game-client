@@ -16,9 +16,17 @@
 	</properties>
 
 	<dependencies>
+		<!-- game -->
 		<dependency>
 			<groupId>com.jukusoft</groupId>
 			<artifactId>client-game</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- game gui -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>client-gui</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
