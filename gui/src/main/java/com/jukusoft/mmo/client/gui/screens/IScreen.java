@@ -1,5 +1,7 @@
 package com.jukusoft.mmo.client.gui.screens;
 
+import com.jukusoft.mmo.client.game.Game;
+
 /**
  * Screen interface - screens are responsible for drawing, not for updating your game state!
  *
@@ -10,38 +12,38 @@ public interface IScreen {
     /**
     * method which should be executed if screen is created
     */
-    public void onStart();
+    public void onStart(Game game);
 
     /**
      * method which should be executed if screen has stopped
      */
-    public void onStop();
+    public void onStop(Game game);
 
     /**
      * method is executed, if screen is set to active state now.
      */
-    public void onResume();
+    public void onResume(Game game);
 
     /**
     * method is executed, if screen isn't active anymore
     */
-    public void onPause();
+    public void onPause(Game game);
 
     /**
     * process input
      *
      * @return true, if input was processed and no other screen has to process input anymore
     */
-    public boolean processInput();
+    public boolean processInput(Game game);
 
     /**
      * update game screen
      */
-    public void update();
+    public void update(Game game);
 
     /**
      * beforeDraw game screen
      */
-    public void draw();
+    public void draw(Game game);
 
 }
