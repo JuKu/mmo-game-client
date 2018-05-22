@@ -12,6 +12,8 @@ A client (tooling) for a mmo game. This is only a tool, not a complete game!
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-game-client&metric=bugs)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client) 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-game-client&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client) 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-game-client&metric=security_rating)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client) 
+![GitHub release](https://img.shields.io/github/release/JuKu/mmo-game-client.svg)
+![Github commits (since latest release)](https://img.shields.io/github/commits-since/JuKu/mmo-game-client/latest.svg)
 
 [![Sonarcloud](https://sonarcloud.io/api/project_badges/quality_gate?project=com.jukusoft%3Ammo-game-client)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client)
 
@@ -41,6 +43,10 @@ Network Protocol is specified [here](https://github.com/JuKu/mmo-proxy-server) (
 ## Server Architecture
 
 See [MMO Proxy Server](https://github.com/JuKu/mmo-proxy-server).
+
+## Badges
+
+https://shields.io/
 
 ## License Check
 
