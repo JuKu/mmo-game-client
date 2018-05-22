@@ -38,11 +38,7 @@ public class SocketUtils {
                 return false;
             }
 
-            if (s.isConnected()) {
-                return true;
-            } else {
-                return false;
-            }
+            return s.isConnected();
         }
     }
 
