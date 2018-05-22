@@ -2,7 +2,12 @@ package com.jukusoft.mmo.client.gui;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.jukusoft.mmo.client.engine.fps.FPSManager;
+import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.time.GameTime;
+import com.jukusoft.mmo.client.engine.utils.Platform;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
@@ -12,7 +17,11 @@ public class GameGUI implements ApplicationListener {
 
     protected final Game game;
     protected final ScreenManager<IScreen> screenManager;
-    protected GameTime time = GameTime.getInstance();
+    protected final GameTime time = GameTime.getInstance();
+    protected final FPSManager fps = FPSManager.getInstance();
+
+    //window background (clear) color
+    protected Color bgColor = Color.BLACK;
 
     /**
     * default constructor
@@ -31,7 +40,7 @@ public class GameGUI implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-
+        //
     }
 
     @Override
@@ -39,6 +48,33 @@ public class GameGUI implements ApplicationListener {
         //first, update game time
         this.time.setTime(System.currentTimeMillis());
         this.time.setDelta(Gdx.graphics.getDeltaTime());
+
+        //update FPS
+        fps.setFPS(Gdx.graphics.getFramesPerSecond());
+
+        //show FPS warning, if neccessary
+        fps.showWarningIfNeccessary();
+
+        //execute tasks, which should be executed in OpenGL context thread
+        Platform.executeQueue();
+
+        try {
+            //process input
+            this.screenManager.processInput();
+
+            //update screens
+            this.screenManager.update();
+
+            //clear all color buffer bits and clear screen
+            Gdx.gl.glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            //draw screens
+            this.screenManager.draw();
+        } catch (Exception e) {
+            LocalLogger.printStacktrace(e);
+            Gdx.app.error("BaseGame", "exception thrown while render game: " + e.getLocalizedMessage(), e);
+        }
     }
 
     @Override
@@ -53,7 +89,7 @@ public class GameGUI implements ApplicationListener {
 
     @Override
     public void dispose() {
-
+        this.screenManager.dispose();
     }
 
 }
