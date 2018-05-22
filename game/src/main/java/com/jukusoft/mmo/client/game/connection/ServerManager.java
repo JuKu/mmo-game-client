@@ -21,6 +21,7 @@ public class ServerManager {
     }
 
     public void loadFromConfig (File config) throws IOException {
+        //check, if config file exists
         if (!config.exists()) {
             throw new IllegalStateException("server config file doesnt exists: " + config.getAbsolutePath());
         }
