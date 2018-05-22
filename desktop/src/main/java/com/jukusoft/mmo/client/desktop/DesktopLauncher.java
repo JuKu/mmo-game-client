@@ -3,6 +3,9 @@ package com.jukusoft.mmo.client.desktop;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.jukusoft.mmo.client.desktop.config.WindowConfig;
+import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.time.GameTime;
+import com.jukusoft.mmo.client.engine.utils.Utils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.GameGUI;
@@ -23,17 +26,36 @@ public class DesktopLauncher {
     }
 
     protected static void start () throws Exception {
+        Utils.printSection("Game Start");
+
         //start game
         WritableGame game = null;
 
+        Utils.printSection("Servers");
+        LocalLogger.print("load servers");
+
         //load servers
         ServerManager.getInstance().loadFromConfig(new File("./config/servers.json"));
+        LocalLogger.print(ServerManager.getInstance().listServers().size() + " servers found.");
+
+        for (ServerManager.Server server : ServerManager.getInstance().listServers()) {
+            LocalLogger.print(" - " + server.title + " (" + server.ip + ":" + server.port + " - " + (server.online ? "online" : "offline") + ")");
+        }
+
+        Utils.printSection("Init game");
+
+        //initialize game time
+        GameTime.getInstance();
 
         //TODO: init game
+
+        Utils.printSection("Networking");
 
         //TODO: start networking
         NClient nClient = new NClient(game);
         nClient.start();
+
+        Utils.printSection("Window");
 
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 
