@@ -141,12 +141,15 @@ public class DefaultScreenManager implements ScreenManager<IScreen> {
 
     @Override
     public IScreen pop() {
-        IScreen screen = this.activeScreens.pop();
+        IScreen screen = null;
 
-        if (screen != null) {
+        if (this.activeScreens.size() > 0) {
+            screen = this.activeScreens.pop();
+            final IScreen screen1 = screen;
+
             Platform.runOnUIThread(() -> {
                 //pause screen
-                screen.onPause(this.game);
+                screen1.onPause(this.game);
             });
         }
 
