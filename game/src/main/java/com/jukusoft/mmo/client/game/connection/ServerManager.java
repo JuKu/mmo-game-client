@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.game.connection;
 
 import com.jukusoft.mmo.client.game.utils.FileUtils;
+import com.jukusoft.mmo.client.game.utils.SocketUtils;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -41,7 +42,10 @@ public class ServerManager {
             String title = server.getString("title");
             String description = server.getString("description");
 
-            Server obj = new Server(ip, port, title, description);
+            //check, if server is online
+            boolean online = SocketUtils.checkRemoteTCPPort(ip, port, 500);
+
+            Server obj = new Server(ip, port, title, description, online);
             list.add(obj);
         }
     }
@@ -60,12 +64,14 @@ public class ServerManager {
         public final int port;
         public final String title;
         public final String description;
+        public final boolean online;
 
-        public Server (String ip, int port, String title, String description) {
+        public Server (String ip, int port, String title, String description, boolean online) {
             this.ip = ip;
             this.port = port;
             this.title = title;
             this.description = description;
+            this.online = online;
         }
 
     }
