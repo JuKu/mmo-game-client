@@ -16,6 +16,7 @@ A client (tooling) for a mmo game. This is only a tool, not a complete game!
 ![Github commits (since latest release)](https://img.shields.io/github/commits-since/JuKu/mmo-game-client/latest.svg)
 [![codecov](https://codecov.io/gh/JuKu/mmo-game-client/branch/master/graph/badge.svg)](https://codecov.io/gh/JuKu/mmo-game-client)
 ![GitHub issues](https://img.shields.io/github/issues/JuKu/mmo-game-client.svg)
+![GitHub last commit](https://img.shields.io/github/last-commit/JuKu/mmo-game-client.svg)
 
 [![Sonarcloud](https://sonarcloud.io/api/project_badges/quality_gate?project=com.jukusoft%3Ammo-game-client)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-game-client)
 
