@@ -28,24 +28,25 @@ public class SocketUtils {
      * @return true, if port is open
     */
     public static boolean checkRemoteTCPPort (String ip, int port, int timeout) throws IOException {
-        Socket s = new Socket();
-        s.setReuseAddress(true);
-        SocketAddress sa = new InetSocketAddress(ip, port);
+        try (Socket s = new Socket()) {
+            s.setReuseAddress(true);
+            SocketAddress sa = new InetSocketAddress(ip, port);
 
-        try {
-            s.connect(sa, timeout);
-        } catch (IOException e) {
-            s.close();
-            return false;
-        }
+            try {
+                s.connect(sa, timeout);
+            } catch (IOException e) {
+                s.close();
+                return false;
+            }
 
-        if (s.isConnected()) {
-            s.close();
+            if (s.isConnected()) {
+                s.close();
 
-            return true;
-        } else {
-            s.close();
-            return false;
+                return true;
+            } else {
+                s.close();
+                return false;
+            }
         }
     }
 
