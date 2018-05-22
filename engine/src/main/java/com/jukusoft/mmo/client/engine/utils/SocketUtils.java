@@ -35,16 +35,12 @@ public class SocketUtils {
             try {
                 s.connect(sa, timeout);
             } catch (IOException e) {
-                s.close();
                 return false;
             }
 
             if (s.isConnected()) {
-                s.close();
-
                 return true;
             } else {
-                s.close();
                 return false;
             }
         }
