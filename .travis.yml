@@ -36,7 +36,8 @@ cache:
 
 addons:
   sonarcloud:
-    organization: "jukusoft"
+    organization: "juku-github"
+    #jukusoft
 
 script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
