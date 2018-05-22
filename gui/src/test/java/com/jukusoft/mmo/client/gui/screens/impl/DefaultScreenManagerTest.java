@@ -235,6 +235,50 @@ public class DefaultScreenManagerTest extends GameUnitTest {
     }
 
     @Test
+    public void testProcessInput2 () {
+        ScreenManager<IScreen> manager = this.createScreenManager();
+        manager.addScreen("dummy_screen", new IScreen() {
+            @Override
+            public void onStart(Game game) {
+
+            }
+
+            @Override
+            public void onStop(Game game) {
+
+            }
+
+            @Override
+            public void onResume(Game game) {
+
+            }
+
+            @Override
+            public void onPause(Game game) {
+
+            }
+
+            @Override
+            public boolean processInput(Game game) {
+                return true;
+            }
+
+            @Override
+            public void update(Game game) {
+
+            }
+
+            @Override
+            public void draw(Game game) {
+
+            }
+        });
+        manager.push("dummy_screen");
+
+        manager.processInput();
+    }
+
+    @Test
     public void testUpdate () {
         ScreenManager<IScreen> manager = this.createScreenManager();
         manager.addScreen("dummy_screen", new DummyScreen());
