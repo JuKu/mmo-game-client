@@ -10,6 +10,7 @@
 !*travis.mysql.cfg
 !codacy-coverage-reporter-4.0.0-assembly.jar
 !*codacy-coverage-reporter-4.0.0-assembly.jar
+!*codacy*
 
 ### Eclipse ###
 
