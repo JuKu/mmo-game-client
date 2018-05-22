@@ -13,6 +13,7 @@
 		<module>network</module>
 		<module>gui</module>
 		<module>desktop</module>
+		<module>engine</module>
 	</modules>
 
 	<properties>

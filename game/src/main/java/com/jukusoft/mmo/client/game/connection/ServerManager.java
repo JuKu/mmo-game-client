@@ -1,7 +1,7 @@
 package com.jukusoft.mmo.client.game.connection;
 
-import com.jukusoft.mmo.client.game.utils.FileUtils;
-import com.jukusoft.mmo.client.game.utils.SocketUtils;
+import com.jukusoft.mmo.client.engine.utils.FileUtils;
+import com.jukusoft.mmo.client.engine.utils.SocketUtils;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 

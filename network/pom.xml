@@ -12,6 +12,13 @@
 	<artifactId>client-network</artifactId>
 
 	<dependencies>
+		<!-- engine -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>client-engine</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.jukusoft</groupId>
 			<artifactId>client-game</artifactId>

@@ -16,6 +16,13 @@
 	</properties>
 
 	<dependencies>
+		<!-- engine -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>client-engine</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- game -->
 		<dependency>
 			<groupId>com.jukusoft</groupId>

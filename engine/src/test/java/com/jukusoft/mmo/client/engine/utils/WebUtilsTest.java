@@ -1,5 +1,6 @@
-package com.jukusoft.mmo.client.game.utils;
+package com.jukusoft.mmo.client.engine.utils;
 
+import com.jukusoft.mmo.client.engine.utils.WebUtils;
 import org.junit.Test;
 
 import java.io.IOException;

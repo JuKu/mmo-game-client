@@ -9,16 +9,9 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>client-game</artifactId>
+	<artifactId>client-engine</artifactId>
 
 	<dependencies>
-		<!-- engine -->
-		<dependency>
-			<groupId>com.jukusoft</groupId>
-			<artifactId>client-engine</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
 		<dependency>
 			<groupId>io.vertx</groupId>

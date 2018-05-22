@@ -1,4 +1,4 @@
-package com.jukusoft.mmo.client.game.utils;
+package com.jukusoft.mmo.client.engine.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
