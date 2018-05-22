@@ -1,7 +1,6 @@
 package com.jukusoft.mmo.client.game.login;
 
 import io.vertx.core.Handler;
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
