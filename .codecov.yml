@@ -16,6 +16,8 @@ ignore:
   - **/DesktopLauncher.java
   - **/GameGUI.java
   - **/FileUtils.java
+  - **/WebUtils.java
+  - **/SocketUtils.java
 #  - "path/to/folder"  # ignore folders and all its contents
 #  - "test_*.rb"       # wildcards accepted
 #  - "**/*.py"         # glob accepted#
