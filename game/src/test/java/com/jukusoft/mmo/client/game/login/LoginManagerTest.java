@@ -8,6 +8,8 @@ import static org.junit.Assert.assertNotNull;
 
 public class LoginManagerTest {
 
+    protected static boolean handled = false;
+
     @Test
     public void testConstructor () {
         new LoginManager();
@@ -103,6 +105,32 @@ public class LoginManagerTest {
         };
 
         LoginManager.getInstance().login("user", "password", null);
+    }
+
+    @Test
+    public void testEnum () {
+        LoginManager.LOGIN_RESPONSE response = LoginManager.LOGIN_RESPONSE.SUCCESSFUL;
+    }
+
+    @Test
+    public void testLogin () {
+        handled = false;
+
+        LoginManager.getInstance().loginExecutor = new Handler<LoginManager.LoginRequest>() {
+            @Override
+            public void handle(LoginManager.LoginRequest req) {
+                req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.SUCCESSFUL);
+            }
+        };
+
+        LoginManager.getInstance().login("user", "password", new Handler<LoginManager.LOGIN_RESPONSE>() {
+            @Override
+            public void handle(LoginManager.LOGIN_RESPONSE event) {
+                handled = true;
+            }
+        });
+
+        assertEquals(true, handled);
     }
 
     protected Handler<LoginManager.LOGIN_RESPONSE> createHandler () {
