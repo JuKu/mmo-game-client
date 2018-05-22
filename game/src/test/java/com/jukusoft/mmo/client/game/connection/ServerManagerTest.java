@@ -20,6 +20,12 @@ public class ServerManagerTest {
         assertEquals(0, ServerManager.getInstance().listServers().size());
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testLoadNotExistentFileFromConfig () throws IOException {
+        ServerManager.getInstance().loadFromConfig(new File("not-existent-file.json"));
+        assertEquals(true, ServerManager.getInstance().listServers().size() > 0);
+    }
+
     @Test
     public void testLoadFromConfig () throws IOException {
         ServerManager.getInstance().loadFromConfig(new File("../config/servers.json"));
