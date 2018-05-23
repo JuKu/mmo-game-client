@@ -9,10 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.jukusoft.mmo.client.engine.cache.Cache;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.time.GameTime;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
+import com.jukusoft.mmo.client.gui.screens.Screens;
+import com.jukusoft.mmo.client.gui.utils.TexturePackerHelper;
+
+import java.io.File;
+import java.io.IOException;
 
 public class LoadingScreen implements IScreen {
 
@@ -33,6 +39,9 @@ public class LoadingScreen implements IScreen {
     protected GameAssetManager assetManager = GameAssetManager.getInstance();
 
     protected static final String TEXTURE_ATLAS_PATH = Cache.getInstance().getPath() + "assets/loading/loading.pack.atlas";
+
+    protected float elapsed = 0;
+    protected volatile boolean finished = false;
 
     //https://github.com/Matsemann/libgdx-loading-screen/blob/master/Main/src/com/matsemann/libgdxloadingscreen/screen/LoadingScreen.java
 
@@ -74,6 +83,16 @@ public class LoadingScreen implements IScreen {
         stage.addActor(logo);
 
         //TODO: load other resources
+
+        Thread thread = new Thread(() -> {
+            try {
+                TexturePackerHelper.packTextures(new File("./data/packer/packer.json"));
+                finished = true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
     }
 
     @Override
@@ -137,7 +156,15 @@ public class LoadingScreen implements IScreen {
 
     @Override
     public void update(Game game, ScreenManager<IScreen> screenManager) {
-        //
+        if (assetManager.getProgress() >= 1f) {
+            elapsed += GameTime.getInstance().getDelta();
+
+            //wait minimum 2 seconds
+            if (elapsed > 2 && finished) {
+                screenManager.leaveAllAndEnter(Screens.SELECT_SERVER_SCREEN);
+                screenManager.removeScreen(Screens.LOADING_SCREEN);
+            }
+        }
     }
 
     @Override
