@@ -58,6 +58,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- libGDX tools -->
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-tools</artifactId>
+			<version>${libgdx.version}</version>
+		</dependency>
+
 		<!-- High Performance Primitive Collections for Java, https://github.com/carrotsearch/hppc -->
 		<dependency>
 			<groupId>com.carrotsearch</groupId>
