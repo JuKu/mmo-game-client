@@ -1,5 +1,7 @@
 package com.jukusoft.mmo.client.engine.utils;
 
+import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+
 public class Utils {
 
     protected Utils() {
@@ -15,20 +17,20 @@ public class Utils {
             throw new IllegalArgumentException("section cannot be empty.");
         }
 
-        String s = "";
+        StringBuilder sb = new StringBuilder();
 
-        s = "===={ " + section + " }";
+        sb.append("===={ " + section + " }");
 
-        while (s.length() < 80) {
-            s = s + "-";
+        while (sb.length() < 80) {
+            sb.append("-");
         }
 
-        return s;
+        return sb.toString();
     }
 
     public static void printSection (final String section) {
         String s = getSection(section);
-        System.out.println("\n" + s);
+        LocalLogger.print("\n" + s);
     }
 
 }

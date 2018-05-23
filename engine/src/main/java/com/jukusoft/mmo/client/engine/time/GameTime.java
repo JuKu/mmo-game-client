@@ -5,7 +5,7 @@ public class GameTime {
     protected static final GameTime instance = new GameTime();
 
     //startup time
-    public static final long startTime = System.currentTimeMillis();
+    public static final long START_TIME = System.currentTimeMillis();
 
     //current time
     protected volatile long time = 0;
@@ -25,7 +25,7 @@ public class GameTime {
     }
 
     public static long getStartTime() {
-        return startTime;
+        return START_TIME;
     }
 
     public long getTime() {
