@@ -89,7 +89,7 @@ public class LoadingScreen implements IScreen {
                 TexturePackerHelper.packTextures(new File("./data/packer/packer.json"));
                 finished = true;
             } catch (IOException e) {
-                e.printStackTrace();
+                LocalLogger.printStacktrace(e);
             }
         });
         thread.start();
