@@ -34,12 +34,12 @@ public interface IScreen {
      *
      * @return true, if input was processed and no other screen has to process input anymore
     */
-    public boolean processInput(Game game);
+    public boolean processInput(Game game, ScreenManager<IScreen> screenManager);
 
     /**
      * update game screen
      */
-    public void update(Game game);
+    public void update(Game game, ScreenManager<IScreen> screenManager);
 
     /**
      * beforeDraw game screen

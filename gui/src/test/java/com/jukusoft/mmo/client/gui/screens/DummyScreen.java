@@ -25,12 +25,12 @@ public class DummyScreen implements IScreen {
     }
 
     @Override
-    public boolean processInput(Game game) {
+    public boolean processInput(Game game, ScreenManager<IScreen> screenManager) {
         return false;
     }
 
     @Override
-    public void update(Game game) {
+    public void update(Game game, ScreenManager<IScreen> screenManager) {
 
     }
 

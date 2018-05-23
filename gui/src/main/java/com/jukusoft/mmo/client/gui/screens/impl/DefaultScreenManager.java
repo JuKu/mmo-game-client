@@ -10,8 +10,6 @@ import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
 import com.jukusoft.mmo.client.gui.screens.ScreenNotFoundException;
 
-import java.util.*;
-
 /**
  * Created by Justin on 06.02.2017.
  */
@@ -179,7 +177,7 @@ public class DefaultScreenManager implements ScreenManager<IScreen> {
             //get screen
             IScreen screen = this.activeScreens.get(i);
 
-            if (screen.processInput(this.game)) {
+            if (screen.processInput(this.game, this)) {
                 return true;
             }
         }
@@ -194,7 +192,7 @@ public class DefaultScreenManager implements ScreenManager<IScreen> {
             IScreen screen = this.activeScreens.get(i);
 
             //update screen
-            screen.update(this.game);
+            screen.update(this.game, this);
         }
     }
 
