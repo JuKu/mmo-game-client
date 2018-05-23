@@ -11,6 +11,7 @@ import com.jukusoft.mmo.client.engine.utils.Utils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.GameGUI;
+import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.network.NClient;
 
 import java.io.File;
@@ -50,8 +51,17 @@ public class DesktopLauncher {
         LocalLogger.print("cache directory: " + Cache.getInstance().getPath());
 
         Utils.printSection("Texture Packer");
-        LocalLogger.print("pack loading assets...");
-        TexturePacker.process(new TexturePacker.Settings(), "./data/loading", Cache.getInstance().getPath() + "assets/loading", "loading.pack");
+
+        if (!new File(Cache.getInstance().getPath() + "assets/loading/loading.pack.atlas").exists()) {
+            LocalLogger.print("pack loading assets...");
+            TexturePacker.process(new TexturePacker.Settings(), "./data/loading", Cache.getInstance().getPath() + "assets/loading", "loading.pack");
+        } else {
+            LocalLogger.print("textures are already packed.");
+        }
+
+        Utils.printSection("Asset Manager");
+        LocalLogger.print("initialize asset manager...");
+        GameAssetManager.getInstance();
 
         Utils.printSection("Init game");
 

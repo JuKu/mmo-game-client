@@ -9,6 +9,7 @@ import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.time.GameTime;
 import com.jukusoft.mmo.client.engine.utils.Platform;
 import com.jukusoft.mmo.client.game.Game;
+import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
 import com.jukusoft.mmo.client.gui.screens.impl.DefaultScreenManager;
@@ -20,6 +21,7 @@ public class GameGUI implements ApplicationListener {
     protected final ScreenManager<IScreen> screenManager;
     protected final GameTime time = GameTime.getInstance();
     protected final FPSManager fps = FPSManager.getInstance();
+    protected final GameAssetManager assetManager = GameAssetManager.getInstance();
 
     //window background (clear) color
     protected Color bgColor = Color.BLACK;
@@ -62,6 +64,9 @@ public class GameGUI implements ApplicationListener {
 
         //execute tasks, which should be executed in OpenGL context thread
         Platform.executeQueue();
+
+        //load assets
+        assetManager.update();
 
         try {
             //process input
