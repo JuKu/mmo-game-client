@@ -66,6 +66,8 @@ public interface ScreenManager<T extends IScreen> {
      */
     public ObjectArrayList<T> listActiveScreens();
 
+    public void resize (int width, int height);
+
     /**
     * process input (for example UI)
      *

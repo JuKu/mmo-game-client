@@ -25,6 +25,11 @@ public class DummyScreen implements IScreen {
     }
 
     @Override
+    public void onResize(int width, int height) {
+
+    }
+
+    @Override
     public boolean processInput(Game game, ScreenManager<IScreen> screenManager) {
         return false;
     }

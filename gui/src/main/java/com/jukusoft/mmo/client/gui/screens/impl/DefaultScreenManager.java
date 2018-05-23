@@ -116,6 +116,9 @@ public class DefaultScreenManager implements ScreenManager<IScreen> {
                     "Couldnt found initialized screen '" + name + "', add screen with method addScreen() first.");
         }
 
+        //call resize first
+        screen.onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         screen.onResume(this.game);
 
         this.activeScreens.push(screen);
@@ -169,6 +172,17 @@ public class DefaultScreenManager implements ScreenManager<IScreen> {
     @Override
     public ObjectArrayList<IScreen> listActiveScreens() {
         return this.activeScreens;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        for (int i = this.activeScreens.size() - 1; i >= 0; i--) {
+            //get screen
+            IScreen screen = this.activeScreens.get(i);
+
+            //resize screen
+            screen.onResize(width, height);
+        }
     }
 
     @Override

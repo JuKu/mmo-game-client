@@ -215,6 +215,11 @@ public class DefaultScreenManagerTest extends GameUnitTest {
             }
 
             @Override
+            public void onResize(int width, int height) {
+
+            }
+
+            @Override
             public boolean processInput(Game game, ScreenManager<IScreen> screenManager) {
                 return false;
             }
@@ -255,6 +260,11 @@ public class DefaultScreenManagerTest extends GameUnitTest {
 
             @Override
             public void onPause(Game game) {
+
+            }
+
+            @Override
+            public void onResize(int width, int height) {
 
             }
 

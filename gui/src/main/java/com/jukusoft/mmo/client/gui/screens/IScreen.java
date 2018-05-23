@@ -30,6 +30,14 @@ public interface IScreen {
     public void onPause(Game game);
 
     /**
+    * window was resized
+     *
+     * @param width new window width
+     * @param height new window height
+    */
+    public void onResize (int width, int height);
+
+    /**
     * process input
      *
      * @return true, if input was processed and no other screen has to process input anymore

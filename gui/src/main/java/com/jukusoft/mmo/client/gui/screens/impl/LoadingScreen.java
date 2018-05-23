@@ -1,6 +1,6 @@
 package com.jukusoft.mmo.client.gui.screens.impl;
 
-import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,7 +21,8 @@ public class LoadingScreen implements IScreen {
     protected Image screenBg;
     protected Image loadingBg;
 
-    protected float startX, endX;
+    protected float startX = 0;
+    protected float endX = Gdx.graphics.getBackBufferWidth();
     protected float percent;
 
     protected Actor loadingBar;
@@ -46,6 +47,11 @@ public class LoadingScreen implements IScreen {
 
     @Override
     public void onPause(Game game) {
+
+    }
+
+    @Override
+    public void onResize(int width, int height) {
 
     }
 
