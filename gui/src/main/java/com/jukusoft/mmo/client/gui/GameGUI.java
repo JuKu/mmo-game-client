@@ -35,7 +35,7 @@ public class GameGUI implements ApplicationListener {
 
     @Override
     public void create() {
-
+        //TODO: texture packer
     }
 
     @Override

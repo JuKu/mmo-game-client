@@ -2,7 +2,9 @@ package com.jukusoft.mmo.client.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.jukusoft.mmo.client.desktop.config.WindowConfig;
+import com.jukusoft.mmo.client.engine.cache.Cache;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.time.GameTime;
 import com.jukusoft.mmo.client.engine.utils.Utils;
@@ -41,6 +43,11 @@ public class DesktopLauncher {
         for (ServerManager.Server server : ServerManager.getInstance().listServers()) {
             LocalLogger.print(" - " + server.title + " (" + server.ip + ":" + server.port + " - " + (server.online ? "online" : "offline") + ")");
         }
+
+        Utils.printSection("Cache");
+        LocalLogger.print("Initialize cache...");
+        Cache.init(new File("./config/cache.cfg"));
+        LocalLogger.print("cache directory: " + Cache.getInstance().getPath());
 
         Utils.printSection("Init game");
 
