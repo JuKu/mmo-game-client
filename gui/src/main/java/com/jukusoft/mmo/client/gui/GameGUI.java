@@ -47,7 +47,7 @@ public class GameGUI implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        //
+        this.screenManager.resize(width, height);
     }
 
     @Override
