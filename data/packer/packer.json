@@ -1,0 +1,10 @@
+{
+	"packs": [
+		{
+			"title": "loading pack",
+			"source_dir": "data/icon",
+			"target_dir": "",
+			"pack_name": "pack.pack"
+		}
+	]
+}

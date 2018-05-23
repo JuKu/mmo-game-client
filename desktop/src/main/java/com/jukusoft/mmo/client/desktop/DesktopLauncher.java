@@ -49,6 +49,10 @@ public class DesktopLauncher {
         Cache.init(new File("./config/cache.cfg"));
         LocalLogger.print("cache directory: " + Cache.getInstance().getPath());
 
+        Utils.printSection("Texture Packer");
+        LocalLogger.print("pack loading assets...");
+        TexturePacker.process(new TexturePacker.Settings(), "./data/loading", Cache.getInstance().getPath() + "assets/loading", "loading.pack");
+
         Utils.printSection("Init game");
 
         //initialize game time
