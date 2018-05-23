@@ -13,7 +13,7 @@ import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
 import com.jukusoft.mmo.client.gui.screens.impl.DefaultScreenManager;
-import com.jukusoft.mmo.client.gui.screens.impl.LoadingScreen;
+import com.jukusoft.mmo.client.gui.screens.impl.loading.LoadingScreen;
 
 public class GameGUI implements ApplicationListener {
 
