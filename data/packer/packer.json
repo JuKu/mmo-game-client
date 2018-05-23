@@ -4,7 +4,7 @@
 			"title": "loading pack",
 			"source_dir": "data/icon",
 			"target_dir": "assets/loading_icons",
-			"pack_name": "pack.pack"
+			"pack_name": "test.pack"
 		}
 	]
 }
