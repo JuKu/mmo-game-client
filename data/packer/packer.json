@@ -3,7 +3,7 @@
 		{
 			"title": "loading pack",
 			"source_dir": "data/icon",
-			"target_dir": "",
+			"target_dir": "assets/loading_icons",
 			"pack_name": "pack.pack"
 		}
 	]

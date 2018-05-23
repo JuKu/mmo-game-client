@@ -42,8 +42,14 @@ public class TexturePackerHelper {
 
             LocalLogger.print("pack texture '" + title + "' with name '" + packName + "'...");
 
-            //pack textures
-            TexturePacker.process(settings, sourceDir, targetDir, packName);
+            if (new File(targetDir + "/" + packName + ".atlas").exists()) {
+                LocalLogger.print("Dont pack '" + title + "' because texture pack already exists.");
+            } else {
+                LocalLogger.print("pack '" + title + "'...");
+
+                //pack textures
+                TexturePacker.process(settings, sourceDir, targetDir, packName);
+            }
         }
     }
 
