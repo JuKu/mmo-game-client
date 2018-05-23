@@ -35,7 +35,7 @@ public class GameTimeTest {
         assertEquals(currentTime, time.getTime());
 
         time.setDelta(0.25f);
-        assertEquals(0.25f, time.getDelta());
+        assertEquals(0.25f, time.getDelta(), 0.0001f);
     }
 
 }

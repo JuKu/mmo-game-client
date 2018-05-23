@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.client.engine.fps;
 
+import com.jukusoft.mmo.client.engine.time.GameTime;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -25,6 +26,8 @@ public class FPSManagerTest {
 
     @Test
     public void testGetterAndSetter () {
+        GameTime.getInstance().setTime(System.currentTimeMillis());
+
         FPSManager.getInstance().setFPS(0);
         assertEquals(0, FPSManager.getInstance().getFPS());
         assertEquals(false, FPSManager.getInstance().isCriticalFPSValue());
@@ -33,6 +36,7 @@ public class FPSManagerTest {
         FPSManager.getInstance().setFPS(50);
         assertEquals(50, FPSManager.getInstance().getFPS());
         assertEquals(true, FPSManager.getInstance().isCriticalFPSValue());
+        FPSManager.getInstance().showWarningIfNeccessary();
         FPSManager.getInstance().showWarningIfNeccessary();
 
         FPSManager.getInstance().setFPS(60);
