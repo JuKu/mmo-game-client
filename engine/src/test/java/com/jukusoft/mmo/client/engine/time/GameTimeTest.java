@@ -27,6 +27,7 @@ public class GameTimeTest {
         assertEquals(true, GameTime.getStartTime() > 0);
     }
 
+    @Test
     public void testGetterAndSetter () {
         GameTime time = new GameTime();
 
