@@ -23,7 +23,8 @@ public class CacheTest {
 
     @Test
     public void testConstructor () throws IOException {
-        new Cache(new File("../config/cache.cfg"));
+        Cache cache = new Cache(new File("../config/cache.cfg"));
+        assertEquals("./cache/", cache.getPath());
 
         //delete cache directory again
         new File("./cache/").delete();
@@ -31,7 +32,14 @@ public class CacheTest {
 
     @Test
     public void testConstructor1 () throws IOException {
-        new Cache(new File("../config/junit-cache.cfg"));
+        //delete cache directory first, if exists
+        if (new File("../cache/").exists()) {
+            new File("../cache/").delete();
+        }
+
+        Cache cache = new Cache(new File("../config/junit-cache.cfg"));
+
+        assertEquals("../cache/", cache.getPath());
 
         //check, if cache directory exists
         assertEquals(true, new File("../cache/").exists());

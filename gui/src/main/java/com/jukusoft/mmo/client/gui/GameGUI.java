@@ -12,6 +12,7 @@ import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
 import com.jukusoft.mmo.client.gui.screens.impl.DefaultScreenManager;
+import com.jukusoft.mmo.client.gui.screens.impl.LoadingScreen;
 
 public class GameGUI implements ApplicationListener {
 
@@ -35,7 +36,11 @@ public class GameGUI implements ApplicationListener {
 
     @Override
     public void create() {
-        //TODO: texture packer
+        //add screens
+        this.screenManager.addScreen("base_loading", new LoadingScreen());
+
+        //activate screen
+        this.screenManager.leaveAllAndEnter("base_loading");
     }
 
     @Override
