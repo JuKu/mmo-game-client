@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.client.engine.version;
 
+import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.utils.JarUtils;
 
 import java.io.File;
@@ -67,7 +68,7 @@ public class Version {
             //get vendor, if available
             this.vendor = this.getOrDefault(attrs, "Implementation-Vendor", "n/a");
         } catch (IOException e) {
-            e.printStackTrace();
+            LocalLogger.printStacktrace(e);
         }
     }
 
