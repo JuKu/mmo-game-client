@@ -79,9 +79,9 @@
 		<fileSet>
 			<directory>../.pentaquin</directory>
 			<outputDirectory>.</outputDirectory>
-			<includes>
+			<!-- <includes>
 				<include>*</include>
-			</includes>
+			</includes> -->
 		</fileSet>
 	</fileSets>
 </assembly>
