@@ -17,6 +17,8 @@ public class ServerManager {
 
     protected List<Server> list = new ArrayList<>();
 
+    protected Server selectedServer = null;
+
     public ServerManager () {
         //
     }
@@ -58,7 +60,23 @@ public class ServerManager {
         return this.list;
     }
 
-    public class Server {
+    public Server getSelectedServer () {
+        if (this.selectedServer == null) {
+            throw new IllegalStateException("no server was selected before.");
+        }
+
+        return this.selectedServer;
+    }
+
+    public void setSelectServer (Server server) {
+        this.selectedServer = server;
+    }
+
+    protected static Server createServer (String ip, int port, String title, String description, boolean online) {
+        return new Server(ip, port, title, description, online);
+    }
+
+    public static class Server {
 
         public final String ip;
         public final int port;

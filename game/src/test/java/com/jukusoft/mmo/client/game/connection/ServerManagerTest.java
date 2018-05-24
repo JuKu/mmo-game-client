@@ -32,4 +32,18 @@ public class ServerManagerTest {
         assertEquals(true, ServerManager.getInstance().listServers().size() > 0);
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testGetSelectedServer () throws IOException {
+        ServerManager.getInstance().loadFromConfig(new File("../config/servers.json"));
+        ServerManager.getInstance().selectedServer = null;
+        ServerManager.getInstance().getSelectedServer();
+    }
+
+    @Test
+    public void testGetAndSetSelectedServer () throws IOException {
+        ServerManager.getInstance().loadFromConfig(new File("../config/servers.json"));
+        ServerManager.getInstance().setSelectServer(ServerManager.createServer("", 80, "", "", true));
+        ServerManager.getInstance().getSelectedServer();
+    }
+
 }

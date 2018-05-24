@@ -70,7 +70,8 @@ public class SelectServerScreen implements IScreen {
 
     @Override
     public void onStop(Game game) {
-
+        this.skin.dispose();
+        this.skin = null;
     }
 
     @Override
@@ -101,9 +102,10 @@ public class SelectServerScreen implements IScreen {
                 public void clicked (InputEvent event, float x, float y) {
                     if (button.isDisabled()) return;
 
-                    LocalLogger.print("click!");
+                    LocalLogger.print("select server: " + server.ip + ":" + server.port);
 
-                    //TODO: select server
+                    //select server
+                    ServerManager.getInstance().setSelectServer(server);
                 }
             });
 
