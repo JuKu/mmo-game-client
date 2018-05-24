@@ -289,6 +289,55 @@ public class DefaultScreenManagerTest extends GameUnitTest {
     }
 
     @Test
+    public void testResize () {
+        ScreenManager<IScreen> manager = this.createScreenManager();
+        manager.addScreen("dummy_screen", new IScreen() {
+            @Override
+            public void onStart(Game game, ScreenManager<IScreen> screenManager) {
+
+            }
+
+            @Override
+            public void onStop(Game game) {
+
+            }
+
+            @Override
+            public void onResume(Game game) {
+
+            }
+
+            @Override
+            public void onPause(Game game) {
+
+            }
+
+            @Override
+            public void onResize(int width, int height) {
+
+            }
+
+            @Override
+            public boolean processInput(Game game, ScreenManager<IScreen> screenManager) {
+                return true;
+            }
+
+            @Override
+            public void update(Game game, ScreenManager<IScreen> screenManager) {
+
+            }
+
+            @Override
+            public void draw(Game game) {
+
+            }
+        });
+        manager.push("dummy_screen");
+
+        manager.resize(1280, 720);
+    }
+
+    @Test
     public void testUpdate () {
         ScreenManager<IScreen> manager = this.createScreenManager();
         manager.addScreen("dummy_screen", new DummyScreen());
