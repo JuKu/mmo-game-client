@@ -87,7 +87,7 @@ public class SelectServerScreen implements IScreen {
 
         //place the logo in the middle of the screen and 100 px up
         logo.setX((width - logo.getWidth()) / 2);
-        logo.setY(200);
+        logo.setY((height - logo.getHeight()) / 2 + 200);
         //logo.setY((height - logo.getHeight()) / 2 + 100);
     }
 
