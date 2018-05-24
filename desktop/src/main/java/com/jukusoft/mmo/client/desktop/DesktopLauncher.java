@@ -8,6 +8,7 @@ import com.jukusoft.mmo.client.engine.cache.Cache;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.time.GameTime;
 import com.jukusoft.mmo.client.engine.utils.Utils;
+import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.GameGUI;
@@ -30,6 +31,10 @@ public class DesktopLauncher {
 
     protected static void start () throws Exception {
         Utils.printSection("Game Start");
+
+        Utils.printSection("Version Information");
+        printStartUpInfo(DesktopLauncher.class);
+        Version.setInstance(new Version(DesktopLauncher.class));
 
         //start game
         WritableGame game = null;
@@ -86,6 +91,25 @@ public class DesktopLauncher {
 
         // start game
         new Lwjgl3Application(new GameGUI(game), config);
+    }
+
+    public static void printStartUpInfo (Class<?> cls) {
+        //load version
+        Version version = new Version(cls);
+
+        System.out.println("/***************************************************************");
+        System.out.println("*");
+        System.out.println("*  MMO Game Client");
+        System.out.println("*  ----------------");
+        System.out.println("*");
+        System.out.println("*  Version: " + version.getVersion());
+        System.out.println("*  Build: " + version.getRevision());
+        System.out.println("*");
+        System.out.println("*  Build JDK: " + version.getBuildJdk());
+        System.out.println("*  Build time: " + version.getBuildTime());
+        System.out.println("*  Vendor ID: " + (!version.getVendor().equals("n/a") ? version.getVendor() : version.getVendorID()));
+        System.out.println("*");
+        System.out.println("***************************************************************/");
     }
 
 }

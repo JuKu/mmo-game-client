@@ -18,6 +18,8 @@ public class Version {
     protected String vendorID = "n/a";//default: Implementation-Vendor-Id: com.jukusoft
     protected String vendor = "n/a";
 
+    protected static Version instance = null;
+
     /**
     * default constructor
     */
@@ -113,4 +115,13 @@ public class Version {
     public String getFullVersion () {
         return this.getVersion() + "-" + this.getRevision();
     }
+
+    public static Version getInstance () {
+        return instance;
+    }
+
+    public static void setInstance (Version version) {
+        instance = version;
+    }
+
 }

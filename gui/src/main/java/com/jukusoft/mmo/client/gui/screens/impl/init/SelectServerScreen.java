@@ -111,6 +111,8 @@ public class SelectServerScreen implements IScreen {
                     //select server
                     ServerManager.getInstance().setSelectServer(server);
 
+                    //TODO: connect to server
+
                     //go to login screen
                     screenManager.leaveAllAndEnter(Screens.LOGIN_SCREEN);
                 }
