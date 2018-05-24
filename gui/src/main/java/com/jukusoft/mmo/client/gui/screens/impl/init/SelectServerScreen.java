@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.gui.screens.impl.init;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -29,6 +30,7 @@ public class SelectServerScreen implements IScreen {
     protected Stage stage = null;
     protected GameAssetManager assetManager = GameAssetManager.getInstance();
     protected Skin skin = null;
+    protected Skin skin2 = null;
     protected ScreenManager<IScreen> screenManager = null;
 
     protected String bgPath = "";
@@ -71,6 +73,8 @@ public class SelectServerScreen implements IScreen {
         String jsonFile = skinSection.get("json");
         LocalLogger.print("create skin, atlas file: " + atlasFile + ", json file: " + jsonFile);
         this.skin = SkinFactory.createSkin(jsonFile);
+
+        this.skin2 = SkinFactory.createSkin("./data/misc/skins/libgdx/uiskin.json");
 
         //create UI stage
         this.stage = new Stage();
@@ -133,7 +137,7 @@ public class SelectServerScreen implements IScreen {
         //get client version
         Version version = Version.getInstance();
 
-        this.versionLabel = new Label("Version: " + version.getFullVersion(), this.skin);
+        this.versionLabel = new Label("Version: " + version.getFullVersion(), this.skin2);
         stage.addActor(versionLabel);
 
         //set input processor
@@ -164,6 +168,9 @@ public class SelectServerScreen implements IScreen {
             buttons[i].setX((width - buttons[i].getWidth()) / 2);
             buttons[i].setY(startY - i * 50);
         }
+
+        versionLabel.setX(20);
+        versionLabel.setY(20);
     }
 
     @Override
