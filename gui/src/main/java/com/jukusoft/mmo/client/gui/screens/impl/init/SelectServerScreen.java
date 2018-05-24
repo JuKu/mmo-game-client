@@ -102,6 +102,7 @@ public class SelectServerScreen implements IScreen {
         for (ServerManager.Server server : ServerManager.getInstance().listServers()) {
             TextButton button = new TextButton(server.title + (server.online ? "" : " (offline)"), this.skin);
             button.addListener(new ClickListener() {
+                @Override
                 public void clicked (InputEvent event, float x, float y) {
                     if (button.isDisabled()) return;
 
