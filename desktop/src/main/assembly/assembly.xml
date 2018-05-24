@@ -75,5 +75,13 @@
 				<include>*</include>
 			</includes>
 		</fileSet>
+
+		<fileSet>
+			<directory>../.pentaquin</directory>
+			<outputDirectory>.</outputDirectory>
+			<includes>
+				<include>*</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 </assembly>
