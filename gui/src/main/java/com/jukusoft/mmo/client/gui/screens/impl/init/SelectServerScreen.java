@@ -1,11 +1,14 @@
 package com.jukusoft.mmo.client.gui.screens.impl.init;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
@@ -92,11 +95,25 @@ public class SelectServerScreen implements IScreen {
         //create a button for every server
         for (ServerManager.Server server : ServerManager.getInstance().listServers()) {
             TextButton button = new TextButton(server.title + (server.online ? "" : " (offline)"), this.skin);
+            button.addListener(new ClickListener() {
+                public void clicked (InputEvent event, float x, float y) {
+                    if (button.isDisabled()) return;
+
+                    LocalLogger.print("click!");
+
+                    //TODO: select server
+                }
+            });
+
+            button.setDisabled(!server.online);
 
             this.buttons[i] = button;
             this.stage.addActor(button);
             i++;
         }
+
+        //set input processor
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
