@@ -7,6 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class SkinFactory {
 
+    protected SkinFactory () {
+        //
+    }
+
     public static Skin createSkin (final String atlasFile, final String jsonFile) {
         Skin skin = new Skin();
 
