@@ -3,6 +3,8 @@ package com.jukusoft.mmo.client.engine.version;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class VersionTest {
 
@@ -34,6 +36,18 @@ public class VersionTest {
         assertEquals(true, version.getVendorID().contains("n/a"));
         assertEquals(false, version.getVendor().contains("n/a"));
         assertEquals(false, version.getFullVersion().isEmpty());
+    }
+
+    @Test
+    public void testGetInstance () {
+        assertNull(Version.getInstance());
+
+        Version version = new Version(String.class);
+        Version.setInstance(version);
+        assertNotNull(Version.getInstance());
+
+        //check, that instances are equals
+        assertEquals(version, Version.getInstance());
     }
 
 }

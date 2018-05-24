@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
@@ -35,6 +37,9 @@ public class SelectServerScreen implements IScreen {
     //images
     protected Image screenBG = null;
     protected Image logo = null;
+
+    //label
+    protected Label versionLabel = null;
 
     protected TextButton[] buttons;
 
@@ -124,6 +129,12 @@ public class SelectServerScreen implements IScreen {
             this.stage.addActor(button);
             i++;
         }
+
+        //get client version
+        Version version = Version.getInstance();
+
+        this.versionLabel = new Label("Version: " + version.getFullVersion(), this.skin);
+        stage.addActor(versionLabel);
 
         //set input processor
         Gdx.input.setInputProcessor(stage);
