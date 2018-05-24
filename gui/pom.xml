@@ -79,6 +79,13 @@
 			<version>${vis.ui.version}</version>
 		</dependency>
 
+		<!-- libGDX markup language, https://github.com/czyzby/gdx-lml/tree/master/lml -->
+		<dependency>
+			<groupId>com.github.czyzby</groupId>
+			<artifactId>gdx-lml</artifactId>
+			<version>${gdx-lml.version}</version>
+		</dependency>
+
 		<!-- libGDX controller support -->
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>

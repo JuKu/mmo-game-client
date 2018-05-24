@@ -176,6 +176,8 @@ public class LoadingScreen implements IScreen {
         loadingBarHidden.setX(startX + endX * percent);
         loadingBg.setX(loadingBarHidden.getX() + 30);
         loadingBg.setWidth(450 - 450 * percent);
+
+        //invalidate image, because size has changed
         loadingBg.invalidate();
 
         //show the loading screen

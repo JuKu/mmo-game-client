@@ -37,6 +37,9 @@
 		<!-- VisUI - ui library for libGDX -->
 		<vis.ui.version>1.4.0</vis.ui.version>
 
+		<!-- libGDX markup language -->
+		<gdx-lml.version>1.9.1.9.6</gdx-lml.version>
+
 		<!-- ini4j parser -->
 		<ini4j.version>0.5.4</ini4j.version>
 
