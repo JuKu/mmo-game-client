@@ -2,12 +2,17 @@ package com.jukusoft.mmo.client.gui.screens.impl.init;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.game.Game;
+import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
+import com.jukusoft.mmo.client.gui.utils.SkinFactory;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
@@ -18,6 +23,7 @@ public class SelectServerScreen implements IScreen {
 
     protected Stage stage = null;
     protected GameAssetManager assetManager = GameAssetManager.getInstance();
+    protected Skin skin = null;
 
     protected String bgPath = "";
     protected String logoPath = "";
@@ -26,14 +32,18 @@ public class SelectServerScreen implements IScreen {
     protected Image screenBG = null;
     protected Image logo = null;
 
+    protected TextButton[] buttons;
+
     @Override
     public void onStart(Game game) {
         //read image paths from config
         Profile.Section section = null;
+        Profile.Section skinSection = null;
 
         try {
             Ini ini = new Ini(new File("./config/graphics.cfg"));
             section = ini.get("SelectServer");
+            skinSection = ini.get("UI.Skin");
         } catch (IOException e) {
             LocalLogger.printStacktrace(e);
             LocalLogger.print("close application now.");
@@ -42,6 +52,12 @@ public class SelectServerScreen implements IScreen {
 
         this.bgPath = section.get("background");
         this.logoPath = section.get("logo");
+
+        //create skin
+        String atlasFile = skinSection.get("atlas");
+        String jsonFile = skinSection.get("json");
+        LocalLogger.print("create skin, atlas file: " + atlasFile + ", json file: " + jsonFile);
+        this.skin = SkinFactory.createSkin(jsonFile);
 
         //create UI stage
         this.stage = new Stage();
@@ -69,6 +85,18 @@ public class SelectServerScreen implements IScreen {
         //add widgets to stage
         stage.addActor(screenBG);
         stage.addActor(logo);
+
+        this.buttons = new TextButton[ServerManager.getInstance().listServers().size()];
+        int i = 0;
+
+        //create a button for every server
+        for (ServerManager.Server server : ServerManager.getInstance().listServers()) {
+            TextButton button = new TextButton(server.title + (server.online ? "" : " (offline)"), this.skin);
+
+            this.buttons[i] = button;
+            this.stage.addActor(button);
+            i++;
+        }
     }
 
     @Override
