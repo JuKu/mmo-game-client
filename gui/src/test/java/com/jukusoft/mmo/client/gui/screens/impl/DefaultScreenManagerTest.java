@@ -195,7 +195,7 @@ public class DefaultScreenManagerTest extends GameUnitTest {
         ScreenManager<IScreen> manager = this.createScreenManager();
         manager.addScreen("dummy_screen", new IScreen() {
             @Override
-            public void onStart(Game game) {
+            public void onStart(Game game, ScreenManager<IScreen> screenManager) {
 
             }
 
@@ -244,7 +244,7 @@ public class DefaultScreenManagerTest extends GameUnitTest {
         ScreenManager<IScreen> manager = this.createScreenManager();
         manager.addScreen("dummy_screen", new IScreen() {
             @Override
-            public void onStart(Game game) {
+            public void onStart(Game game, ScreenManager<IScreen> screenManager) {
 
             }
 

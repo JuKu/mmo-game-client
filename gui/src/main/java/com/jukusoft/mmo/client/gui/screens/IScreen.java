@@ -12,7 +12,7 @@ public interface IScreen {
     /**
     * method which should be executed if screen is created
     */
-    public void onStart(Game game);
+    public void onStart(Game game, ScreenManager<IScreen> screenManager);
 
     /**
      * method which should be executed if screen has stopped

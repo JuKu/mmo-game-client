@@ -14,6 +14,7 @@ import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
+import com.jukusoft.mmo.client.gui.screens.Screens;
 import com.jukusoft.mmo.client.gui.utils.SkinFactory;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
@@ -26,6 +27,7 @@ public class SelectServerScreen implements IScreen {
     protected Stage stage = null;
     protected GameAssetManager assetManager = GameAssetManager.getInstance();
     protected Skin skin = null;
+    protected ScreenManager<IScreen> screenManager = null;
 
     protected String bgPath = "";
     protected String logoPath = "";
@@ -39,7 +41,9 @@ public class SelectServerScreen implements IScreen {
     //https://github.com/libgdx/libgdx/wiki/Hiero
 
     @Override
-    public void onStart(Game game) {
+    public void onStart(Game game, ScreenManager<IScreen> screenManager) {
+        this.screenManager = screenManager;
+
         //read image paths from config
         Profile.Section section = null;
         Profile.Section skinSection = null;
@@ -105,6 +109,9 @@ public class SelectServerScreen implements IScreen {
 
                     //select server
                     ServerManager.getInstance().setSelectServer(server);
+
+                    //go to login screen
+                    screenManager.leaveAllAndEnter(Screens.LOGIN_SCREEN);
                 }
             });
 

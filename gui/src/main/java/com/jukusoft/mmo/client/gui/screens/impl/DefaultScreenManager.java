@@ -66,7 +66,7 @@ public class DefaultScreenManager implements ScreenManager<IScreen> {
         }
 
         // initialize screen first
-        screen.onStart(this.game);
+        screen.onStart(this.game, this);
 
         this.screens.put(name, screen);
 

@@ -1,10 +1,10 @@
-package com.jukusoft.mmo.client.gui.screens;
+package com.jukusoft.mmo.client.gui.screens.impl.login;
 
 import com.jukusoft.mmo.client.game.Game;
+import com.jukusoft.mmo.client.gui.screens.IScreen;
+import com.jukusoft.mmo.client.gui.screens.ScreenManager;
 
-public class OtherDummyScreen implements IScreen {
-
-    protected String someVar = "";
+public class LoginScreen implements IScreen {
 
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
@@ -45,4 +45,5 @@ public class OtherDummyScreen implements IScreen {
     public void draw(Game game) {
 
     }
+
 }

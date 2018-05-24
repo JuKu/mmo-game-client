@@ -16,6 +16,7 @@ import com.jukusoft.mmo.client.gui.screens.Screens;
 import com.jukusoft.mmo.client.gui.screens.impl.DefaultScreenManager;
 import com.jukusoft.mmo.client.gui.screens.impl.init.SelectServerScreen;
 import com.jukusoft.mmo.client.gui.screens.impl.loading.LoadingScreen;
+import com.jukusoft.mmo.client.gui.screens.impl.login.LoginScreen;
 
 public class GameGUI implements ApplicationListener {
 
@@ -43,6 +44,7 @@ public class GameGUI implements ApplicationListener {
         //add screens
         this.screenManager.addScreen(Screens.LOADING_SCREEN, new LoadingScreen());
         this.screenManager.addScreen(Screens.SELECT_SERVER_SCREEN, new SelectServerScreen());
+        this.screenManager.addScreen(Screens.LOGIN_SCREEN, new LoginScreen());
 
         //activate screen
         this.screenManager.leaveAllAndEnter(Screens.LOADING_SCREEN);

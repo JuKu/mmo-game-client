@@ -5,7 +5,7 @@ import com.jukusoft.mmo.client.game.Game;
 public class DummyScreen implements IScreen {
 
     @Override
-    public void onStart(Game game) {
+    public void onStart(Game game, ScreenManager<IScreen> screenManager) {
 
     }
 

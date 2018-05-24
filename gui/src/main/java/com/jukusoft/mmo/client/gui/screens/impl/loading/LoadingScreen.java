@@ -46,7 +46,7 @@ public class LoadingScreen implements IScreen {
     //https://github.com/Matsemann/libgdx-loading-screen/blob/master/Main/src/com/matsemann/libgdxloadingscreen/screen/LoadingScreen.java
 
     @Override
-    public void onStart(Game game) {
+    public void onStart(Game game, ScreenManager<IScreen> screenManager) {
         //tell the manager to load assets for the loading screen
         assetManager.load(TEXTURE_ATLAS_PATH, TextureAtlas.class);
 
