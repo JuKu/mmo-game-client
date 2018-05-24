@@ -160,7 +160,7 @@ public class LoadingScreen implements IScreen {
             elapsed += GameTime.getInstance().getDelta();
 
             //wait minimum 2 seconds
-            if (elapsed > 2 && finished) {
+            if (elapsed > 1 && finished) {
                 screenManager.leaveAllAndEnter(Screens.SELECT_SERVER_SCREEN);
                 screenManager.removeScreen(Screens.LOADING_SCREEN);
             }

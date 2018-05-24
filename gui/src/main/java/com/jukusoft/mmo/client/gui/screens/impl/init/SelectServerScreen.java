@@ -37,6 +37,8 @@ public class SelectServerScreen implements IScreen {
 
     protected TextButton[] buttons;
 
+    //https://github.com/libgdx/libgdx/wiki/Hiero
+
     @Override
     public void onStart(Game game) {
         //read image paths from config
@@ -133,7 +135,13 @@ public class SelectServerScreen implements IScreen {
         //place the logo in the middle of the screen and 100 px up
         logo.setX((width - logo.getWidth()) / 2);
         logo.setY((height - logo.getHeight()) / 2 + 200);
-        //logo.setY((height - logo.getHeight()) / 2 + 100);
+
+        float startY = (height - logo.getHeight()) / 2 + 50;
+
+        for (int i = 0; i < this.buttons.length; i++) {
+            buttons[i].setX((width - buttons[i].getWidth()) / 2);
+            buttons[i].setY(startY - i * 50);
+        }
     }
 
     @Override
