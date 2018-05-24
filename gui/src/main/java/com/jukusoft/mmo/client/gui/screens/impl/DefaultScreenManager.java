@@ -116,10 +116,10 @@ public class DefaultScreenManager implements ScreenManager<IScreen> {
                     "Couldnt found initialized screen '" + name + "', add screen with method addScreen() first.");
         }
 
-        //call resize first
-        screen.onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
         screen.onResume(this.game);
+
+        //call resize
+        screen.onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         this.activeScreens.push(screen);
 
