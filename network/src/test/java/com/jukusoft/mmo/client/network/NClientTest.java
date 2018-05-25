@@ -3,6 +3,7 @@ package com.jukusoft.mmo.client.network;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
+import com.jukusoft.mmo.client.network.handler.NetHandler;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -387,6 +388,35 @@ public class NClientTest {
 
         client.executeRTTCheck();
         assertEquals(false, client.rttMsgReceived.get());
+    }
+
+    @Test
+    public void testOnConnectionClosed () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.onConnectionClosed(null);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testAddNullHandler () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.addHandler((byte) 0x01, null);
+    }
+
+    @Test
+    public void testAddHandler () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.addHandler((byte) 0x01, Mockito.mock(NetHandler.class));
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testAddHandlerTwice () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.addHandler((byte) 0x01, Mockito.mock(NetHandler.class));
+        client.addHandler((byte) 0x01, Mockito.mock(NetHandler.class));
     }
 
     @Test

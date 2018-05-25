@@ -216,6 +216,10 @@ public class NClient {
         //convert type to unsigned int value
         int typeInt = ByteUtils.byteToUnsignedInt(type);
 
+        if (handler == null) {
+            throw new NullPointerException("handler is null.");
+        }
+
         //check, if handler is already registered
         if (this.handlerArray[typeInt] != null) {
             throw new IllegalStateException("handler for type 0x" + ByteUtils.byteToHex(type) + " is already registered");
