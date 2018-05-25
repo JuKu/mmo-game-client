@@ -3,7 +3,6 @@ package com.jukusoft.mmo.client.game.connection;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.utils.FileUtils;
 import com.jukusoft.mmo.client.engine.utils.SocketUtils;
-import com.jukusoft.mmo.client.game.login.LoginManager;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;

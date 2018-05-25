@@ -2,7 +2,6 @@ package com.jukusoft.mmo.client.game;
 
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.region.Region;
-import com.jukusoft.mmo.client.game.region.WritableRegion;
 
 public interface Game {
 
