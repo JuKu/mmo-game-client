@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.network;
 
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
+import com.jukusoft.mmo.client.game.login.LoginManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -74,6 +75,19 @@ public class NClientTest {
         client.start();
         ServerManager.getInstance().setSelectServer(new ServerManager.Server("127.0.0.1", 10, "test", "test", true));
         ServerManager.getInstance().connect(Mockito.mock(Handler.class));
+        client.stop();
+    }
+
+    @Test
+    public void testLogin () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+
+        NClient client = new NClient(game);
+        client.start();
+        ServerManager.getInstance().setSelectServer(new ServerManager.Server("127.0.0.1", 10, "test", "test", true));
+
+        LoginManager.getInstance().login("user", "password", Mockito.mock(Handler.class));
+
         client.stop();
     }
 
