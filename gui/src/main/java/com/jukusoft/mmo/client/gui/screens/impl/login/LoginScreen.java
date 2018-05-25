@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.jukusoft.mmo.client.engine.fps.FPSManager;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.utils.Platform;
 import com.jukusoft.mmo.client.engine.version.Version;
@@ -46,6 +47,7 @@ public class LoginScreen implements IScreen {
     //labels
     protected Label versionLabel = null;
     protected Label pingLabel = null;
+    protected Label fpsLabel = null;
     protected Label hintLabel = null;
 
     //widgets
@@ -133,6 +135,11 @@ public class LoginScreen implements IScreen {
         this.pingLabel = new Label("Ping: n/a", this.skin2);
         this.pingLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
         stage.addActor(pingLabel);
+
+        //fps label
+        this.fpsLabel = new Label("FPS: n/a", this.skin2);
+        this.fpsLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
+        stage.addActor(fpsLabel);
 
         //hint label (e.q. for error messages)
         this.hintLabel = new Label("Hints", this.skin3);
@@ -245,6 +252,9 @@ public class LoginScreen implements IScreen {
         pingLabel.setX(20);
         pingLabel.setY(height - 50f);
 
+        fpsLabel.setX(20);
+        fpsLabel.setY(height - 80f);
+
         hintLabel.setX((width - hintLabel.getWidth()) / 2);
         hintLabel.setY((height - hintLabel.getHeight()) / 2 - 200);
 
@@ -278,6 +288,9 @@ public class LoginScreen implements IScreen {
     public void update(Game game, ScreenManager<IScreen> screenManager) {
         //set ping
         this.pingLabel.setText("Ping: " + game.getPing() + "");
+
+        //set fps
+        this.fpsLabel.setText("FPS: " + FPSManager.getInstance().getFPS());
     }
 
     @Override
