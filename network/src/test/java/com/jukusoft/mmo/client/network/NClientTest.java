@@ -27,6 +27,8 @@ import static org.junit.Assert.assertEquals;
 
 public class NClientTest {
 
+    protected boolean b = false;
+
     @Test
     public void testConstructor () {
         WritableGame game = Mockito.mock(WritableGame.class);
@@ -441,6 +443,36 @@ public class NClientTest {
 
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
         client.handleMessage(content);
+    }
+
+    @Test
+    public void testHandleMessage () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+
+        Buffer content = MessageUtils.createMsg((byte) 0xFF, (byte) 0xFF, 0);
+        client.handleMessage(content);
+    }
+
+    @Test
+    public void testHandleMessage1 () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+
+        b = false;
+
+        client.addHandler((byte) 0xFF, new NetHandler() {
+            @Override
+            public void handle(Buffer content, NClient client, WritableGame game) {
+                b = true;
+            }
+        });
+
+        Buffer content = MessageUtils.createMsg((byte) 0xFF, (byte) 0xFF, 0);
+        client.handleMessage(content);
+
+        //check, if handler was executed
+        assertEquals(true, b);
     }
 
     @Test
