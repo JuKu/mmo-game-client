@@ -1,7 +1,5 @@
 package com.jukusoft.mmo.client.network;
 
-import com.carrotsearch.hppc.IntObjectHashMap;
-import com.carrotsearch.hppc.IntObjectMap;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.utils.ByteUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
@@ -10,7 +8,6 @@ import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.handler.NetHandler;
 import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
@@ -182,8 +179,6 @@ public class NClient {
 
         byte type = content.getByte(0);
         byte extendedType = content.getByte(1);
-        short protocolVersion = content.getShort(2);
-        int cid = content.getInt(4);
 
         //check, if message is RTT message
         if (type == Protocol.MSG_TYPE_PROXY && extendedType == Protocol.MSG_EXTENDED_TYPE_RTT) {
