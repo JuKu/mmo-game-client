@@ -44,7 +44,7 @@ public class NClient {
      * @param game game instance
     */
     public NClient (WritableGame game) {
-        //
+        this.game = game;
     }
 
     public void loadConfig (File configFile) throws IOException {
@@ -112,6 +112,9 @@ public class NClient {
             //get socket
             socket = res.result();
 
+            //initialize socket
+            this.initSocket(socket);
+
             LocalLogger.print("Connected to proxy server " + req.server.ip + ":" + req.server.port);
 
             this.setRttTimer();
@@ -149,6 +152,51 @@ public class NClient {
         //send rtt message
         Buffer msg = MessageUtils.createRTTMsg();
         this.send(msg);
+    }
+
+    protected void initSocket (NetSocket socket) {
+        //set handler
+        socket.handler(this::handleMessage);
+        socket.closeHandler(this::onConnectionClosed);
+    }
+
+    protected void handleMessage (Buffer content) {
+        if (content == null) {
+            throw new NullPointerException("buffer cannot be null.");
+        }
+
+        if (content.length() < Protocol.MSG_HEADER_LENGTH) {
+            throw new IllegalArgumentException("buffer doesnt contains full header.");
+        }
+
+        byte type = content.getByte(0);
+        byte extendedType = content.getByte(1);
+        short protocolVersion = content.getShort(2);
+        int cid = content.getInt(4);
+
+        //check, if message is RTT message
+        if (type == Protocol.MSG_TYPE_PROXY && extendedType == Protocol.MSG_EXTENDED_TYPE_RTT) {
+            LocalLogger.print("RTT response received.");
+
+            //get current timestamp
+            long now = System.currentTimeMillis();
+
+            //calculate rtt & ping
+            long rtt = this.lastRttTime.get();
+            int ping = (int) rtt / 2;
+
+            //set ping
+            game.setPing(ping);
+
+            //reset flag
+            this.rttMsgReceived.set(true);
+        }
+    }
+
+    protected void onConnectionClosed(Void v) {
+        LocalLogger.warn("Connection was closed.");
+
+        //TODO: inform GUI, so reconnect screen can be shown
     }
 
     public void send (Buffer content) {

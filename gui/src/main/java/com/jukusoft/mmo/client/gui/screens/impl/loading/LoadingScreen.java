@@ -113,8 +113,6 @@ public class LoadingScreen implements IScreen {
 
     @Override
     public void onResize(int width, int height) {
-        LocalLogger.print("LoadingScreen resize.");
-
         // Set our screen to always be XXX x 480 in size
         width = 720 * width / height;
         height = 720;
