@@ -125,10 +125,39 @@ public class SelectServerScreen implements IScreen {
                     //select server
                     ServerManager.getInstance().setSelectServer(server);
 
-                    //TODO: connect to server
+                    //disable button
+                    button.setDisabled(true);
+                    button.setText("Connecting...");
 
-                    //go to login screen
-                    screenManager.leaveAllAndEnter(Screens.LOGIN_SCREEN);
+                    //hide all other buttons
+                    for (int k = 0; k < buttons.length; k++) {
+                        TextButton btn = buttons[k];
+
+                        //only hide all other buttons, not this button itself
+                        if (btn != button) {
+                            btn.setVisible(false);
+                        }
+                    }
+
+                    //connect to server
+                    ServerManager.getInstance().connect(success -> {
+                        if (success) {
+                            //go to login screen
+                            screenManager.leaveAllAndEnter(Screens.LOGIN_SCREEN);
+                        } else {
+                            button.setText(server.title + " (Not reachable)");
+
+                            //show all other buttons
+                            for (int k = 0; k < buttons.length; k++) {
+                                TextButton btn = buttons[k];
+
+                                //only hide all other buttons, not this button itself
+                                if (btn != button) {
+                                    btn.setVisible(true);
+                                }
+                            }
+                        }
+                    });
                 }
             });
 

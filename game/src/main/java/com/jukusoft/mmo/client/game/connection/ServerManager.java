@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.game.connection;
 
 import com.jukusoft.mmo.client.engine.utils.FileUtils;
 import com.jukusoft.mmo.client.engine.utils.SocketUtils;
+import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
@@ -70,6 +71,13 @@ public class ServerManager {
 
     public void setSelectServer (Server server) {
         this.selectedServer = server;
+    }
+
+    /**
+    * try to connect to server
+    */
+    public void connect (Handler<Boolean> connectHandler) {
+        //
     }
 
     protected static Server createServer (String ip, int port, String title, String description, boolean online) {

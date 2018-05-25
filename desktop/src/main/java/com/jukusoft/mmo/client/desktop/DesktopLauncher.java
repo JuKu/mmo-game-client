@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.jukusoft.mmo.client.desktop.config.WindowConfig;
+import com.jukusoft.mmo.client.desktop.impl.GameImpl;
 import com.jukusoft.mmo.client.engine.cache.Cache;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.time.GameTime;
@@ -37,7 +38,7 @@ public class DesktopLauncher {
         Version.setInstance(new Version(DesktopLauncher.class));
 
         //start game
-        WritableGame game = null;
+        WritableGame game = new GameImpl();
 
         Utils.printSection("Servers");
         LocalLogger.print("load servers");
@@ -79,6 +80,7 @@ public class DesktopLauncher {
 
         //TODO: start networking
         NClient nClient = new NClient(game);
+        nClient.loadConfig(new File("./config/network.cfg"));
         nClient.start();
 
         Utils.printSection("Window");
