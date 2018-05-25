@@ -38,8 +38,9 @@ public class LoginScreen implements IScreen {
     protected Image screenBG = null;
     protected Image logo = null;
 
-    //label
+    //labels
     protected Label versionLabel = null;
+    protected Label pingLabel = null;
 
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
@@ -113,6 +114,11 @@ public class LoginScreen implements IScreen {
         this.versionLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
         stage.addActor(versionLabel);
 
+        //ping label
+        this.pingLabel = new Label("Ping: n/a", this.skin2);
+        this.pingLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
+        stage.addActor(pingLabel);
+
         //set input processor
         Gdx.input.setInputProcessor(stage);
     }
@@ -137,6 +143,9 @@ public class LoginScreen implements IScreen {
 
         versionLabel.setX(20);
         versionLabel.setY(20);
+
+        pingLabel.setX(20);
+        pingLabel.setY(height - 50);
     }
 
     @Override

@@ -94,6 +94,10 @@ public class DesktopLauncher {
 
         // start game
         new Lwjgl3Application(new GameGUI(game), config);
+
+        //close game
+        LocalLogger.print("close application");
+        System.exit(0);
     }
 
     public static void printStartUpInfo (Class<?> cls) {
