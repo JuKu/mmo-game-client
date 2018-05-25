@@ -13,7 +13,14 @@ public class LoginManager {
     protected Handler<LoginRequest> loginExecutor = null;
 
     public enum LOGIN_RESPONSE {
-        NO_SERVER, WRONG_CREDENTIALS, SUCCESSFUL
+        /**
+        * network problems
+        */
+        NO_SERVER,
+
+        WRONG_CREDENTIALS,
+
+        SUCCESSFUL
     }
 
     protected LoginManager () {
@@ -55,6 +62,10 @@ public class LoginManager {
 
     public boolean isLoggedIn () {
         return this.loggedIn.get();
+    }
+
+    public void setLoginExecutor (Handler<LoginRequest> handler) {
+        this.loginExecutor = handler;
     }
 
     public static LoginManager getInstance () {

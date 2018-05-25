@@ -3,6 +3,7 @@ package com.jukusoft.mmo.client.network;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
+import com.jukusoft.mmo.client.game.login.LoginManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
@@ -85,6 +86,13 @@ public class NClient {
         ServerManager.getInstance().setConnectionExecutor((ServerManager.ConnectRequest req) -> {
             //try to connect
             client.connect(req.server.port, req.server.ip, res -> this.connect(req, res));
+        });
+
+        //register login executor
+        LoginManager.getInstance().setLoginExecutor((LoginManager.LoginRequest req) -> {
+            LocalLogger.print("try to login user");
+
+            req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.WRONG_CREDENTIALS);
         });
     }
 

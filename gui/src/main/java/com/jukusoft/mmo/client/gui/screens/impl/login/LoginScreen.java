@@ -9,12 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.utils.Platform;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
+import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
+import com.jukusoft.mmo.client.gui.screens.Screens;
 import com.jukusoft.mmo.client.gui.utils.SkinFactory;
+import io.vertx.core.Handler;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
@@ -27,8 +31,10 @@ public class LoginScreen implements IScreen {
     protected GameAssetManager assetManager = GameAssetManager.getInstance();
     protected Skin skin = null;
     protected Skin skin2 = null;
+    protected Skin skin3 = null;
     protected ScreenManager<IScreen> screenManager = null;
     protected Pixmap labelColor = null;
+    protected Pixmap hintLabelColor = null;
 
     //texture paths
     protected String bgPath = "";
@@ -41,6 +47,7 @@ public class LoginScreen implements IScreen {
     //labels
     protected Label versionLabel = null;
     protected Label pingLabel = null;
+    protected Label hintLabel = null;
 
     //widgets
     protected TextField usernameTextField = null;
@@ -75,6 +82,7 @@ public class LoginScreen implements IScreen {
         this.skin = SkinFactory.createSkin(jsonFile);
 
         this.skin2 = SkinFactory.createSkin("./data/misc/skins/libgdx/uiskin.json");
+        this.skin3 = SkinFactory.createSkin("./data/misc/skins/libgdx/uiskin.json");
 
         //create UI stage
         this.stage = new Stage();
@@ -87,6 +95,9 @@ public class LoginScreen implements IScreen {
 
         this.skin2.dispose();
         this.skin2 = null;
+
+        this.skin3.dispose();
+        this.skin3 = null;
     }
 
     @Override
@@ -113,7 +124,7 @@ public class LoginScreen implements IScreen {
         this.versionLabel = new Label("Version: " + version.getFullVersion(), this.skin2);
 
         //set label background color
-        labelColor = new Pixmap((int) this.versionLabel.getWidth(), (int) this.versionLabel.getHeight(), Pixmap.Format.RGBA8888);
+        labelColor = new Pixmap((int) this.versionLabel.getWidth() + 100, (int) this.versionLabel.getHeight(), Pixmap.Format.RGBA8888);
         labelColor.setColor(Color.valueOf("#36581a"));
         labelColor.fill();
         this.versionLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
@@ -123,6 +134,22 @@ public class LoginScreen implements IScreen {
         this.pingLabel = new Label("Ping: n/a", this.skin2);
         this.pingLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
         stage.addActor(pingLabel);
+
+        //hint label (e.q. for error messages)
+        this.hintLabel = new Label("Hints", this.skin3);
+        this.hintLabel.setWidth(400);
+        this.hintLabel.getStyle().fontColor = Color.RED;
+
+        //set label background color
+        hintLabelColor = new Pixmap((int) this.versionLabel.getWidth() + 100, (int) this.versionLabel.getHeight(), Pixmap.Format.RGBA8888);
+        hintLabelColor.setColor(Color.valueOf("#FFFFFF"));
+        hintLabelColor.fill();
+        this.hintLabel.getStyle().background = new Image(new Texture(hintLabelColor)).getDrawable();
+
+        stage.addActor(hintLabel);
+
+        //hide hint label
+        this.hintLabel.setVisible(false);
 
         //text fields
         this.usernameTextField = new TextField("", this.skin2);
@@ -142,6 +169,45 @@ public class LoginScreen implements IScreen {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 LocalLogger.print("login button clicked.");
+
+                //get values
+                String username = usernameTextField.getText();
+                String password = passwordTextField.getText();
+
+                //check, if username is empty
+                if (username.isEmpty()) {
+                    usernameTextField.getStyle().messageFontColor = Color.RED;
+                    usernameTextField.invalidate();
+
+                    return;
+                }
+
+                //check, if password is empty
+                if (password.isEmpty()) {
+                    passwordTextField.getStyle().messageFontColor = Color.RED;
+                    passwordTextField.invalidate();
+
+                    return;
+                }
+
+                //try to login
+                LoginManager.getInstance().login(username, password, (LoginManager.LOGIN_RESPONSE res) -> {
+                    Platform.runOnUIThread(() -> {
+                        if (res == LoginManager.LOGIN_RESPONSE.NO_SERVER) {
+                            //go back to server selection
+                            screenManager.leaveAllAndEnter(Screens.SELECT_SERVER_SCREEN);
+                        } else if (res == LoginManager.LOGIN_RESPONSE.WRONG_CREDENTIALS) {
+                            hintLabel.setText(" Wrong credentials! ");
+                            hintLabel.setVisible(true);
+                            return;
+                        } else if (res == LoginManager.LOGIN_RESPONSE.SUCCESSFUL) {
+                            hintLabel.setVisible(false);
+
+                            //go to character selection screen
+                            screenManager.leaveAllAndEnter(Screens.CHARACTER_SELECTION);
+                        }
+                    });
+                });
             }
         });
         stage.addActor(loginButton);
@@ -154,6 +220,9 @@ public class LoginScreen implements IScreen {
     public void onPause(Game game) {
         assetManager.unload(this.bgPath);
         assetManager.unload(this.logoPath);
+
+        this.labelColor.dispose();
+        this.hintLabelColor.dispose();
     }
 
     @Override
@@ -174,6 +243,9 @@ public class LoginScreen implements IScreen {
         pingLabel.setX(20);
         pingLabel.setY(height - 50f);
 
+        hintLabel.setX((width - hintLabel.getWidth()) / 2);
+        hintLabel.setY((height - hintLabel.getHeight()) / 2 - 200);
+
         float startY = (height - usernameTextField.getHeight()) / 2;
 
         usernameTextField.setWidth(400);
@@ -191,6 +263,7 @@ public class LoginScreen implements IScreen {
         //invalidate widgets, because width and height was changed
         usernameTextField.invalidate();
         passwordTextField.invalidate();
+        hintLabel.invalidate();
         loginButton.invalidate();
     }
 
