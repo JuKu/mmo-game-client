@@ -1,11 +1,16 @@
 package com.jukusoft.mmo.client.network;
 
+import com.carrotsearch.hppc.IntObjectHashMap;
+import com.carrotsearch.hppc.IntObjectMap;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.utils.ByteUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
+import com.jukusoft.mmo.client.network.handler.NetHandler;
 import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
@@ -37,6 +42,8 @@ public class NClient {
     protected int rttInterval = 100;
     protected AtomicBoolean rttMsgReceived = new AtomicBoolean(true);
     protected AtomicLong lastRttTime = new AtomicLong(0);
+
+    protected IntObjectMap<NetHandler> handlerMap = new IntObjectHashMap<>(256);
 
     /**
     * default constructor
@@ -186,7 +193,29 @@ public class NClient {
 
             //reset flag
             this.rttMsgReceived.set(true);
+
+            return;
         }
+
+        //check, if handler is specified
+        if (this.handlerMap.containsKey(ByteUtils.byteToUnsignedInt(type))) {
+            //call handler
+            NetHandler handler = this.handlerMap.get(type);
+
+            //execute handler
+            handler.handle(content, this, this.game);
+        } else {
+            LocalLogger.warn("No handler is specified for type 0x" + ByteUtils.byteToHex(type) + ".");
+        }
+    }
+
+    public void addHandler (byte type, NetHandler handler) {
+        //check, if handler is already registered
+        if (this.handlerMap.containsKey(ByteUtils.byteToUnsignedInt(type))) {
+            throw new IllegalStateException("handler for type 0x" + ByteUtils.byteToHex(type) + " is already registered");
+        }
+
+        this.handlerMap.put(ByteUtils.byteToUnsignedInt(type), handler);
     }
 
     protected void onConnectionClosed(Void v) {
