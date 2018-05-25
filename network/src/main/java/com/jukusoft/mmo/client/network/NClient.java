@@ -142,8 +142,6 @@ public class NClient {
             return;
         }
 
-        LocalLogger.print("send RTT message...");
-
         this.rttMsgReceived.set(false);
 
         //set current timestamp
@@ -176,17 +174,15 @@ public class NClient {
 
         //check, if message is RTT message
         if (type == Protocol.MSG_TYPE_PROXY && extendedType == Protocol.MSG_EXTENDED_TYPE_RTT) {
-            LocalLogger.print("RTT response received.");
-
             //get current timestamp
             long now = System.currentTimeMillis();
 
             //calculate rtt & ping
-            long rtt = this.lastRttTime.get();
-            int ping = (int) rtt / 2;
+            long rtt = now - this.lastRttTime.get();
+            long ping = rtt / 2;
 
             //set ping
-            game.setPing(ping);
+            game.setPing((int) ping);
 
             //reset flag
             this.rttMsgReceived.set(true);
