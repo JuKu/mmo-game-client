@@ -71,8 +71,10 @@ public class NClientTest {
         WritableGame game = Mockito.mock(WritableGame.class);
 
         NClient client = new NClient(game);
+        client.start();
         ServerManager.getInstance().setSelectServer(new ServerManager.Server("127.0.0.1", 10, "test", "test", true));
         ServerManager.getInstance().connect(Mockito.mock(Handler.class));
+        client.stop();
     }
 
     @Test
