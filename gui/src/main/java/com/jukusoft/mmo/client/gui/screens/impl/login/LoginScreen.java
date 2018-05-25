@@ -189,6 +189,9 @@ public class LoginScreen implements IScreen {
                     return;
                 }
 
+                hintLabel.setText("Login...");
+                hintLabel.setVisible(true);
+
                 //try to login
                 LoginManager.getInstance().login(username, password, (LoginManager.LOGIN_RESPONSE res) -> {
                     Platform.runOnUIThread(() -> {

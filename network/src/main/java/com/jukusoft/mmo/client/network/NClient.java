@@ -139,6 +139,10 @@ public class NClient {
             return;
         }
 
+        LocalLogger.print("send RTT message...");
+
+        this.rttMsgReceived.set(false);
+
         //set current timestamp
         lastRttTime.set(System.currentTimeMillis());
 
