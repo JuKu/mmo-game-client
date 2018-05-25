@@ -273,7 +273,8 @@ public class LoginScreen implements IScreen {
 
     @Override
     public void update(Game game, ScreenManager<IScreen> screenManager) {
-
+        //set ping
+        this.pingLabel.setText("Ping: " + game.getPing() + "");
     }
 
     @Override
