@@ -124,6 +124,7 @@ public class LoginScreen implements IScreen {
 
         //text fields
         this.usernameTextField = new TextField("Username", this.skin2);
+        this.usernameTextField.setFocusTraversal(true);
         stage.addActor(usernameTextField);
 
         this.passwordTextField = new TextField("Password", this.skin2);
@@ -160,7 +161,7 @@ public class LoginScreen implements IScreen {
         versionLabel.setY(20);
 
         pingLabel.setX(20);
-        pingLabel.setY(height - 50);
+        pingLabel.setY(height - 50f);
 
         float startY = (height - usernameTextField.getHeight()) / 2;
 
