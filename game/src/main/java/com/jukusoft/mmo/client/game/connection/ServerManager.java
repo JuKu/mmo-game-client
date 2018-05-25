@@ -1,7 +1,9 @@
 package com.jukusoft.mmo.client.game.connection;
 
+import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.utils.FileUtils;
 import com.jukusoft.mmo.client.engine.utils.SocketUtils;
+import com.jukusoft.mmo.client.game.login.LoginManager;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -19,6 +21,7 @@ public class ServerManager {
     protected List<Server> list = new ArrayList<>();
 
     protected Server selectedServer = null;
+    protected Handler<ConnectRequest> connectionExecutor = null;
 
     public ServerManager () {
         //
@@ -77,7 +80,20 @@ public class ServerManager {
     * try to connect to server
     */
     public void connect (Handler<Boolean> connectHandler) {
-        //
+        if (this.connectionExecutor == null) {
+            LocalLogger.warn("ServerManager: no connection executor is registered.");
+            connectHandler.handle(false);
+        }
+
+        if (this.selectedServer == null) {
+            throw new IllegalStateException("no server was selected before. Call setSelectedServer() first.");
+        }
+
+        this.connectionExecutor.handle(new ConnectRequest(this.selectedServer, connectHandler));
+    }
+
+    public void setConnectionExecutor(Handler<ConnectRequest> connectionExecutor) {
+        this.connectionExecutor = connectionExecutor;
     }
 
     protected static Server createServer (String ip, int port, String title, String description, boolean online) {
@@ -100,6 +116,16 @@ public class ServerManager {
             this.online = online;
         }
 
+    }
+
+    public class ConnectRequest {
+        public final Server server;
+        public final Handler<Boolean> handler;
+
+        public ConnectRequest (Server server, Handler<Boolean> handler) {
+            this.server = server;
+            this.handler = handler;
+        }
     }
 
 }

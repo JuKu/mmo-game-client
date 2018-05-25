@@ -129,6 +129,9 @@ public class SelectServerScreen implements IScreen {
                     button.setDisabled(true);
                     button.setText("Connecting...");
 
+                    //invalidate, because size has changed
+                    button.invalidate();
+
                     //hide all other buttons
                     for (int k = 0; k < buttons.length; k++) {
                         TextButton btn = buttons[k];
@@ -146,6 +149,9 @@ public class SelectServerScreen implements IScreen {
                             screenManager.leaveAllAndEnter(Screens.LOGIN_SCREEN);
                         } else {
                             button.setText(server.title + " (Not reachable)");
+
+                            //invalidate, because size has changed
+                            button.invalidate();
 
                             //show all other buttons
                             for (int k = 0; k < buttons.length; k++) {

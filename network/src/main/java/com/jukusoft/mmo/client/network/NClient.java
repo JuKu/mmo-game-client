@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.network;
 
 import com.jukusoft.mmo.client.engine.utils.FileUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.connection.ServerManager;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.net.NetClient;
@@ -21,6 +22,7 @@ public class NClient {
     //network variables
     protected VertxOptions vertxOptions = new VertxOptions();
     protected Vertx vertx = null;
+    protected NetClientOptions options = new NetClientOptions();
     protected NetClient client = null;
 
     /**
@@ -51,6 +53,20 @@ public class NClient {
         //set thread count
         vertxOptions.setEventLoopPoolSize(eventThreads);
         vertxOptions.setWorkerPoolSize(workerThreads);
+
+        //set NetClient options
+        Profile.Section cSection = ini.get("Client");
+
+        int timeout = Integer.parseInt(cSection.getOrDefault("timeout", "1000"));
+        options.setConnectTimeout(timeout);
+
+        int reconnectAttempts = Integer.parseInt(cSection.getOrDefault("reconnectAttempts", "10"));
+        int reconnectInterval = Integer.parseInt(cSection.getOrDefault("reconnectInterval", "500"));
+        options.setReconnectAttempts(reconnectAttempts);
+        options.setReconnectInterval(reconnectInterval);
+
+        boolean logging = Boolean.parseBoolean(cSection.getOrDefault("logging", "false"));
+        options.setLogActivity(logging);
     }
 
     /**
@@ -59,8 +75,15 @@ public class NClient {
     public void start () {
         this.vertx = Vertx.vertx(vertxOptions);
 
-        NetClientOptions options = new NetClientOptions().setConnectTimeout(10000);
         this.client = vertx.createNetClient(options);
+
+        //register connection executor
+        ServerManager.getInstance().setConnectionExecutor((ServerManager.ConnectRequest req) -> {
+            //TODO: try to connect
+            req.handler.handle(false);
+
+
+        });
     }
 
     /**
