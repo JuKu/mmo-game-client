@@ -78,7 +78,7 @@ public class DesktopLauncher {
 
         Utils.printSection("Networking");
 
-        //TODO: start networking
+        //start networking
         NClient nClient = new NClient(game);
         nClient.loadConfig(new File("./config/network.cfg"));
         nClient.start();
