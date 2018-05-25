@@ -18,7 +18,6 @@ import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
 import com.jukusoft.mmo.client.gui.screens.Screens;
 import com.jukusoft.mmo.client.gui.utils.SkinFactory;
-import io.vertx.core.Handler;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
