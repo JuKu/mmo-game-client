@@ -130,6 +130,7 @@ public class LoginScreen implements IScreen {
         this.passwordTextField = new TextField("Password", this.skin2);
         this.passwordTextField.setPasswordMode(true);
         this.passwordTextField.setPasswordCharacter('*');
+        this.passwordTextField.setFocusTraversal(true);
         stage.addActor(passwordTextField);
 
         this.loginButton = new TextButton("Login", this.skin);
