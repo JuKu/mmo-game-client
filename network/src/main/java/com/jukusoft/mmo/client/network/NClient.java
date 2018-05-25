@@ -4,7 +4,6 @@ import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import io.vertx.core.AsyncResult;
-import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.net.NetClient;
