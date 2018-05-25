@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
@@ -123,17 +125,25 @@ public class LoginScreen implements IScreen {
         stage.addActor(pingLabel);
 
         //text fields
-        this.usernameTextField = new TextField("Username", this.skin2);
+        this.usernameTextField = new TextField("", this.skin2);
         this.usernameTextField.setFocusTraversal(true);
+        this.usernameTextField.setMessageText("Username");
         stage.addActor(usernameTextField);
 
-        this.passwordTextField = new TextField("Password", this.skin2);
+        this.passwordTextField = new TextField("", this.skin2);
         this.passwordTextField.setPasswordMode(true);
         this.passwordTextField.setPasswordCharacter('*');
         this.passwordTextField.setFocusTraversal(true);
+        this.passwordTextField.setMessageText("Password");
         stage.addActor(passwordTextField);
 
         this.loginButton = new TextButton("Login", this.skin);
+        this.loginButton.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                LocalLogger.print("login button clicked.");
+            }
+        });
         stage.addActor(loginButton);
 
         //set input processor
