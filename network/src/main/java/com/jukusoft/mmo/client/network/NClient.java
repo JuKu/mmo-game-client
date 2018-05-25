@@ -4,9 +4,11 @@ import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
+import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
 import io.vertx.core.net.NetClientOptions;
 import io.vertx.core.net.NetSocket;
@@ -16,6 +18,8 @@ import org.ini4j.Profile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class NClient {
 
@@ -29,6 +33,10 @@ public class NClient {
 
     //socket
     protected NetSocket socket = null;
+
+    protected int rttInterval = 100;
+    protected AtomicBoolean rttMsgReceived = new AtomicBoolean(true);
+    protected AtomicLong lastRttTime = new AtomicLong(0);
 
     /**
     * default constructor
@@ -72,6 +80,9 @@ public class NClient {
 
         boolean logging = Boolean.parseBoolean(cSection.getOrDefault("logging", "false"));
         options.setLogActivity(logging);
+
+        //get rtt interval
+        this.rttInterval = Integer.parseInt(cSection.getOrDefault("rttInterval", "500"));
     }
 
     /**
@@ -103,6 +114,8 @@ public class NClient {
 
             LocalLogger.print("Connected to proxy server " + req.server.ip + ":" + req.server.port);
 
+            this.setRttTimer();
+
             //call handler, so UI can be updated
             req.handler.handle(true);
         } else {
@@ -111,6 +124,35 @@ public class NClient {
             //call handler, so UI can be updated
             req.handler.handle(false);
         }
+    }
+
+    protected void setRttTimer () {
+        this.vertx.setPeriodic(this.rttInterval, timerID -> executeRTTCheck());
+    }
+
+    /**
+    * determine round-trip-time
+    */
+    protected void executeRTTCheck () {
+        //check, if a rtt message was already sended and no response received
+        if (!this.rttMsgReceived.get()) {
+            return;
+        }
+
+        //set current timestamp
+        lastRttTime.set(System.currentTimeMillis());
+
+        //send rtt message
+        Buffer msg = MessageUtils.createRTTMsg();
+        this.send(msg);
+    }
+
+    public void send (Buffer content) {
+        if (this.socket == null) {
+            throw new IllegalStateException("no connection is established.");
+        }
+
+        this.socket.write(content);
     }
 
     /**
