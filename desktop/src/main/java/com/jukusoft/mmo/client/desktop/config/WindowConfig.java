@@ -47,6 +47,7 @@ public class WindowConfig {
         config.setWindowedMode(getInt("width"), getInt("height"));
         config.setWindowIcon(section.get("iconPath"));
         config.setResizable(getBoolean("resizeable"));
+        config.useVsync(getBoolean("vsync"));
 
         if (getBoolean("fullscreen")) {
             throw new UnsupportedOperationException("fullscreen isnt supported yet.");
