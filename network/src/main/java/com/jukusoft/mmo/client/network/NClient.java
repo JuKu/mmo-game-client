@@ -1,7 +1,6 @@
 package com.jukusoft.mmo.client.network;
 
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
-import com.jukusoft.mmo.client.engine.utils.FileUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import io.vertx.core.Vertx;
@@ -15,7 +14,6 @@ import org.ini4j.Profile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class NClient {
 
