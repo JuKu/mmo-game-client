@@ -28,6 +28,12 @@ public class GameImplTest {
     }
 
     @Test
+    public void testInit () {
+        GameImpl game = new GameImpl();
+        game.init();
+    }
+
+    @Test
     public void testGetCurrentServer () {
         GameImpl game = new GameImpl();
         ServerManager.getInstance().setSelectServer(Mockito.mock(ServerManager.Server.class));

@@ -9,4 +9,6 @@ public interface WritableGame extends Game {
     */
     public WritableRegion getWritableRegion ();
 
+    public void init ();
+
 }

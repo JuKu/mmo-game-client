@@ -74,7 +74,8 @@ public class DesktopLauncher {
         //initialize game time
         GameTime.getInstance();
 
-        //TODO: init game
+        //init game
+        game.init();
 
         Utils.printSection("Networking");
 

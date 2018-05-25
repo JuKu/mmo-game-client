@@ -19,6 +19,11 @@ public class GameImpl implements WritableGame {
     }
 
     @Override
+    public void init() {
+        
+    }
+
+    @Override
     public ServerManager.Server getCurrentServer() {
         return ServerManager.getInstance().getSelectedServer();
     }
