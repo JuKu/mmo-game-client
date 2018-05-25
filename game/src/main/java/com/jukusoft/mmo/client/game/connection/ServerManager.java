@@ -80,8 +80,7 @@ public class ServerManager {
     */
     public void connect (Handler<Boolean> connectHandler) {
         if (this.connectionExecutor == null) {
-            LocalLogger.warn("ServerManager: no connection executor is registered.");
-            connectHandler.handle(false);
+            throw new IllegalStateException("ServerManager: no connection executor is registered.");
         }
 
         if (this.selectedServer == null) {

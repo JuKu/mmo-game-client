@@ -1,6 +1,8 @@
 package com.jukusoft.mmo.client.game.connection;
 
+import io.vertx.core.Handler;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +39,25 @@ public class ServerManagerTest {
         ServerManager.getInstance().loadFromConfig(new File("../config/servers.json"));
         ServerManager.getInstance().selectedServer = null;
         ServerManager.getInstance().getSelectedServer();
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testNullConnect () {
+        ServerManager.getInstance().connectionExecutor = null;
+        ServerManager.getInstance().connect(Mockito.mock(Handler.class));
+    }
+
+    @Test (expected = IllegalStateException.class)
+    public void testNullServerConnect () {
+        ServerManager.getInstance().connectionExecutor = Mockito.mock(Handler.class);
+        ServerManager.getInstance().connect(Mockito.mock(Handler.class));
+    }
+
+    @Test
+    public void testConnect () {
+        ServerManager.getInstance().connectionExecutor = Mockito.mock(Handler.class);
+        ServerManager.getInstance().setSelectServer(Mockito.mock(ServerManager.Server.class));
+        ServerManager.getInstance().connect(Mockito.mock(Handler.class));
     }
 
     @Test
