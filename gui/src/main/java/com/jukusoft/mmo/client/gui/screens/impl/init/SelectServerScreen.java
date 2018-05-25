@@ -86,6 +86,9 @@ public class SelectServerScreen implements IScreen {
     public void onStop(Game game) {
         this.skin.dispose();
         this.skin = null;
+
+        this.skin2.dispose();
+        this.skin2 = null;
     }
 
     @Override

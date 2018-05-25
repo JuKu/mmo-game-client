@@ -1,11 +1,15 @@
 package com.jukusoft.mmo.client.gui.screens.impl.login;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
@@ -22,14 +26,20 @@ public class LoginScreen implements IScreen {
     protected Stage stage = null;
     protected GameAssetManager assetManager = GameAssetManager.getInstance();
     protected Skin skin = null;
+    protected Skin skin2 = null;
     protected ScreenManager<IScreen> screenManager = null;
+    protected Pixmap labelColor = null;
 
+    //texture paths
     protected String bgPath = "";
     protected String logoPath = "";
 
     //images
     protected Image screenBG = null;
     protected Image logo = null;
+
+    //label
+    protected Label versionLabel = null;
 
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
@@ -58,6 +68,8 @@ public class LoginScreen implements IScreen {
         LocalLogger.print("create skin, atlas file: " + atlasFile + ", json file: " + jsonFile);
         this.skin = SkinFactory.createSkin(jsonFile);
 
+        this.skin2 = SkinFactory.createSkin("./data/misc/skins/libgdx/uiskin.json");
+
         //create UI stage
         this.stage = new Stage();
     }
@@ -66,6 +78,9 @@ public class LoginScreen implements IScreen {
     public void onStop(Game game) {
         this.skin.dispose();
         this.skin = null;
+
+        this.skin2.dispose();
+        this.skin2 = null;
     }
 
     @Override
@@ -85,6 +100,18 @@ public class LoginScreen implements IScreen {
         //add widgets to stage
         stage.addActor(screenBG);
         stage.addActor(logo);
+
+        //get client version
+        Version version = Version.getInstance();
+
+        this.versionLabel = new Label("Version: " + version.getFullVersion(), this.skin2);
+
+        //set label background color
+        labelColor = new Pixmap((int) this.versionLabel.getWidth(), (int) this.versionLabel.getHeight(), Pixmap.Format.RGBA8888);
+        labelColor.setColor(Color.valueOf("#36581a"));
+        labelColor.fill();
+        this.versionLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
+        stage.addActor(versionLabel);
 
         //set input processor
         Gdx.input.setInputProcessor(stage);
@@ -107,6 +134,9 @@ public class LoginScreen implements IScreen {
         //place the logo in the middle of the screen and 100 px up
         logo.setX((width - logo.getWidth()) / 2);
         logo.setY((height - logo.getHeight()) / 2 + 200);
+
+        versionLabel.setX(20);
+        versionLabel.setY(20);
     }
 
     @Override
