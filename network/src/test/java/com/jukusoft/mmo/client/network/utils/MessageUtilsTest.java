@@ -25,6 +25,17 @@ public class MessageUtilsTest {
     }
 
     @Test
+    public void testCreateRTTMessage () {
+        Buffer content = MessageUtils.createRTTMsg();
+
+        //check header
+        assertEquals(Protocol.MSG_TYPE_PROXY, content.getByte(0));
+        assertEquals(Protocol.MSG_EXTENDED_TYPE_RTT, content.getByte(1));
+        assertEquals(Protocol.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+    }
+
+    @Test
     public void testCreateErrorMsg () {
         Buffer content = MessageUtils.createErrorMsg(Protocol.MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR, 200);
 
