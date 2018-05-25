@@ -97,19 +97,19 @@ public class DesktopLauncher {
         //load version
         Version version = new Version(cls);
 
-        System.out.println("/***************************************************************");
-        System.out.println("*");
-        System.out.println("*  MMO Game Client");
-        System.out.println("*  ----------------");
-        System.out.println("*");
-        System.out.println("*  Version: " + version.getVersion());
-        System.out.println("*  Build: " + version.getRevision());
-        System.out.println("*");
-        System.out.println("*  Build JDK: " + version.getBuildJdk());
-        System.out.println("*  Build time: " + version.getBuildTime());
-        System.out.println("*  Vendor ID: " + (!version.getVendor().equals("n/a") ? version.getVendor() : version.getVendorID()));
-        System.out.println("*");
-        System.out.println("***************************************************************/");
+        LocalLogger.print("/***************************************************************");
+        LocalLogger.print("*");
+        LocalLogger.print("*  MMO Game Client");
+        LocalLogger.print("*  ----------------");
+        LocalLogger.print("*");
+        LocalLogger.print("*  Version: " + version.getVersion());
+        LocalLogger.print("*  Build: " + version.getRevision());
+        LocalLogger.print("*");
+        LocalLogger.print("*  Build JDK: " + version.getBuildJdk());
+        LocalLogger.print("*  Build time: " + version.getBuildTime());
+        LocalLogger.print("*  Vendor ID: " + (!version.getVendor().equals("n/a") ? version.getVendor() : version.getVendorID()));
+        LocalLogger.print("*");
+        LocalLogger.print("***************************************************************/");
     }
 
 }

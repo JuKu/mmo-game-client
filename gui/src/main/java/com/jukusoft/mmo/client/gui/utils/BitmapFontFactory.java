@@ -11,6 +11,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
  */
 public class BitmapFontFactory {
 
+    protected BitmapFontFactory () {
+        //
+    }
+
     public static BitmapFont createFont(String fontPath, int size, Color color) {
         // load font
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.absolute(fontPath));
