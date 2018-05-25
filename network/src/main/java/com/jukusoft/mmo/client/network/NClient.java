@@ -3,6 +3,8 @@ package com.jukusoft.mmo.client.network;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 import io.vertx.core.net.NetClient;
@@ -83,23 +85,25 @@ public class NClient {
         //register connection executor
         ServerManager.getInstance().setConnectionExecutor((ServerManager.ConnectRequest req) -> {
             //try to connect
-            client.connect(req.server.port, req.server.ip, res -> {
-                if (res.succeeded()) {
-                    //get socket
-                    socket = res.result();
-
-                    LocalLogger.print("Connected to proxy server " + req.server.ip + ":" + req.server.port);
-
-                    //call handler, so UI can be updated
-                    req.handler.handle(true);
-                } else {
-                    LocalLogger.warn("Failed to connect: " + res.cause().getMessage());
-
-                    //call handler, so UI can be updated
-                    req.handler.handle(false);
-                }
-            });
+            client.connect(req.server.port, req.server.ip, res -> this.connect(req, res));
         });
+    }
+
+    protected void connect (ServerManager.ConnectRequest req, AsyncResult<NetSocket> res) {
+        if (res.succeeded()) {
+            //get socket
+            socket = res.result();
+
+            LocalLogger.print("Connected to proxy server " + req.server.ip + ":" + req.server.port);
+
+            //call handler, so UI can be updated
+            req.handler.handle(true);
+        } else {
+            LocalLogger.warn("Failed to connect: " + res.cause().getMessage());
+
+            //call handler, so UI can be updated
+            req.handler.handle(false);
+        }
     }
 
     /**

@@ -116,7 +116,7 @@ public class ServerManager {
 
     }
 
-    public class ConnectRequest {
+    public static class ConnectRequest {
         public final Server server;
         public final Handler<Boolean> handler;
 

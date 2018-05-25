@@ -1,6 +1,11 @@
 package com.jukusoft.mmo.client.network;
 
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.connection.ServerManager;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
+import io.vertx.core.net.NetSocket;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -39,6 +44,26 @@ public class NClientTest {
 
         NClient client = new NClient(game);
         client.loadConfig(new File("../config/network.cfg"));
+    }
+
+    @Test
+    public void testConnect () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+
+        ServerManager.ConnectRequest req = new ServerManager.ConnectRequest(Mockito.mock(ServerManager.Server.class), Mockito.mock(Handler.class));
+
+        NClient client = new NClient(game);
+        client.connect(req, Future.failedFuture("test"));
+    }
+
+    @Test
+    public void testConnect1 () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+
+        ServerManager.ConnectRequest req = new ServerManager.ConnectRequest(Mockito.mock(ServerManager.Server.class), Mockito.mock(Handler.class));
+
+        NClient client = new NClient(game);
+        client.connect(req, Future.succeededFuture(null));
     }
 
     @Test
