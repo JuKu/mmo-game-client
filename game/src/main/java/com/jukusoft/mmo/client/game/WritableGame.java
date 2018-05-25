@@ -11,4 +11,11 @@ public interface WritableGame extends Game {
 
     public void init ();
 
+    /**
+    * set network ping
+     *
+     * @param ping network ping to proxy server
+    */
+    public void setPing (int ping);
+
 }

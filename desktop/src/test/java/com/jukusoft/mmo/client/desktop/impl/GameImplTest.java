@@ -19,6 +19,12 @@ public class GameImplTest {
         GameImpl game = new GameImpl();
         assertNotNull(game.getRegion());
         assertNotNull(game.getWritableRegion());
+
+        assertEquals(0, game.getPing());
+
+        //set ping
+        game.setPing(50);
+        assertEquals(50, game.getPing());
     }
 
     @Test (expected = IllegalStateException.class)

@@ -15,4 +15,11 @@ public interface Game {
      */
     public Region getRegion ();
 
+    /**
+    * get network ping
+     *
+     * @return network ping to proxy server
+    */
+    public int getPing ();
+
 }
