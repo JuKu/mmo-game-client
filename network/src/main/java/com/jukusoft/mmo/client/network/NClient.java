@@ -43,7 +43,8 @@ public class NClient {
     protected AtomicBoolean rttMsgReceived = new AtomicBoolean(true);
     protected AtomicLong lastRttTime = new AtomicLong(0);
 
-    protected IntObjectMap<NetHandler> handlerMap = new IntObjectHashMap<>(256);
+    //array with handlers (8 bit --> 256 possible types)
+    protected NetHandler[] handlerArray = new NetHandler[256];
 
     /**
     * default constructor
@@ -52,6 +53,11 @@ public class NClient {
     */
     public NClient (WritableGame game) {
         this.game = game;
+
+        //initialize array
+        for (int i = 0; i < handlerArray.length; i++) {
+            handlerArray[i] = null;
+        }
     }
 
     public void loadConfig (File configFile) throws IOException {
@@ -197,10 +203,12 @@ public class NClient {
             return;
         }
 
+        int typeInt = ByteUtils.byteToUnsignedInt(type);
+
         //check, if handler is specified
-        if (this.handlerMap.containsKey(ByteUtils.byteToUnsignedInt(type))) {
+        if (this.handlerArray[typeInt] != null) {
             //call handler
-            NetHandler handler = this.handlerMap.get(type);
+            NetHandler handler = this.handlerArray[typeInt];
 
             //execute handler
             handler.handle(content, this, this.game);
@@ -210,12 +218,15 @@ public class NClient {
     }
 
     public void addHandler (byte type, NetHandler handler) {
+        //convert type to unsigned int value
+        int typeInt = ByteUtils.byteToUnsignedInt(type);
+
         //check, if handler is already registered
-        if (this.handlerMap.containsKey(ByteUtils.byteToUnsignedInt(type))) {
+        if (this.handlerArray[typeInt] != null) {
             throw new IllegalStateException("handler for type 0x" + ByteUtils.byteToHex(type) + " is already registered");
         }
 
-        this.handlerMap.put(ByteUtils.byteToUnsignedInt(type), handler);
+        this.handlerArray[typeInt] = handler;
     }
 
     protected void onConnectionClosed(Void v) {
