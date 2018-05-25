@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.utils.Platform;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
@@ -145,8 +146,12 @@ public class SelectServerScreen implements IScreen {
                     //connect to server
                     ServerManager.getInstance().connect(success -> {
                         if (success) {
-                            //go to login screen
-                            screenManager.leaveAllAndEnter(Screens.LOGIN_SCREEN);
+                            Platform.runOnUIThread(() -> {
+                                LocalLogger.print("connection established successfully, go to login screen now.");
+
+                                //go to login screen
+                                screenManager.leaveAllAndEnter(Screens.LOGIN_SCREEN);
+                            });
                         } else {
                             button.setText(server.title + " (Not reachable)");
 
