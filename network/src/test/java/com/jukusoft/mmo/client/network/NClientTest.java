@@ -452,6 +452,12 @@ public class NClientTest {
 
         Buffer content = MessageUtils.createMsg((byte) 0xFF, (byte) 0xFF, 0);
         client.handleMessage(content);
+
+        content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, (byte) 0xFF, 0);
+        client.handleMessage(content);
+
+        content = MessageUtils.createMsg((byte) 0xFF, (byte) Protocol.MSG_EXTENDED_TYPE_RTT, 0);
+        client.handleMessage(content);
     }
 
     @Test
