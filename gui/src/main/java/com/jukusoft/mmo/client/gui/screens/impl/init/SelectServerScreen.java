@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.gui.screens.impl.init;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,6 +33,7 @@ public class SelectServerScreen implements IScreen {
     protected Skin skin = null;
     protected Skin skin2 = null;
     protected ScreenManager<IScreen> screenManager = null;
+    protected Pixmap labelColor = null;
 
     protected String bgPath = "";
     protected String logoPath = "";
@@ -138,6 +140,12 @@ public class SelectServerScreen implements IScreen {
         Version version = Version.getInstance();
 
         this.versionLabel = new Label("Version: " + version.getFullVersion(), this.skin2);
+
+        //set label background color
+        labelColor = new Pixmap((int) this.versionLabel.getWidth(), (int) this.versionLabel.getHeight(), Pixmap.Format.RGBA8888);
+        labelColor.setColor(Color.valueOf("#36581a"));
+        labelColor.fill();
+        this.versionLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
         stage.addActor(versionLabel);
 
         //set input processor
@@ -148,6 +156,8 @@ public class SelectServerScreen implements IScreen {
     public void onPause(Game game) {
         assetManager.unload(this.bgPath);
         assetManager.unload(this.logoPath);
+
+        labelColor.dispose();
     }
 
     @Override
