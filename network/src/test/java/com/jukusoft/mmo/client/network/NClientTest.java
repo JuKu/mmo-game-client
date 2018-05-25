@@ -4,6 +4,7 @@ import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.handler.NetHandler;
+import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
@@ -417,6 +418,29 @@ public class NClientTest {
         NClient client = new NClient(game);
         client.addHandler((byte) 0x01, Mockito.mock(NetHandler.class));
         client.addHandler((byte) 0x01, Mockito.mock(NetHandler.class));
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testHandleNullMessage () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.handleMessage(null);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testHandleEmptyMessage () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.handleMessage(Buffer.buffer());
+    }
+
+    @Test
+    public void testHandleRTTMessage () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+
+        Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
+        client.handleMessage(content);
     }
 
     @Test
