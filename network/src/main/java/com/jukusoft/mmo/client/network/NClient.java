@@ -159,7 +159,8 @@ public class NClient {
      * disconnect server
      */
     public void stop () {
-        //
+        this.client.close();
+        this.vertx.close();
     }
 
 }

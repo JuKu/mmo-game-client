@@ -6,6 +6,7 @@ import com.jukusoft.mmo.client.game.login.LoginManager;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
+import io.vertx.core.Vertx;
 import io.vertx.core.net.NetSocket;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -64,7 +65,9 @@ public class NClientTest {
         ServerManager.ConnectRequest req = new ServerManager.ConnectRequest(Mockito.mock(ServerManager.Server.class), Mockito.mock(Handler.class));
 
         NClient client = new NClient(game);
+        client.start();
         client.connect(req, Future.succeededFuture(null));
+        client.stop();
     }
 
     @Test
@@ -76,6 +79,9 @@ public class NClientTest {
         ServerManager.getInstance().setSelectServer(new ServerManager.Server("127.0.0.1", 10, "test", "test", true));
         ServerManager.getInstance().connect(Mockito.mock(Handler.class));
         client.stop();
+
+        ServerManager.getInstance().setSelectServer(null);
+        ServerManager.getInstance().setConnectionExecutor(null);
     }
 
     @Test
