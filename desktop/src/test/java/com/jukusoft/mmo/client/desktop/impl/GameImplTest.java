@@ -1,6 +1,8 @@
 package com.jukusoft.mmo.client.desktop.impl;
 
+import com.jukusoft.mmo.client.game.connection.ServerManager;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -23,6 +25,15 @@ public class GameImplTest {
     public void testGetNotSelectedServer () {
         GameImpl game = new GameImpl();
         game.getCurrentServer();
+    }
+
+    @Test
+    public void testGetCurrentServer () {
+        GameImpl game = new GameImpl();
+        ServerManager.getInstance().setSelectServer(Mockito.mock(ServerManager.Server.class));
+        assertNotNull(game.getCurrentServer());
+
+        ServerManager.getInstance().setSelectServer(null);
     }
 
 }
