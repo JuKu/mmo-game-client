@@ -5,9 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
@@ -41,6 +39,11 @@ public class LoginScreen implements IScreen {
     //labels
     protected Label versionLabel = null;
     protected Label pingLabel = null;
+
+    //widgets
+    protected TextField usernameTextField = null;
+    protected TextField passwordTextField = null;
+    protected TextButton loginButton = null;
 
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
@@ -119,6 +122,18 @@ public class LoginScreen implements IScreen {
         this.pingLabel.getStyle().background = new Image(new Texture(labelColor)).getDrawable();
         stage.addActor(pingLabel);
 
+        //text fields
+        this.usernameTextField = new TextField("Username", this.skin2);
+        stage.addActor(usernameTextField);
+
+        this.passwordTextField = new TextField("Password", this.skin2);
+        this.passwordTextField.setPasswordMode(true);
+        this.passwordTextField.setPasswordCharacter('*');
+        stage.addActor(passwordTextField);
+
+        this.loginButton = new TextButton("Login", this.skin);
+        stage.addActor(loginButton);
+
         //set input processor
         Gdx.input.setInputProcessor(stage);
     }
@@ -146,6 +161,25 @@ public class LoginScreen implements IScreen {
 
         pingLabel.setX(20);
         pingLabel.setY(height - 50);
+
+        float startY = (height - usernameTextField.getHeight()) / 2;
+
+        usernameTextField.setWidth(400);
+        usernameTextField.setX((width - usernameTextField.getWidth()) / 2);
+        usernameTextField.setY(startY);
+
+        passwordTextField.setWidth(400);
+        passwordTextField.setX((width - passwordTextField.getWidth()) / 2);
+        passwordTextField.setY(startY - 50);
+
+        loginButton.setWidth(200);
+        loginButton.setX((width - loginButton.getWidth()) / 2);
+        loginButton.setY(startY - 100);
+
+        //invalidate widgets, because width and height was changed
+        usernameTextField.invalidate();
+        passwordTextField.invalidate();
+        loginButton.invalidate();
     }
 
     @Override
