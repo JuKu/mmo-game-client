@@ -253,6 +253,17 @@ public class NClientTest {
         assertEquals(false, client.rttMsgReceived.get());
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testExecuteRTTCheck2 () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.rttMsgReceived.set(true);
+        client.socket = null;
+
+        client.executeRTTCheck();
+        assertEquals(false, client.rttMsgReceived.get());
+    }
+
     @Test
     public void testStartAndStop () {
         WritableGame game = Mockito.mock(WritableGame.class);
