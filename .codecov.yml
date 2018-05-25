@@ -29,6 +29,8 @@ ignore:
   - **/Test.java
   - **/Version.java
   - **/BitmapFontFactory.java
+  - **/AssetInfo.java
+  - **/AssetNotLoadedException.java
 #  - "path/to/folder"  # ignore folders and all its contents
 #  - "test_*.rb"       # wildcards accepted
 #  - "**/*.py"         # glob accepted#
