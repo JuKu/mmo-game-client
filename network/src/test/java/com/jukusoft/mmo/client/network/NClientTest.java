@@ -74,7 +74,132 @@ public class NClientTest {
 
         NClient client = new NClient(game);
         client.start();
-        client.connect(req, Future.succeededFuture(null));
+        client.connect(req, Future.succeededFuture(new NetSocket() {
+            @Override
+            public NetSocket exceptionHandler(Handler<Throwable> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket handler(Handler<Buffer> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket pause() {
+                return null;
+            }
+
+            @Override
+            public NetSocket resume() {
+                return null;
+            }
+
+            @Override
+            public NetSocket endHandler(Handler<Void> endHandler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(Buffer data) {
+                return null;
+            }
+
+            @Override
+            public NetSocket setWriteQueueMaxSize(int maxSize) {
+                return null;
+            }
+
+            @Override
+            public NetSocket drainHandler(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public String writeHandlerID() {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(String str) {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(String str, String enc) {
+                return null;
+            }
+
+            @Override
+            public NetSocket sendFile(String filename, long offset, long length) {
+                return null;
+            }
+
+            @Override
+            public NetSocket sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
+                return null;
+            }
+
+            @Override
+            public SocketAddress remoteAddress() {
+                return null;
+            }
+
+            @Override
+            public SocketAddress localAddress() {
+                return null;
+            }
+
+            @Override
+            public void end() {
+
+            }
+
+            @Override
+            public void close() {
+
+            }
+
+            @Override
+            public NetSocket closeHandler(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket upgradeToSsl(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket upgradeToSsl(String serverName, Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public boolean isSsl() {
+                return false;
+            }
+
+            @Override
+            public SSLSession sslSession() {
+                return null;
+            }
+
+            @Override
+            public X509Certificate[] peerCertificateChain() throws SSLPeerUnverifiedException {
+                return new X509Certificate[0];
+            }
+
+            @Override
+            public String indicatedServerName() {
+                return null;
+            }
+
+            @Override
+            public boolean writeQueueFull() {
+                return false;
+            }
+        }));
         client.stop();
     }
 
