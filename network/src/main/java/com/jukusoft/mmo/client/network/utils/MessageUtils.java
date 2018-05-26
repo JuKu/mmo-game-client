@@ -31,6 +31,17 @@ public class MessageUtils {
         return content;
     }
 
+    public static Buffer createPublicKeyRequest () {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Protocol.MSG_TYPE_PROXY);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST);
+        content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        return content;
+    }
+
     public static Buffer createErrorMsg (byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 

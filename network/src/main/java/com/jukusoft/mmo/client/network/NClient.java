@@ -135,6 +135,10 @@ public class NClient {
 
             this.setRttTimer();
 
+            //request public key
+            Buffer msg = MessageUtils.createPublicKeyRequest();
+            this.send(msg);
+
             //call handler, so UI can be updated
             req.handler.handle(true);
         } else {
