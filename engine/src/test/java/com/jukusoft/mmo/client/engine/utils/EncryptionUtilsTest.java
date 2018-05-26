@@ -127,6 +127,18 @@ public class EncryptionUtilsTest {
         assertEquals(message, decrypted);
     }
 
+    @Test
+    public void testConvertPublicKeyToBytes () throws Exception {
+        //first, generate public key
+        PublicKey publicKey = generatePublicKey();
+
+        byte[] array = EncryptionUtils.convertPublicKeyToByteArray(publicKey);
+        assertEquals(true, array.length > 0);
+
+        PublicKey publicKey1 = EncryptionUtils.getPubKeyFromArray(array);
+        assertEquals(publicKey, publicKey1);
+    }
+
     protected static KeyPair buildKeyPair() throws NoSuchAlgorithmException {
         final int keySize = 2048;
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");

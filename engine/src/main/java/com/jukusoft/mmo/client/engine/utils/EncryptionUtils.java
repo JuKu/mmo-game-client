@@ -83,4 +83,9 @@ public class EncryptionUtils {
         return KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(bytes));
     }
 
+    public static byte[] convertPublicKeyToByteArray (PublicKey publicKey) {
+        byte[] publicKeyBytes = publicKey.getEncoded();
+        return publicKeyBytes;
+    }
+
 }
