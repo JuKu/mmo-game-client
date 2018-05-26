@@ -122,9 +122,15 @@ public class LoadingScreen implements IScreen {
         // Make the background fill the screen
         screenBg.setSize(width, height);
 
+        float yOffset = 100;
+
+        if (logo.getHeight() > 100) {
+            yOffset = 150;
+        }
+
         // Place the logo in the middle of the screen and 100 px up
         logo.setX((width - logo.getWidth()) / 2);
-        logo.setY((height - logo.getHeight()) / 2 + 100);
+        logo.setY((height - logo.getHeight()) / 2 + yOffset);
 
         // Place the loading frame in the middle of the screen
         loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
