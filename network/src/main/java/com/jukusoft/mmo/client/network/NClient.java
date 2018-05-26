@@ -238,6 +238,8 @@ public class NClient {
 
                     //initialize EncryptionUtils
                     EncryptionUtils.init(publicKey);
+
+                    LocalLogger.print("RSA public key received.");
                 } catch (Exception e) {
                     LocalLogger.warn("Couldnt create public key from byte array.");
                     LocalLogger.printStacktrace(e);
