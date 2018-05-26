@@ -18,6 +18,11 @@ public class LoginManager {
         */
         NO_SERVER,
 
+        /**
+        * internal client error, e.q. on encryption
+        */
+        CLIENT_ERROR,
+
         WRONG_CREDENTIALS,
 
         SUCCESSFUL

@@ -121,6 +121,17 @@ public class NClient {
         LoginManager.getInstance().setLoginExecutor((LoginManager.LoginRequest req) -> {
             LocalLogger.print("try to login user");
 
+            //send login message
+            try {
+                LocalLogger.print("send login request...");
+
+                Buffer msg = MessageUtils.createLoginRequest(req.user, req.password);
+                this.send(msg);
+            } catch (Exception e) {
+                LocalLogger.printStacktrace(e);
+                req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.CLIENT_ERROR);
+            }
+
             req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.WRONG_CREDENTIALS);
         });
     }

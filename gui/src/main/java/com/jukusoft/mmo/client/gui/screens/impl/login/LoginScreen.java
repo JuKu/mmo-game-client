@@ -213,6 +213,10 @@ public class LoginScreen implements IScreen {
                         if (res == LoginManager.LOGIN_RESPONSE.NO_SERVER) {
                             //go back to server selection
                             screenManager.leaveAllAndEnter(Screens.SELECT_SERVER_SCREEN);
+                        } else if (res == LoginManager.LOGIN_RESPONSE.CLIENT_ERROR) {
+                            hintLabel.setText(" Client Error! ");
+                            hintLabel.setVisible(true);
+                            return;
                         } else if (res == LoginManager.LOGIN_RESPONSE.WRONG_CREDENTIALS) {
                             hintLabel.setText(" Wrong credentials! ");
                             hintLabel.setVisible(true);
