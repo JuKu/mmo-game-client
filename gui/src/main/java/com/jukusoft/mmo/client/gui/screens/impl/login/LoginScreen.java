@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jukusoft.mmo.client.engine.fps.FPSManager;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.engine.utils.Platform;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
@@ -202,6 +203,13 @@ public class LoginScreen implements IScreen {
                 //try to login
                 LoginManager.getInstance().login(username, password, (LoginManager.LOGIN_RESPONSE res) -> {
                     Platform.runOnUIThread(() -> {
+                        //first check, if public key is available
+                        if (!EncryptionUtils.isInitialized()) {
+                            hintLabel.setText(" No RSA public key received, wait some seconds and click again... ");
+                            hintLabel.setVisible(true);
+                            return;
+                        }
+
                         if (res == LoginManager.LOGIN_RESPONSE.NO_SERVER) {
                             //go back to server selection
                             screenManager.leaveAllAndEnter(Screens.SELECT_SERVER_SCREEN);
