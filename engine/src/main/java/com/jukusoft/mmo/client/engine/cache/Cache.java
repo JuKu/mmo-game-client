@@ -38,6 +38,7 @@ public class Cache {
         //create directory, if neccessary
         FileUtils.createWritableDirIfAbsent(CACHE_PATH);
         FileUtils.createWritableDirIfAbsent(CACHE_PATH + "assets/");
+        FileUtils.createWritableDirIfAbsent(CACHE_PATH + "security/");
     }
 
     /**
