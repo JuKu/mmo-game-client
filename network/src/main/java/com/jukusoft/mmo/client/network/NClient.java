@@ -40,6 +40,7 @@ public class NClient {
     protected AtomicBoolean rttMsgReceived = new AtomicBoolean(true);
     protected AtomicLong lastRttTime = new AtomicLong(0);
     protected int sendDelay = 0;
+    protected int receiveDelay = 0;
 
     //array with handlers (8 bit --> 256 possible types)
     protected NetHandler[] handlerArray = new NetHandler[256];
@@ -97,6 +98,7 @@ public class NClient {
 
         //get delay
         this.sendDelay = Integer.parseInt(cSection.getOrDefault("sendDelay", "0"));
+        this.receiveDelay = Integer.parseInt(cSection.getOrDefault("receiveDelay", "0"));
     }
 
     /**
@@ -168,8 +170,18 @@ public class NClient {
 
     protected void initSocket (NetSocket socket) {
         //set handler
-        socket.handler(this::handleMessage);
+        socket.handler(this::handleMessageWithDelay);
         socket.closeHandler(this::onConnectionClosed);
+    }
+
+    protected void handleMessageWithDelay (Buffer content) {
+        if (this.receiveDelay > 0) {
+            //delay message and handle them
+            vertx.setTimer(this.receiveDelay, timerID -> handleMessage(content));
+        } else {
+            //handle message without delay
+            handleMessage(content);
+        }
     }
 
     protected void handleMessage (Buffer content) {
