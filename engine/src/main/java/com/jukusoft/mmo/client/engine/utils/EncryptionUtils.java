@@ -2,14 +2,14 @@ package com.jukusoft.mmo.client.engine.utils;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.PublicKey;
+import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 
 public class EncryptionUtils {
 
     //https://gist.github.com/dmydlarz/32c58f537bb7e0ab9ebf
+
+    //https://examples.javacodegeeks.com/core-java/security/get-bytes-of-a-key-pair-example/
 
     protected static PublicKey pubKey = null;
 
@@ -86,6 +86,13 @@ public class EncryptionUtils {
     public static byte[] convertPublicKeyToByteArray (PublicKey publicKey) {
         byte[] publicKeyBytes = publicKey.getEncoded();
         return publicKeyBytes;
+    }
+
+    public static KeyPair generateKeyPair () throws NoSuchAlgorithmException {
+        final int keySize = 2048;
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(keySize);
+        return keyPairGenerator.genKeyPair();
     }
 
 }

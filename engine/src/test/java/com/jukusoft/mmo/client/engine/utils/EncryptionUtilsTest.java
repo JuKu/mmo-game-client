@@ -139,6 +139,14 @@ public class EncryptionUtilsTest {
         assertEquals(publicKey, publicKey1);
     }
 
+    @Test
+    public void testGenerateKeyPair () throws NoSuchAlgorithmException {
+        KeyPair keyPair = EncryptionUtils.generateKeyPair();
+        assertNotNull(keyPair);
+        assertNotNull(keyPair.getPublic());
+        assertNotNull(keyPair.getPrivate());
+    }
+
     protected static KeyPair buildKeyPair() throws NoSuchAlgorithmException {
         final int keySize = 2048;
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
