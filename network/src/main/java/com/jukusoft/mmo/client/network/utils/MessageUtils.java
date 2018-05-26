@@ -48,7 +48,7 @@ public class MessageUtils {
         Buffer content = Buffer.buffer();
 
         content.setByte(0, Protocol.MSG_TYPE_AUTH);
-        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_LOGIN_REQUEST);
         content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
         content.setInt(4, 0);
 
