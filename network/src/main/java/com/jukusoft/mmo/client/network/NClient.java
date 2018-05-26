@@ -128,6 +128,7 @@ public class NClient {
                 Buffer msg = MessageUtils.createLoginRequest(req.user, req.password);
                 this.send(msg);
             } catch (Exception e) {
+                //internal client error, e.q. with encryption
                 LocalLogger.printStacktrace(e);
                 req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.CLIENT_ERROR);
             }
