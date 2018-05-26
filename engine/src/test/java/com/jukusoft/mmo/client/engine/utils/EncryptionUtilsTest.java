@@ -30,6 +30,20 @@ public class EncryptionUtilsTest {
         assertNotNull(EncryptionUtils.pubKey);
     }
 
+    @Test
+    public void testIsInitialized () throws NoSuchAlgorithmException {
+        EncryptionUtils.pubKey = null;
+        assertEquals(false, EncryptionUtils.isInitialized());
+
+        //generate public key and initialize
+        PublicKey publicKey = generatePublicKey();
+        EncryptionUtils.init(publicKey);
+        assertEquals(true, EncryptionUtils.isInitialized());
+
+        //reset EncryptionUtils
+        EncryptionUtils.pubKey = null;
+    }
+
     @Test (expected = NullPointerException.class)
     public void testEncryptNullPublicKey () throws Exception {
         byte[] data = EncryptionUtils.encrypt(null, "test message");

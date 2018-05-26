@@ -22,6 +22,10 @@ public class EncryptionUtils {
         EncryptionUtils.pubKey = pubKey;
     }
 
+    public static boolean isInitialized () {
+        return pubKey != null;
+    }
+
     public static byte[] encrypt(PublicKey publicKey, String message) throws Exception {
         if (publicKey == null) {
             throw new NullPointerException("public key cannot be empty.");
