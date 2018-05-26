@@ -58,7 +58,7 @@ public class MessageUtilsTest {
         Buffer content = MessageUtils.createLoginRequest("username", "password");
 
         //check header
-        assertEquals(Protocol.MSG_TYPE_PROXY, content.getByte(0));
+        assertEquals(Protocol.MSG_TYPE_AUTH, content.getByte(0));
         assertEquals(Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST, content.getByte(1));
         assertEquals(Protocol.MSG_PROTOCOL_VERSION, content.getShort(2));
         assertEquals(0, content.getInt(4));

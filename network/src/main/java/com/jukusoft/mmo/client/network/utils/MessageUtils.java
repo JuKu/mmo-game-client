@@ -47,7 +47,7 @@ public class MessageUtils {
     public static Buffer createLoginRequest (String username, String password) throws Exception {
         Buffer content = Buffer.buffer();
 
-        content.setByte(0, Protocol.MSG_TYPE_PROXY);
+        content.setByte(0, Protocol.MSG_TYPE_AUTH);
         content.setByte(1, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST);
         content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
         content.setInt(4, 0);
