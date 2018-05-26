@@ -1,8 +1,11 @@
 package com.jukusoft.mmo.client.network.utils;
 
+import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.network.Protocol;
 import io.vertx.core.buffer.Buffer;
 import org.junit.Test;
+
+import java.security.KeyPair;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -44,6 +47,27 @@ public class MessageUtilsTest {
         assertEquals(Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST, content.getByte(1));
         assertEquals(Protocol.MSG_PROTOCOL_VERSION, content.getShort(2));
         assertEquals(0, content.getInt(4));
+    }
+
+    @Test
+    public void testCreateLoginRequest () throws Exception {
+        //generate test key pair
+        KeyPair keyPair = EncryptionUtils.generateKeyPair();
+        EncryptionUtils.init(keyPair.getPublic());
+
+        Buffer content = MessageUtils.createLoginRequest("username", "password");
+
+        //check header
+        assertEquals(Protocol.MSG_TYPE_PROXY, content.getByte(0));
+        assertEquals(Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST, content.getByte(1));
+        assertEquals(Protocol.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        int length = content.getInt(Protocol.MSG_BODY_OFFSET);
+        assertEquals(true, length > 0);
+
+        byte[] encrypted = content.getBytes(Protocol.MSG_BODY_OFFSET + 4, Protocol.MSG_BODY_OFFSET + 4 + length);
+        assertEquals(true, encrypted.length > 0);
     }
 
     @Test
