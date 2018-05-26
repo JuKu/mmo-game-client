@@ -2,8 +2,12 @@ package com.jukusoft.mmo.client.engine.utils;
 
 import javax.crypto.Cipher;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 
 public class EncryptionUtils {
 
@@ -75,6 +79,10 @@ public class EncryptionUtils {
     public static String decrypt (PrivateKey privateKey, byte [] encrypted) throws Exception {
         byte[] decrypted = decryptToBytes(privateKey, encrypted);
         return new String(decrypted, StandardCharsets.UTF_8);
+    }
+
+    public static PublicKey getPubKeyFromArray (byte[] bytes) throws Exception {
+        return KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(bytes));
     }
 
 }

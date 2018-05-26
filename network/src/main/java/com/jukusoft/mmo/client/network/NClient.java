@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.network;
 
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.utils.ByteUtils;
+import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
@@ -20,6 +21,7 @@ import org.ini4j.Profile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -135,6 +137,8 @@ public class NClient {
 
             this.setRttTimer();
 
+            LocalLogger.print("request rsa public key...");
+
             //request public key
             Buffer msg = MessageUtils.createPublicKeyRequest();
             this.send(msg);
@@ -201,21 +205,46 @@ public class NClient {
         byte extendedType = content.getByte(1);
 
         //check, if message is RTT message
-        if (type == Protocol.MSG_TYPE_PROXY && extendedType == Protocol.MSG_EXTENDED_TYPE_RTT) {
-            //get current timestamp
-            long now = System.currentTimeMillis();
+        if (type == Protocol.MSG_TYPE_PROXY) {
+            if (extendedType == Protocol.MSG_EXTENDED_TYPE_RTT) {
+                //get current timestamp
+                long now = System.currentTimeMillis();
 
-            //calculate rtt & ping
-            long rtt = now - this.lastRttTime.get();
-            long ping = rtt / 2;
+                //calculate rtt & ping
+                long rtt = now - this.lastRttTime.get();
+                long ping = rtt / 2;
 
-            //set ping
-            game.setPing((int) ping);
+                //set ping
+                game.setPing((int) ping);
 
-            //reset flag
-            this.rttMsgReceived.set(true);
+                //reset flag
+                this.rttMsgReceived.set(true);
 
-            return;
+                return;
+            } else if (extendedType == Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE) {
+                //get length of public key
+                int length = content.getInt(Protocol.MSG_BODY_OFFSET);
+
+                //read bytes
+                byte[] key = content.getBytes(Protocol.MSG_BODY_OFFSET + 4, Protocol.MSG_BODY_OFFSET + 4 + length);
+
+                if (key.length != length) {
+                    throw new IllegalStateException("received rsa key doenst have expected lenght.");
+                }
+
+                //generate public key from byte array
+                try {
+                    PublicKey publicKey = EncryptionUtils.getPubKeyFromArray(key);
+
+                    //initialize EncryptionUtils
+                    EncryptionUtils.init(publicKey);
+                } catch (Exception e) {
+                    LocalLogger.warn("Couldnt create public key from byte array.");
+                    LocalLogger.printStacktrace(e);
+                }
+
+                return;
+            }
         }
 
         int typeInt = ByteUtils.byteToUnsignedInt(type);
