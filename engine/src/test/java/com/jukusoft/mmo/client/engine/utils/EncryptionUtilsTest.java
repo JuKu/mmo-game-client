@@ -34,6 +34,12 @@ public class EncryptionUtilsTest {
     public void testIsInitialized () throws NoSuchAlgorithmException {
         EncryptionUtils.pubKey = null;
         assertEquals(false, EncryptionUtils.isInitialized());
+    }
+
+    @Test
+    public void testIsInitialized1 () throws NoSuchAlgorithmException {
+        EncryptionUtils.pubKey = null;
+        assertEquals(false, EncryptionUtils.isInitialized());
 
         //generate public key and initialize
         PublicKey publicKey = generatePublicKey();
@@ -95,6 +101,14 @@ public class EncryptionUtilsTest {
     @Test (expected = IllegalStateException.class)
     public void testEncryptWithoutInit () throws Exception {
         EncryptionUtils.pubKey = null;
+        EncryptionUtils.encrypt("test message");
+    }
+
+    @Test
+    public void testEncryptWithInit () throws Exception {
+        PublicKey publicKey = generatePublicKey();
+        EncryptionUtils.init(publicKey);
+
         EncryptionUtils.encrypt("test message");
     }
 
