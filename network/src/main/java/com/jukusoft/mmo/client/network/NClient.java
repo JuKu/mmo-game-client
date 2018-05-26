@@ -39,6 +39,7 @@ public class NClient {
     protected int rttInterval = 100;
     protected AtomicBoolean rttMsgReceived = new AtomicBoolean(true);
     protected AtomicLong lastRttTime = new AtomicLong(0);
+    protected int sendDelay = 0;
 
     //array with handlers (8 bit --> 256 possible types)
     protected NetHandler[] handlerArray = new NetHandler[256];
@@ -93,6 +94,9 @@ public class NClient {
 
         //get rtt interval
         this.rttInterval = Integer.parseInt(cSection.getOrDefault("rttInterval", "500"));
+
+        //get delay
+        this.sendDelay = Integer.parseInt(cSection.getOrDefault("sendDelay", "0"));
     }
 
     /**
@@ -237,6 +241,12 @@ public class NClient {
     public void send (Buffer content) {
         if (this.socket == null) {
             throw new IllegalStateException("no connection is established.");
+        }
+
+        //if configuration has send delay enable, delay sending message to simulate external server
+        if (this.sendDelay > 0) {
+            vertx.setTimer(this.sendDelay, timerID -> this.socket.write(content));
+            return;
         }
 
         this.socket.write(content);
