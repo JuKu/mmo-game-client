@@ -641,6 +641,22 @@ public class NClientTest {
         client.stop();
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void testHandlePublicKeyRequestMessageWithError () throws NoSuchAlgorithmException {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.receiveDelay = 0;
+        client.sendDelay = 0;
+        client.start();
+
+        Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, 0);
+        content.setInt(Protocol.MSG_BODY_OFFSET, 10);
+        content.setBytes(Protocol.MSG_BODY_OFFSET + 4, new byte[10]);
+        client.handleMessage(content);
+
+        client.stop();
+    }
+
     protected static Buffer createPublicKeyResponse (PublicKey publicKey, boolean withError) {
         Buffer content = Buffer.buffer();
 

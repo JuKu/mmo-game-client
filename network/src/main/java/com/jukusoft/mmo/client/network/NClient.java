@@ -235,6 +235,8 @@ public class NClient {
                 } catch (Exception e) {
                     LocalLogger.warn("Couldnt create public key from byte array.");
                     LocalLogger.printStacktrace(e);
+
+                    throw new IllegalArgumentException("received RSA public key is invalide.");
                 }
 
                 return;
