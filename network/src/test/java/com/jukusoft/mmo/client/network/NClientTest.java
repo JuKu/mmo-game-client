@@ -474,6 +474,146 @@ public class NClientTest {
     }
 
     @Test
+    public void testSendMessageWithDelay () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.receiveDelay = 50;
+        client.sendDelay = 50;
+        client.start();
+        client.socket = new NetSocket() {
+            @Override
+            public NetSocket exceptionHandler(Handler<Throwable> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket handler(Handler<Buffer> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket pause() {
+                return null;
+            }
+
+            @Override
+            public NetSocket resume() {
+                return null;
+            }
+
+            @Override
+            public NetSocket endHandler(Handler<Void> endHandler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(Buffer data) {
+                return null;
+            }
+
+            @Override
+            public NetSocket setWriteQueueMaxSize(int maxSize) {
+                return null;
+            }
+
+            @Override
+            public NetSocket drainHandler(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public String writeHandlerID() {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(String str) {
+                return null;
+            }
+
+            @Override
+            public NetSocket write(String str, String enc) {
+                return null;
+            }
+
+            @Override
+            public NetSocket sendFile(String filename, long offset, long length) {
+                return null;
+            }
+
+            @Override
+            public NetSocket sendFile(String filename, long offset, long length, Handler<AsyncResult<Void>> resultHandler) {
+                return null;
+            }
+
+            @Override
+            public SocketAddress remoteAddress() {
+                return null;
+            }
+
+            @Override
+            public SocketAddress localAddress() {
+                return null;
+            }
+
+            @Override
+            public void end() {
+
+            }
+
+            @Override
+            public void close() {
+
+            }
+
+            @Override
+            public NetSocket closeHandler(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket upgradeToSsl(Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public NetSocket upgradeToSsl(String serverName, Handler<Void> handler) {
+                return null;
+            }
+
+            @Override
+            public boolean isSsl() {
+                return false;
+            }
+
+            @Override
+            public SSLSession sslSession() {
+                return null;
+            }
+
+            @Override
+            public X509Certificate[] peerCertificateChain() throws SSLPeerUnverifiedException {
+                return new X509Certificate[0];
+            }
+
+            @Override
+            public String indicatedServerName() {
+                return null;
+            }
+
+            @Override
+            public boolean writeQueueFull() {
+                return false;
+            }
+        };
+
+        Buffer content = MessageUtils.createPublicKeyRequest();
+        client.send(content);
+
+        client.stop();
+    }
+
+    @Test
     public void testHandlePublicKeyRequestMessage () throws NoSuchAlgorithmException {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
