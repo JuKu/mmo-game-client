@@ -56,6 +56,24 @@ public class AuthHandlerTest {
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
     }
 
+    @Test
+    public void testHandleUnknownType1 () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+
+        AuthHandler handler = new AuthHandler(client);
+        handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
+    }
+
+    @Test
+    public void testHandleUnknownType2 () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+
+        AuthHandler handler = new AuthHandler(client);
+        handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
+    }
+
     protected Buffer createLoginFailedResponse () {
         Buffer content = Buffer.buffer();
 
