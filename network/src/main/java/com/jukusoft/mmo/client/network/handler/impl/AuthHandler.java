@@ -32,7 +32,6 @@ public class AuthHandler implements NetHandler {
             }
 
             this.loginHandler = req.loginHandler;
-            //req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.WRONG_CREDENTIALS);
         });
     }
 
