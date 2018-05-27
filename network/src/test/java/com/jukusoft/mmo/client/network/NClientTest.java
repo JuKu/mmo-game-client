@@ -462,9 +462,12 @@ public class NClientTest {
         NClient client = new NClient(game);
         client.receiveDelay = 50;
         client.sendDelay = 50;
+        client.start();
 
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
         client.handleMessageWithDelay(content);
+
+        client.stop();
     }
 
     @Test
