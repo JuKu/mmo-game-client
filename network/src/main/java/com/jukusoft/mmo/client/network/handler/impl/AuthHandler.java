@@ -46,6 +46,7 @@ public class AuthHandler implements NetHandler {
                 return;
             }
 
+            //get userID of logged in user
             int userID = content.getInt(Protocol.MSG_BODY_OFFSET);
 
             if (userID > 0) {
