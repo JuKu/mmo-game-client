@@ -5,7 +5,6 @@ import com.jukusoft.mmo.client.engine.utils.ByteUtils;
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
-import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.handler.NetHandler;
 import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
@@ -115,25 +114,6 @@ public class NClient {
         ServerManager.getInstance().setConnectionExecutor((ServerManager.ConnectRequest req) -> {
             //try to connect
             client.connect(req.server.port, req.server.ip, res -> this.connect(req, res));
-        });
-
-        //register login executor
-        LoginManager.getInstance().setLoginExecutor((LoginManager.LoginRequest req) -> {
-            LocalLogger.print("try to login user");
-
-            //send login message
-            try {
-                LocalLogger.print("send login request...");
-
-                Buffer msg = MessageUtils.createLoginRequest(req.user, req.password);
-                this.send(msg);
-            } catch (Exception e) {
-                //internal client error, e.q. with encryption
-                LocalLogger.printStacktrace(e);
-                req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.CLIENT_ERROR);
-            }
-
-            req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.WRONG_CREDENTIALS);
         });
     }
 
@@ -269,7 +249,7 @@ public class NClient {
             NetHandler handler = this.handlerArray[typeInt];
 
             //execute handler
-            handler.handle(content, this, this.game);
+            handler.handle(content, type, extendedType, this, this.game);
         } else {
             LocalLogger.warn("No handler is specified for type 0x" + ByteUtils.byteToHex(type) + ".");
         }

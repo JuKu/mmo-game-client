@@ -4,15 +4,14 @@ import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.handler.NetHandler;
+import com.jukusoft.mmo.client.network.handler.impl.AuthHandler;
 import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
-import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetSocket;
 import io.vertx.core.net.SocketAddress;
-import io.vertx.core.net.impl.NetSocketImpl;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -229,6 +228,7 @@ public class NClientTest {
         client.start();
         ServerManager.getInstance().setSelectServer(new ServerManager.Server("127.0.0.1", 10, "test", "test", true));
 
+        client.addHandler(Protocol.MSG_TYPE_AUTH, new AuthHandler(client));
         LoginManager.getInstance().login("user", "password", Mockito.mock(Handler.class));
 
         client.stop();
@@ -469,7 +469,7 @@ public class NClientTest {
 
         client.addHandler((byte) 0xFF, new NetHandler() {
             @Override
-            public void handle(Buffer content, NClient client, WritableGame game) {
+            public void handle(Buffer content, byte type, byte extendedType, NClient client, WritableGame game) {
                 b = true;
             }
         });

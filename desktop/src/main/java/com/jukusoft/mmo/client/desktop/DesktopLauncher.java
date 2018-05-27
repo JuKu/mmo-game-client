@@ -15,6 +15,8 @@ import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.gui.GameGUI;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.network.NClient;
+import com.jukusoft.mmo.client.network.Protocol;
+import com.jukusoft.mmo.client.network.handler.impl.AuthHandler;
 
 import java.io.File;
 
@@ -83,6 +85,9 @@ public class DesktopLauncher {
         NClient nClient = new NClient(game);
         nClient.loadConfig(new File("./config/network.cfg"));
         nClient.start();
+
+        //add handlers
+        nClient.addHandler(Protocol.MSG_TYPE_AUTH, new AuthHandler(nClient));
 
         Utils.printSection("Window");
 
