@@ -449,6 +449,7 @@ public class NClientTest {
     public void testHandleRTTMessage1 () {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
+        client.receiveDelay = 0;
         client.sendDelay = 0;
 
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
@@ -459,6 +460,7 @@ public class NClientTest {
     public void testHandleRTTMessage2 () {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
+        client.receiveDelay = 50;
         client.sendDelay = 50;
 
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
