@@ -5,6 +5,9 @@ addons:
     packages:
     - ldap-utils
     - slapd
+# add hostnames to /etc/hosts which will be bind to 127.0.0.1
+  hosts:
+    - travis.dev
 
 #services:
 #  - mysql
