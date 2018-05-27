@@ -25,7 +25,7 @@ public class AuthHandlerTest {
 
         AuthHandler handler = new AuthHandler(client);
         handler.loginHandler = Mockito.mock(Handler.class);
-        handler.handle(createLoginFailedResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
+        handler.handle(createLoginFailedResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
     }
 
     @Test
@@ -35,11 +35,20 @@ public class AuthHandlerTest {
 
         AuthHandler handler = new AuthHandler(client);
         handler.loginHandler = Mockito.mock(Handler.class);
-        handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
+        handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
     }
 
     @Test
     public void testHandleLoginSuccessResponseWithoutRequest () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+
+        AuthHandler handler = new AuthHandler(client);
+        handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
+    }
+
+    @Test
+    public void testHandleUnknownType () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
