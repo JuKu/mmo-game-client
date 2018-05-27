@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.client.network;
 
+import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
@@ -21,6 +22,8 @@ import javax.security.cert.X509Certificate;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 import static org.junit.Assert.assertEquals;
 
@@ -468,6 +471,40 @@ public class NClientTest {
         client.handleMessageWithDelay(content);
 
         client.stop();
+    }
+
+    @Test
+    public void testHandlePublicKeyRequestMessage () throws NoSuchAlgorithmException {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.receiveDelay = 0;
+        client.sendDelay = 0;
+        client.start();
+
+        Buffer content = this.createPublicKeyResponse(EncryptionUtils.generateKeyPair().getPublic());
+        client.handleMessageWithDelay(content);
+
+        client.stop();
+    }
+
+    protected static Buffer createPublicKeyResponse (PublicKey publicKey) {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Protocol.MSG_TYPE_PROXY);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE);
+        content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        //convert public key to byte array
+        byte[] array = EncryptionUtils.convertPublicKeyToByteArray(publicKey);
+
+        //set length of public key
+        content.setInt(Protocol.MSG_BODY_OFFSET, array.length);
+
+        //set array
+        content.setBytes(Protocol.MSG_BODY_OFFSET + 4, array);
+
+        return content;
     }
 
     @Test
