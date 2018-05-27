@@ -217,12 +217,12 @@ public class NClient {
                 //get length of public key
                 int length = content.getInt(Protocol.MSG_BODY_OFFSET);
 
+                if ((Protocol.MSG_BODY_OFFSET + 4 + length) != content.length()) {
+                    throw new IllegalArgumentException("received rsa key doenst have expected lenght.");
+                }
+
                 //read bytes
                 byte[] key = content.getBytes(Protocol.MSG_BODY_OFFSET + 4, Protocol.MSG_BODY_OFFSET + 4 + length);
-
-                if (key.length != length) {
-                    throw new IllegalStateException("received rsa key doenst have expected lenght.");
-                }
 
                 //generate public key from byte array
                 try {

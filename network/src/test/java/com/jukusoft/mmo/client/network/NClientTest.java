@@ -481,13 +481,27 @@ public class NClientTest {
         client.sendDelay = 0;
         client.start();
 
-        Buffer content = this.createPublicKeyResponse(EncryptionUtils.generateKeyPair().getPublic());
-        client.handleMessageWithDelay(content);
+        Buffer content = this.createPublicKeyResponse(EncryptionUtils.generateKeyPair().getPublic(), false);
+        client.handleMessage(content);
 
         client.stop();
     }
 
-    protected static Buffer createPublicKeyResponse (PublicKey publicKey) {
+    @Test (expected = IllegalArgumentException.class)
+    public void testHandlePublicKeyRequestMessage1 () throws NoSuchAlgorithmException {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.receiveDelay = 0;
+        client.sendDelay = 0;
+        client.start();
+
+        Buffer content = this.createPublicKeyResponse(EncryptionUtils.generateKeyPair().getPublic(), true);
+        client.handleMessage(content);
+
+        client.stop();
+    }
+
+    protected static Buffer createPublicKeyResponse (PublicKey publicKey, boolean withError) {
         Buffer content = Buffer.buffer();
 
         content.setByte(0, Protocol.MSG_TYPE_PROXY);
@@ -499,7 +513,11 @@ public class NClientTest {
         byte[] array = EncryptionUtils.convertPublicKeyToByteArray(publicKey);
 
         //set length of public key
-        content.setInt(Protocol.MSG_BODY_OFFSET, array.length);
+        if (withError) {
+            content.setInt(Protocol.MSG_BODY_OFFSET, array.length + 4);
+        } else {
+            content.setInt(Protocol.MSG_BODY_OFFSET, array.length);
+        }
 
         //set array
         content.setBytes(Protocol.MSG_BODY_OFFSET + 4, array);
