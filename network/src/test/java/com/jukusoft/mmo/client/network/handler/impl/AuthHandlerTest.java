@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.network.handler.impl;
 
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.NClient;
 import com.jukusoft.mmo.client.network.Protocol;
 import io.vertx.core.Handler;
@@ -9,6 +10,8 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import static org.junit.Assert.assertEquals;
 
 public class AuthHandlerTest {
 
@@ -36,6 +39,8 @@ public class AuthHandlerTest {
         AuthHandler handler = new AuthHandler(client);
         handler.loginHandler = Mockito.mock(Handler.class);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
+
+        assertEquals(true, LoginManager.getInstance().isLoggedIn());
     }
 
     @Test

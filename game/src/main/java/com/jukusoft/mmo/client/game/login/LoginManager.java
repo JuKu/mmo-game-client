@@ -69,6 +69,10 @@ public class LoginManager {
         return this.loggedIn.get();
     }
 
+    public void setLoggedIn (boolean loggedIn) {
+        this.loggedIn.set(loggedIn);
+    }
+
     public void setLoginExecutor (Handler<LoginRequest> handler) {
         this.loginExecutor = handler;
     }

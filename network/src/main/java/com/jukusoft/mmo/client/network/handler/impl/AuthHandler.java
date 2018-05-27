@@ -50,6 +50,10 @@ public class AuthHandler implements NetHandler {
 
             if (userID > 0) {
                 //login successful
+
+                //set user as logged in
+                LoginManager.getInstance().setLoggedIn(true);
+
                 this.loginHandler.handle(LoginManager.LOGIN_RESPONSE.SUCCESSFUL);
             } else {
                 //login failed
