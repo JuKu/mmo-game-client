@@ -16,23 +16,25 @@ public class AuthHandler implements NetHandler {
 
     public AuthHandler(NClient client) {
         //register login executor
-        LoginManager.getInstance().setLoginExecutor((LoginManager.LoginRequest req) -> {
-            LocalLogger.print("try to login user");
+        LoginManager.getInstance().setLoginExecutor((LoginManager.LoginRequest req) -> this.executeLogin(client, req));
+    }
 
-            //send login message
-            try {
-                LocalLogger.print("send login request...");
+    protected void executeLogin (NClient client, LoginManager.LoginRequest req) {
+        LocalLogger.print("try to login user");
 
-                Buffer msg = MessageUtils.createLoginRequest(req.user, req.password);
-                client.send(msg);
-            } catch (Exception e) {
-                //internal client error, e.q. with encryption
-                LocalLogger.printStacktrace(e);
-                req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.CLIENT_ERROR);
-            }
+        //send login message
+        try {
+            LocalLogger.print("send login request...");
 
-            this.loginHandler = req.loginHandler;
-        });
+            Buffer msg = MessageUtils.createLoginRequest(req.user, req.password);
+            client.send(msg);
+        } catch (Exception e) {
+            //internal client error, e.q. with encryption
+            LocalLogger.printStacktrace(e);
+            req.loginHandler.handle(LoginManager.LOGIN_RESPONSE.CLIENT_ERROR);
+        }
+
+        this.loginHandler = req.loginHandler;
     }
 
     @Override
