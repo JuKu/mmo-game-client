@@ -1,13 +1,11 @@
 package com.jukusoft.mmo.client.network.handler.impl;
 
-import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.NClient;
 import com.jukusoft.mmo.client.network.Protocol;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonObject;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -19,6 +17,21 @@ public class AuthHandlerTest {
     public void testConstructor () {
         NClient client = Mockito.mock(NClient.class);
         new AuthHandler(client);
+    }
+
+    @Test
+    public void testConstructor1 () {
+        NClient client = new NClient(Mockito.mock(WritableGame.class)) {
+
+            @Override
+            public void send(Buffer content) {
+                throw new RuntimeException("test exception");
+            }
+        };
+        new AuthHandler(client);
+
+        //try to login
+        LoginManager.getInstance().login("user", "password", Mockito.mock(Handler.class));
     }
 
     @Test
