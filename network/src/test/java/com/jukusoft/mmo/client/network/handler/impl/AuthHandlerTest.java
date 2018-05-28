@@ -54,6 +54,16 @@ public class AuthHandlerTest {
     }
 
     @Test
+    public void testExecuteLogin1 () throws NoSuchAlgorithmException {
+        NClient client = Mockito.mock(NClient.class);
+
+        EncryptionUtils.init(EncryptionUtils.generateKeyPair().getPublic());
+
+        AuthHandler handler = new AuthHandler(client);
+        handler.executeLogin(client, new LoginManager.LoginRequest("user", "password", Mockito.mock(Handler.class)));
+    }
+
+    @Test
     public void testHandleLoginFailedResponse () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
