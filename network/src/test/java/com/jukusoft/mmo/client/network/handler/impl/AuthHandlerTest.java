@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.client.network.handler.impl;
 
+import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.NClient;
@@ -8,6 +9,8 @@ import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import java.security.NoSuchAlgorithmException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,7 +38,7 @@ public class AuthHandlerTest {
     }
 
     @Test
-    public void testExecuteLogin () {
+    public void testExecuteLogin () throws NoSuchAlgorithmException {
         NClient client = new NClient(Mockito.mock(WritableGame.class)) {
 
             @Override
@@ -43,6 +46,9 @@ public class AuthHandlerTest {
                 throw new RuntimeException("test exception");
             }
         };
+
+        EncryptionUtils.init(EncryptionUtils.generateKeyPair().getPublic());
+
         AuthHandler handler = new AuthHandler(client);
         handler.executeLogin(client, new LoginManager.LoginRequest("user", "password", Mockito.mock(Handler.class)));
     }
