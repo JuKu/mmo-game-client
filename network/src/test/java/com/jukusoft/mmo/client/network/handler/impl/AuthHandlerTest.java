@@ -35,6 +35,19 @@ public class AuthHandlerTest {
     }
 
     @Test
+    public void testExecuteLogin () {
+        NClient client = new NClient(Mockito.mock(WritableGame.class)) {
+
+            @Override
+            public void send(Buffer content) {
+                throw new RuntimeException("test exception");
+            }
+        };
+        AuthHandler handler = new AuthHandler(client);
+        handler.executeLogin(client, new LoginManager.LoginRequest("user", "password", Mockito.mock(Handler.class)));
+    }
+
+    @Test
     public void testHandleLoginFailedResponse () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);

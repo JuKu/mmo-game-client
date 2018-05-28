@@ -81,7 +81,7 @@ public class LoginManager {
         return instance;
     }
 
-    public class LoginRequest {
+    public static class LoginRequest {
         public final String user;
         public final String password;
         public final Handler<LOGIN_RESPONSE> loginHandler;
