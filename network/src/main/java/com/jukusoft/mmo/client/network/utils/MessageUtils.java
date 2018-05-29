@@ -66,6 +66,17 @@ public class MessageUtils {
         return content;
     }
 
+    public static Buffer createCharacterListRequest () {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Protocol.MSG_TYPE_AUTH);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_REQUEST);
+        content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        return content;
+    }
+
     public static Buffer createErrorMsg (byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 
