@@ -56,6 +56,10 @@ public class AuthHandler implements NetHandler {
                 //set user as logged in
                 LoginManager.getInstance().setLoggedIn(true);
 
+                //send character list request to proxy
+                Buffer msg = MessageUtils.createCharacterListRequest();
+                client.send(msg);
+
                 this.loginHandler.handle(LoginManager.LOGIN_RESPONSE.SUCCESSFUL);
             } else {
                 //login failed
