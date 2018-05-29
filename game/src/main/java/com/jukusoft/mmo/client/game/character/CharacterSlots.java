@@ -5,18 +5,18 @@ import com.jukusoft.mmo.client.game.config.Config;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class CharacterManager {
+public class CharacterSlots {
 
-    protected Character[] myCharacters = new Character[Config.MAX_CHARACTER_SLOTS];
+    protected CharacterSlot[] myCharacterSlots = new CharacterSlot[Config.MAX_CHARACTER_SLOTS];
     protected AtomicBoolean isLoaded = new AtomicBoolean(false);
 
-    protected Character selectedCharacter = null;
+    protected CharacterSlot selectedCharacterSlot = null;
 
     public boolean isLoaded () {
         return isLoaded.get();
     }
 
-    public void load (List<Character> list) {
+    public void load (List<CharacterSlot> list) {
         if (list.size() > Config.MAX_CHARACTER_SLOTS) {
             throw new IllegalArgumentException("maximal " + Config.MAX_CHARACTER_SLOTS + " characters are allowed!");
         }
@@ -24,8 +24,8 @@ public class CharacterManager {
         isLoaded.set(true);
     }
 
-    public Character getSelectedCharacter () {
-        return this.selectedCharacter;
+    public CharacterSlot getSelectedCharacterSlot() {
+        return this.selectedCharacterSlot;
     }
 
 }

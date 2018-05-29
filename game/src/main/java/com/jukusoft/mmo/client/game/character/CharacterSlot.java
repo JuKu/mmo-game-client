@@ -2,7 +2,7 @@ package com.jukusoft.mmo.client.game.character;
 
 import io.vertx.core.json.JsonObject;
 
-public class Character {
+public class CharacterSlot {
 
     public enum GENDER {
         MALE, FEMALE
@@ -28,7 +28,19 @@ public class Character {
     //beart (bart)
     protected final String beart;
 
-    protected Character (final int cid, final String name, final GENDER gender, String skinColor, String hairColor, String hairStyle, String beart) {
+    protected CharacterSlot(final int cid, final String name, final GENDER gender, String skinColor, String hairColor, String hairStyle, String beart) {
+        if (cid <= 0) {
+            throw new IllegalArgumentException("cid has to be greater than 0.");
+        }
+
+        if (name == null) {
+            throw new NullPointerException("name cannot be null.");
+        }
+
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("name cannot be empty.");
+        }
+
         this.cid = cid;
         this.name = name;
         this.gender = gender;
@@ -69,8 +81,16 @@ public class Character {
     /**
     * factory method
     */
-    public static Character createFromJSON (JsonObject json) {
-        return null;
+    public static CharacterSlot createFromJSON (JsonObject json) {
+        int cid = json.getInteger("cid");
+        String name = json.getString("name");
+        GENDER gender = (json.getString("gender").equals("male") ? GENDER.MALE : GENDER.FEMALE);
+        String skinColor = json.getString("skinColor");
+        String hairColor = json.getString("hairColor");
+        String hairStyle = json.getString("hairStyle");
+        String beart = json.getString("beart");
+
+        return new CharacterSlot(cid, name, gender, skinColor, hairColor, hairStyle, beart);
     }
 
 }

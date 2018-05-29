@@ -58,7 +58,7 @@ public class GameImplTest {
     @Test
     public void testGetCharacterManager () {
         GameImpl game = new GameImpl();
-        assertNotNull(game.getCharacterManager());
+        assertNotNull(game.getCharacterSlots());
     }
 
 }
