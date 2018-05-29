@@ -114,6 +114,8 @@ public class AuthHandler implements NetHandler {
             list.add(slot);
         }
 
+        LocalLogger.print("" + list.size() + " character slots received.");
+
         //load slots
         characterSlots.load(list);
     }
