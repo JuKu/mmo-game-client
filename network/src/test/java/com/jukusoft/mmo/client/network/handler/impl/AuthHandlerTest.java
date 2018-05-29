@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.network.handler.impl;
 
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.game.character.CharacterSlots;
 import com.jukusoft.mmo.client.game.config.Config;
 import com.jukusoft.mmo.client.game.login.LoginManager;
@@ -17,6 +18,8 @@ import org.mockito.Mockito;
 import java.security.NoSuchAlgorithmException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class AuthHandlerTest {
 
@@ -150,6 +153,13 @@ public class AuthHandlerTest {
 
         assertEquals(true, slots.isLoaded());
         assertEquals(1, slots.countSlots());
+
+        CharacterSlot[] slotArray = slots.getSlots();
+        assertNotNull(slotArray[0]);
+
+        for (int i = 1; i < Config.MAX_CHARACTER_SLOTS; i++) {
+            assertNull(slotArray[i]);
+        }
     }
 
     @Test
@@ -167,6 +177,12 @@ public class AuthHandlerTest {
 
         assertEquals(true, slots.isLoaded());
         assertEquals(Config.MAX_CHARACTER_SLOTS, slots.countSlots());
+
+        CharacterSlot[] slotArray = slots.getSlots();
+
+        for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
+            assertNotNull(slotArray[i]);
+        }
     }
 
     protected Buffer createCharacterSlotsResponse (int length) {
