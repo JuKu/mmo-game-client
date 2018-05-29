@@ -45,6 +45,7 @@ public class SelectCharacterScreen implements IScreen {
     protected String bgPath = "";
     protected String logoPath = "";
     protected String slotBGPath = "";
+    protected String newSlotPath = "";
 
     //images
     protected Image screenBG = null;
@@ -60,6 +61,7 @@ public class SelectCharacterScreen implements IScreen {
     String skinJsonFile = "";
 
     protected Texture slotBG = null;
+    protected Texture newSlotBG = null;
 
     protected ImageButton[] slots = new ImageButton[Config.MAX_CHARACTER_SLOTS];
 
@@ -85,6 +87,7 @@ public class SelectCharacterScreen implements IScreen {
         this.bgPath = section.get("background");
         this.logoPath = section.get("logo");
         this.slotBGPath = section.get("slotBackground");
+        this.newSlotPath = section.get("newSlot");
         this.skinJsonFile = skinSection.get("json");
 
         //create UI stage
@@ -109,6 +112,7 @@ public class SelectCharacterScreen implements IScreen {
         assetManager.load(this.bgPath, Texture.class);
         assetManager.load(this.logoPath, Texture.class);
         assetManager.load(this.slotBGPath, Texture.class);
+        assetManager.load(this.newSlotPath, Texture.class);
 
         assetManager.finishLoading();
 
@@ -119,6 +123,7 @@ public class SelectCharacterScreen implements IScreen {
         this.logo = new Image(logoTexture);
 
         this.slotBG = assetManager.get(this.slotBGPath, Texture.class);
+        this.newSlotBG = assetManager.get(this.newSlotPath, Texture.class);
 
         //add widgets to stage
         stage.addActor(screenBG);
@@ -180,6 +185,7 @@ public class SelectCharacterScreen implements IScreen {
         assetManager.unload(this.bgPath);
         assetManager.unload(this.logoPath);
         assetManager.unload(this.slotBGPath);
+        assetManager.unload(this.newSlotPath);
 
         this.labelColor.dispose();
         this.labelColor = null;
@@ -231,6 +237,12 @@ public class SelectCharacterScreen implements IScreen {
     protected void init (Game game, CharacterSlot[] slots) {
         for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
             Drawable drawable = new TextureRegionDrawable(new TextureRegion(this.slotBG, this.slotBG.getWidth(), this.slotBG.getHeight()));
+
+            if (slots[i] == null) {
+                //slot is empty
+                drawable = new TextureRegionDrawable(new TextureRegion(this.newSlotBG, this.newSlotBG.getWidth(), this.newSlotBG.getHeight()));
+            }
+
             this.slots[i] = new ImageButton(drawable);
 
             stage.addActor(this.slots[i]);
