@@ -4,15 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jukusoft.mmo.client.engine.fps.FPSManager;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.game.character.CharacterSlot;
+import com.jukusoft.mmo.client.game.config.Config;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
@@ -39,6 +44,7 @@ public class SelectCharacterScreen implements IScreen {
     //texture paths
     protected String bgPath = "";
     protected String logoPath = "";
+    protected String slotBGPath = "";
 
     //images
     protected Image screenBG = null;
@@ -52,6 +58,10 @@ public class SelectCharacterScreen implements IScreen {
 
     //skin paths
     String skinJsonFile = "";
+
+    protected Texture slotBG = null;
+
+    protected ImageButton[] slots = new ImageButton[Config.MAX_CHARACTER_SLOTS];
 
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
@@ -74,6 +84,7 @@ public class SelectCharacterScreen implements IScreen {
 
         this.bgPath = section.get("background");
         this.logoPath = section.get("logo");
+        this.slotBGPath = section.get("slotBackground");
         this.skinJsonFile = skinSection.get("json");
 
         //create UI stage
@@ -97,6 +108,7 @@ public class SelectCharacterScreen implements IScreen {
         //load texures
         assetManager.load(this.bgPath, Texture.class);
         assetManager.load(this.logoPath, Texture.class);
+        assetManager.load(this.slotBGPath, Texture.class);
 
         assetManager.finishLoading();
 
@@ -106,9 +118,11 @@ public class SelectCharacterScreen implements IScreen {
         Texture logoTexture = assetManager.get(this.logoPath, Texture.class);
         this.logo = new Image(logoTexture);
 
+        this.slotBG = assetManager.get(this.slotBGPath, Texture.class);
+
         //add widgets to stage
         stage.addActor(screenBG);
-        stage.addActor(logo);
+        //stage.addActor(logo);
 
         //get client version
         Version version = Version.getInstance();
@@ -165,6 +179,7 @@ public class SelectCharacterScreen implements IScreen {
 
         assetManager.unload(this.bgPath);
         assetManager.unload(this.logoPath);
+        assetManager.unload(this.slotBGPath);
 
         this.labelColor.dispose();
         this.labelColor = null;
@@ -195,6 +210,17 @@ public class SelectCharacterScreen implements IScreen {
 
         hintLabel.setX((width - hintLabel.getWidth()) / 2);
         hintLabel.setY((height - hintLabel.getHeight()) / 2 - 200);
+
+        float startY = (height - 100) / 2 + 200;
+
+        for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
+            if (this.slots[i] == null) {
+                continue;
+            }
+
+            this.slots[i].setX((width - slots[i].getWidth()) / 2);
+            this.slots[i].setY(startY - (i * 110));
+        }
     }
 
     /**
@@ -203,7 +229,14 @@ public class SelectCharacterScreen implements IScreen {
      * this method is called if character list response was received from proxy server
     */
     protected void init (Game game, CharacterSlot[] slots) {
-        //
+        for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
+            Drawable drawable = new TextureRegionDrawable(new TextureRegion(this.slotBG, this.slotBG.getWidth(), this.slotBG.getHeight()));
+            this.slots[i] = new ImageButton(drawable);
+
+            stage.addActor(this.slots[i]);
+        }
+
+        this.onResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     @Override
