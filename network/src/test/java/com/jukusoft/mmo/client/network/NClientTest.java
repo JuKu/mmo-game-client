@@ -642,7 +642,7 @@ public class NClientTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void testHandlePublicKeyRequestMessageWithError () throws NoSuchAlgorithmException {
+    public void testHandlePublicKeyRequestMessageWithError () {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
         client.receiveDelay = 0;
@@ -652,6 +652,29 @@ public class NClientTest {
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, 0);
         content.setInt(Protocol.MSG_BODY_OFFSET, 10);
         content.setBytes(Protocol.MSG_BODY_OFFSET + 4, new byte[10]);
+        client.handleMessage(content);
+
+        client.stop();
+    }
+
+    @Test
+    public void testHandlerException () {
+        WritableGame game = Mockito.mock(WritableGame.class);
+        NClient client = new NClient(game);
+        client.receiveDelay = 0;
+        client.sendDelay = 0;
+        client.start();
+
+        client.addHandler((byte) 0xFF, new NetHandler() {
+            @Override
+            public void handle(Buffer content, byte type, byte extendedType, NClient client, WritableGame game) throws Exception {
+                throw new IllegalArgumentException("test exception");
+            }
+        });
+
+        Buffer content = MessageUtils.createMsg((byte) 0xFF, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, 0);
+
+        //no exception should be thrown, only a log output should be written to console
         client.handleMessage(content);
 
         client.stop();

@@ -254,7 +254,7 @@ public class NClient {
             try {
                 handler.handle(content, type, extendedType, this, this.game);
             } catch (Exception e) {
-                LocalLogger.print("Exception while handling message type =x" + ByteUtils.byteToHex(type) + ": " + e.getLocalizedMessage());
+                LocalLogger.print("Exception while handling message type 0x" + ByteUtils.byteToHex(type) + ": " + e.getLocalizedMessage());
                 LocalLogger.printStacktrace(e);
             }
         } else {
