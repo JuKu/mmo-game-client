@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class GameImplTest {
 
@@ -46,6 +47,18 @@ public class GameImplTest {
         assertNotNull(game.getCurrentServer());
 
         ServerManager.getInstance().setSelectServer(null);
+    }
+
+    @Test
+    public void testGetSelectedCharacter () {
+        GameImpl game = new GameImpl();
+        assertNull(game.getSelectedCharacter());
+    }
+
+    @Test
+    public void testGetCharacterManager () {
+        GameImpl game = new GameImpl();
+        assertNotNull(game.getCharacterManager());
     }
 
 }

@@ -1,6 +1,8 @@
 package com.jukusoft.mmo.client.desktop.impl;
 
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.character.Character;
+import com.jukusoft.mmo.client.game.character.CharacterManager;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.region.Region;
 import com.jukusoft.mmo.client.game.region.WritableRegion;
@@ -11,6 +13,7 @@ public class GameImpl implements WritableGame {
 
     protected WritableRegion region = new WritableRegion();
     protected AtomicInteger ping = new AtomicInteger(0);
+    protected CharacterManager characterManager = new CharacterManager();
 
     public GameImpl () {
         //
@@ -44,6 +47,16 @@ public class GameImpl implements WritableGame {
     @Override
     public void setPing(int ping) {
         this.ping.set(ping);
+    }
+
+    @Override
+    public Character getSelectedCharacter() {
+        return this.characterManager.getSelectedCharacter();
+    }
+
+    @Override
+    public CharacterManager getCharacterManager() {
+        return this.characterManager;
     }
 
 }
