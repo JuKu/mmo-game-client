@@ -307,7 +307,7 @@ public class LoginScreen implements IScreen {
 
     @Override
     public void draw(Game game) {
-        //show the loading screen
+        //show the login screen
         stage.act();
         stage.draw();
     }
