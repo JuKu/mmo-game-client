@@ -251,7 +251,12 @@ public class NClient {
             NetHandler handler = this.handlerArray[typeInt];
 
             //execute handler
-            handler.handle(content, type, extendedType, this, this.game);
+            try {
+                handler.handle(content, type, extendedType, this, this.game);
+            } catch (Exception e) {
+                LocalLogger.print("Exception while handling message type =x" + ByteUtils.byteToHex(type) + ": " + e.getLocalizedMessage());
+                LocalLogger.printStacktrace(e);
+            }
         } else {
             LocalLogger.warn("No handler is specified for type 0x" + ByteUtils.byteToHex(type) + ".");
         }

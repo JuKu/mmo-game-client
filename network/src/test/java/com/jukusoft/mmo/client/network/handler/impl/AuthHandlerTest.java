@@ -103,7 +103,7 @@ public class AuthHandlerTest {
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void testHandleUnknownType1 () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
@@ -112,7 +112,7 @@ public class AuthHandlerTest {
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void testHandleUnknownType2 () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);

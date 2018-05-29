@@ -6,6 +6,6 @@ import io.vertx.core.buffer.Buffer;
 
 public interface NetHandler {
 
-    public void handle(Buffer content, byte type, byte extendedType, NClient client, WritableGame game);
+    public void handle(Buffer content, byte type, byte extendedType, NClient client, WritableGame game) throws Exception;
 
 }
