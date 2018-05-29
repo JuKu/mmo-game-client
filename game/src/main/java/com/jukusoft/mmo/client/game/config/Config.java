@@ -4,4 +4,8 @@ public class Config {
 
     public static final int MAX_CHARACTER_SLOTS = 5;
 
+    protected Config () {
+        //
+    }
+
 }

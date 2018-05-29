@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.network.handler.impl;
 
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.utils.ByteUtils;
+import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.game.character.CharacterSlots;
@@ -77,40 +78,44 @@ public class AuthHandler implements NetHandler {
 
                 this.loginHandler = null;
             } else if (extendedType == Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE) {
-                LocalLogger.print("list of character slots received.");
-
-                //get length of string
-                int length = content.getInt(Protocol.MSG_BODY_OFFSET);
-
-                //get json string
-                String jsonStr = content.getString(Protocol.MSG_BODY_OFFSET + 4, Protocol.MSG_BODY_OFFSET + 4 + length);
-
-                //convert string to json object
-                JsonObject json = new JsonObject(jsonStr);
-                JsonArray array = json.getJsonArray("slots");
-
-                //get character slot manager
-                CharacterSlots characterSlots = game.getCharacterSlots();
-
-                //list with slots
-                List<CharacterSlot> list = new ArrayList<>();
-
-                for (int i = 0; i < array.size(); i++) {
-                    JsonObject json1 = array.getJsonObject(i);
-
-                    //create slot and add to list
-                    CharacterSlot slot = CharacterSlot.createFromJSON(json1);
-                    list.add(slot);
-                }
-
-                //load slots
-                characterSlots.load(list);
+                this.handleCharacterSlotResponse(game, content);
             } else {
                 throw new IllegalArgumentException("extended type 0x" + ByteUtils.byteToHex(extendedType) + " isnt supported by AuthHandler.");
             }
         } else {
             throw new IllegalArgumentException("type 0x" + ByteUtils.byteToHex(type) + " isnt supported by AuthHandler.");
         }
+    }
+
+    protected void handleCharacterSlotResponse (Game game, Buffer content) {
+        LocalLogger.print("list of character slots received.");
+
+        //get length of string
+        int length = content.getInt(Protocol.MSG_BODY_OFFSET);
+
+        //get json string
+        String jsonStr = content.getString(Protocol.MSG_BODY_OFFSET + 4, Protocol.MSG_BODY_OFFSET + 4 + length);
+
+        //convert string to json object
+        JsonObject json = new JsonObject(jsonStr);
+        JsonArray array = json.getJsonArray("slots");
+
+        //get character slot manager
+        CharacterSlots characterSlots = game.getCharacterSlots();
+
+        //list with slots
+        List<CharacterSlot> list = new ArrayList<>();
+
+        for (int i = 0; i < array.size(); i++) {
+            JsonObject json1 = array.getJsonObject(i);
+
+            //create slot and add to list
+            CharacterSlot slot = CharacterSlot.createFromJSON(json1);
+            list.add(slot);
+        }
+
+        //load slots
+        characterSlots.load(list);
     }
 
 }

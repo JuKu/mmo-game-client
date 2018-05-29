@@ -6,7 +6,7 @@ public class CharacterSlot {
 
     public enum GENDER {
         MALE, FEMALE
-    };
+    }
 
     //unique id of character
     protected final int cid;
