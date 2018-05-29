@@ -105,6 +105,8 @@ public class AuthHandler implements NetHandler {
 
                 //load slots
                 characterSlots.load(list);
+            } else {
+                throw new IllegalArgumentException("extended type 0x" + ByteUtils.byteToHex(extendedType) + " isnt supported by AuthHandler.");
             }
         } else {
             throw new IllegalArgumentException("type 0x" + ByteUtils.byteToHex(type) + " isnt supported by AuthHandler.");

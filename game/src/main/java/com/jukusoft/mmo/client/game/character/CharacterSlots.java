@@ -21,7 +21,31 @@ public class CharacterSlots {
             throw new IllegalArgumentException("maximal " + Config.MAX_CHARACTER_SLOTS + " characters are allowed!");
         }
 
+        int i = 0;
+
+        for (CharacterSlot slot : list) {
+            this.myCharacterSlots[i] = slot;
+
+            i++;
+        }
+
         isLoaded.set(true);
+    }
+
+    public CharacterSlot[] getSlots () {
+        return this.myCharacterSlots;
+    }
+
+    public int countSlots () {
+        int count = 0;
+
+        for (int i = 0; i < this.myCharacterSlots.length; i++) {
+            if (this.myCharacterSlots[i] != null) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
     public CharacterSlot getSelectedCharacterSlot() {

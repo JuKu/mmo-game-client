@@ -2,11 +2,15 @@ package com.jukusoft.mmo.client.network.handler.impl;
 
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.character.CharacterSlots;
+import com.jukusoft.mmo.client.game.config.Config;
 import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.NClient;
 import com.jukusoft.mmo.client.network.Protocol;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -94,8 +98,8 @@ public class AuthHandlerTest {
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
     }
 
-    @Test
-    public void testHandleUnknownType () {
+    @Test (expected = IllegalArgumentException.class)
+    public void testHandleUnknownExtendedType () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
@@ -104,7 +108,7 @@ public class AuthHandlerTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void testHandleUnknownType1 () {
+    public void testHandleUnknownType () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
@@ -113,12 +117,92 @@ public class AuthHandlerTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void testHandleUnknownType2 () {
+    public void testHandleUnknownType1 () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
         AuthHandler handler = new AuthHandler(client);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testHandleReceiveTooMuchCharacterSlots () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
+
+        AuthHandler handler = new AuthHandler(client);
+        handler.handle(createCharacterSlotsResponse(Config.MAX_CHARACTER_SLOTS + 1), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, client, game);
+    }
+
+    @Test
+    public void testHandleReceiveOneCharacterSlot () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+        CharacterSlots slots = new CharacterSlots();
+        Mockito.when(game.getCharacterSlots()).thenReturn(slots);
+
+        assertEquals(false, slots.isLoaded());
+        assertEquals(0, slots.countSlots());
+
+        AuthHandler handler = new AuthHandler(client);
+        handler.handle(createCharacterSlotsResponse(1), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, client, game);
+
+        assertEquals(true, slots.isLoaded());
+        assertEquals(1, slots.countSlots());
+    }
+
+    @Test
+    public void testHandleReceiveCharacterSlots () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+        CharacterSlots slots = new CharacterSlots();
+        Mockito.when(game.getCharacterSlots()).thenReturn(slots);
+
+        assertEquals(false, slots.isLoaded());
+        assertEquals(0, slots.countSlots());
+
+        AuthHandler handler = new AuthHandler(client);
+        handler.handle(createCharacterSlotsResponse(Config.MAX_CHARACTER_SLOTS), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, client, game);
+
+        assertEquals(true, slots.isLoaded());
+        assertEquals(Config.MAX_CHARACTER_SLOTS, slots.countSlots());
+    }
+
+    protected Buffer createCharacterSlotsResponse (int length) {
+        Buffer content = Buffer.buffer();
+
+        //set header
+        content.setByte(0, Protocol.MSG_TYPE_AUTH);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE);
+        content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        JsonObject json = new JsonObject();
+        JsonArray array = new JsonArray();
+
+        for (int i = 0; i < length; i++) {
+            //create character
+
+            JsonObject json1 = new JsonObject();
+            json1.put("cid", 10 + i);
+            json1.put("name", "name");
+            json1.put("gender", "male");
+            json1.put("skinColor", "skinColor");
+            json1.put("hairColor", "hairColor");
+            json1.put("hairStyle", "hairStyle");
+            json1.put("beart", "beart");
+
+            array.add(json1);
+        }
+
+        json.put("slots", array);
+        String jsonStr = json.encode();
+
+        content.setInt(Protocol.MSG_BODY_OFFSET, jsonStr.length());
+        content.setString(Protocol.MSG_BODY_OFFSET + 4, jsonStr);
+
+        return content;
     }
 
     protected Buffer createLoginFailedResponse () {
