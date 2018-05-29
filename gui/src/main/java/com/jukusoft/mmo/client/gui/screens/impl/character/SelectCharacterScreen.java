@@ -269,9 +269,9 @@ public class SelectCharacterScreen implements IScreen {
                 init(game, game.getCharacterSlots().getSlots());
 
                 loaded = true;
+            } else {
+                return;
             }
-
-            return;
         }
     }
 
