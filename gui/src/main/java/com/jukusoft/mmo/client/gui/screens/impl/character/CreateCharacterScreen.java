@@ -208,6 +208,9 @@ public class CreateCharacterScreen implements IScreen {
                 createButton.setText("Loading...");
                 createButton.setDisabled(true);
 
+                //reset loaded character slot list, because a new character will be added
+                game.getCharacterSlots().reset();
+
                 //try to create character on server
                 CharacterSlot character = CharacterSlot.create(name, (maleCheckBox.isChecked() ? CharacterSlot.GENDER.MALE : CharacterSlot.GENDER.FEMALE), TEXT_DEFAULT, TEXT_DEFAULT, TEXT_DEFAULT, TEXT_DEFAULT);
                 game.getCharacterSlots().createCharacter(character, res -> {

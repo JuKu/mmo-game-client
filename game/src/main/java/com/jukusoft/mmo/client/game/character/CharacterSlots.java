@@ -80,6 +80,17 @@ public class CharacterSlots {
         this.createCharacterExecutor.handle(new CreateCharacterRequest(character, handler));
     }
 
+    /**
+    * reset loaded character slots
+    */
+    public void reset () {
+        for (int i = 0; i < this.myCharacterSlots.length; i++) {
+            this.myCharacterSlots[i] = null;
+        }
+
+        this.isLoaded.set(false);
+    }
+
     public static class CreateCharacterRequest {
         public final CharacterSlot character;
         public final Handler<CREATE_CHARACTER_RESULT> createCharacterHandler;
