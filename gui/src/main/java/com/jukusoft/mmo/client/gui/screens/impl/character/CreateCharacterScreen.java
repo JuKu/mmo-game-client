@@ -165,10 +165,10 @@ public class CreateCharacterScreen implements IScreen {
         stage.addActor(characterNameTextField);
 
         //gender radio buttons
-        this.maleCheckBox = new CheckBox("Male", this.skin);
+        this.maleCheckBox = new CheckBox("Male", this.skin2);
         this.maleCheckBox.setChecked(true);
         stage.addActor(maleCheckBox);
-        this.femaleCheckBox = new CheckBox("Female", this.skin);
+        this.femaleCheckBox = new CheckBox("Female", this.skin2);
         stage.addActor(femaleCheckBox);
 
         this.genderButtonGroup = new ButtonGroup<>(maleCheckBox, femaleCheckBox);
