@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.game.character;
 
 import com.jukusoft.mmo.client.game.config.Config;
+import io.vertx.core.Handler;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -11,6 +12,10 @@ public class CharacterSlots {
     protected AtomicBoolean isLoaded = new AtomicBoolean(false);
 
     protected CharacterSlot selectedCharacterSlot = null;
+
+    public enum CREATE_CHARACTER_RESULT {
+        DUPLICATE_NAME, ERROR, SUCCESS
+    }
 
     public boolean isLoaded () {
         return isLoaded.get();
@@ -52,8 +57,16 @@ public class CharacterSlots {
         return this.selectedCharacterSlot;
     }
 
-    public void createCharacter (CharacterSlot character) {
-        //
+    public void createCharacter (CharacterSlot character, Handler<CREATE_CHARACTER_RESULT> handler) {
+        if (character == null) {
+            throw new NullPointerException("character cannot be null.");
+        }
+
+        if (character.getCID() != Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("character wasnt created from client.");
+        }
+
+        handler.handle(CREATE_CHARACTER_RESULT.DUPLICATE_NAME);
     }
 
 }
