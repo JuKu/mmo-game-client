@@ -228,7 +228,7 @@ public class SelectCharacterScreen implements IScreen {
         hintLabel.setX((width - hintLabel.getWidth()) / 2);
         hintLabel.setY((height - hintLabel.getHeight()) / 2 - 200);
 
-        float startY = (height - 100) / 2 + 200;
+        float startY = (height - 100) / 2f + 200f;
 
         for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
             if (this.slots[i] == null) {
@@ -245,7 +245,7 @@ public class SelectCharacterScreen implements IScreen {
      *
      * this method is called if character list response was received from proxy server
     */
-    protected void init (Game game, CharacterSlot[] slots) {
+    protected void init (CharacterSlot[] slots) {
         for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
             Drawable drawable = new TextureRegionDrawable(new TextureRegion(this.slotBG, this.slotBG.getWidth(), this.slotBG.getHeight()));
             Drawable drawable_hover = new TextureRegionDrawable(new TextureRegion(this.slotBG, this.slotBG.getWidth(), this.slotBG.getHeight()));
@@ -302,7 +302,7 @@ public class SelectCharacterScreen implements IScreen {
 
         if (!loaded) {
             if (game.getCharacterSlots().isLoaded()) {
-                init(game, game.getCharacterSlots().getSlots());
+                init(game.getCharacterSlots().getSlots());
 
                 loaded = true;
             } else {
