@@ -205,8 +205,6 @@ public class CreateCharacterScreen implements IScreen {
                 createButton.setText("Loading...");
                 createButton.setDisabled(true);
 
-                LocalLogger.print("try to create character...");
-
                 //try to create character on server
                 CharacterSlot character = CharacterSlot.create(name, (maleCheckBox.isChecked() ? CharacterSlot.GENDER.MALE : CharacterSlot.GENDER.FEMALE), "default", "default", "default", "default");
                 game.getCharacterSlots().createCharacter(character, res -> {
@@ -218,9 +216,17 @@ public class CreateCharacterScreen implements IScreen {
 
                         createButton.setText("Create");
                         createButton.setDisabled(false);
-                    } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.ERROR) {
+                    } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.SERVER_ERROR) {
                         //server error
                         hintLabel.setText(" Server Error!");
+                        hintLabel.setVisible(true);
+                        hintLabel.invalidate();
+
+                        createButton.setText("Create");
+                        createButton.setDisabled(false);
+                    } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.CLIENT_ERROR) {
+                        //server error
+                        hintLabel.setText(" Client Error!");
                         hintLabel.setVisible(true);
                         hintLabel.invalidate();
 
@@ -297,7 +303,7 @@ public class CreateCharacterScreen implements IScreen {
         femaleCheckBox.setX(checkBoxX + maleCheckBox.getWidth() + paddingBetweenCheckBoxes);
         femaleCheckBox.setY(startY - 50);
 
-        createButton.setWidth(200);
+        createButton.setWidth(400);
         createButton.setX((width - createButton.getWidth()) / 2);
         createButton.setY(startY - 100);
 

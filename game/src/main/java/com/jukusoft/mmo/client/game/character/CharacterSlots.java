@@ -17,7 +17,7 @@ public class CharacterSlots {
     protected Handler<CreateCharacterRequest> createCharacterExecutor = null;
 
     public enum CREATE_CHARACTER_RESULT {
-        DUPLICATE_NAME, ERROR, SUCCESS
+        DUPLICATE_NAME, SERVER_ERROR, CLIENT_ERROR, SUCCESS
     }
 
     public boolean isLoaded () {
@@ -83,11 +83,11 @@ public class CharacterSlots {
 
     public static class CreateCharacterRequest {
         public final CharacterSlot character;
-        public final Handler<CREATE_CHARACTER_RESULT> loginHandler;
+        public final Handler<CREATE_CHARACTER_RESULT> createCharacterHandler;
 
         public CreateCharacterRequest (CharacterSlot character, Handler<CREATE_CHARACTER_RESULT> loginHandler) {
             this.character = character;
-            this.loginHandler = loginHandler;
+            this.createCharacterHandler = loginHandler;
         }
     }
 

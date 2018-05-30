@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.network.utils;
 
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
+import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.network.Protocol;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
@@ -73,6 +74,22 @@ public class MessageUtils {
         content.setByte(1, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_REQUEST);
         content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
         content.setInt(4, 0);
+
+        return content;
+    }
+
+    public static Buffer createCharacterRequest (CharacterSlot character) {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Protocol.MSG_TYPE_AUTH);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_REQUEST);
+        content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        String jsonStr = character.toJson().encode();
+
+        content.setInt(Protocol.MSG_BODY_OFFSET, jsonStr.length());
+        content.setString(Protocol.MSG_BODY_OFFSET + 4, jsonStr);
 
         return content;
     }

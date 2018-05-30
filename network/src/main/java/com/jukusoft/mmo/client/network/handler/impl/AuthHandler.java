@@ -22,6 +22,7 @@ import java.util.List;
 public class AuthHandler implements NetHandler {
 
     protected Handler<LoginManager.LOGIN_RESPONSE> loginHandler = null;
+    protected Handler<CharacterSlots.CREATE_CHARACTER_RESULT> createCharacterHandler = null;
 
     public AuthHandler(NClient client, Game game) {
         //register login executor
@@ -51,6 +52,21 @@ public class AuthHandler implements NetHandler {
 
     protected void executeCreateCharacter (NClient client, CharacterSlots.CreateCharacterRequest req) {
         LocalLogger.print("try to create character");
+
+        //send create character message
+        try {
+            LocalLogger.print("send create character request...");
+
+            //send message
+            Buffer msg = MessageUtils.createCharacterRequest(req.character);
+            client.send(msg);
+        } catch (Exception e) {
+            //internal client error, e.q. with encryption
+            LocalLogger.printStacktrace(e);
+            req.createCharacterHandler.handle(CharacterSlots.CREATE_CHARACTER_RESULT.CLIENT_ERROR);
+        }
+
+        this.createCharacterHandler = req.createCharacterHandler;
     }
 
     @Override

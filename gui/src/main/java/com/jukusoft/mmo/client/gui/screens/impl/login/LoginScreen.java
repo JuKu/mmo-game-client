@@ -253,6 +253,7 @@ public class LoginScreen implements IScreen {
 
         //make the background fill the screen
         screenBG.setSize(width, height);
+        screenBG.invalidate();
 
         //place the logo in the middle of the screen and 100 px up
         logo.setX((width - logo.getWidth()) / 2);

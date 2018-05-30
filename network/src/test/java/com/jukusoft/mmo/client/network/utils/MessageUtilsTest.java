@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.network.utils;
 
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
+import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.network.Protocol;
 import io.vertx.core.buffer.Buffer;
 import org.junit.Test;
@@ -77,6 +78,17 @@ public class MessageUtilsTest {
         //check header
         assertEquals(Protocol.MSG_TYPE_AUTH, content.getByte(0));
         assertEquals(Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_REQUEST, content.getByte(1));
+        assertEquals(Protocol.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+    }
+
+    @Test
+    public void testCreateCharacterRequest () {
+        Buffer content = MessageUtils.createCharacterRequest(CharacterSlot.create("name", CharacterSlot.GENDER.MALE, "skinColor", "hairColor", "hairStyle", "beart"));
+
+        //check header
+        assertEquals(Protocol.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_REQUEST, content.getByte(1));
         assertEquals(Protocol.MSG_PROTOCOL_VERSION, content.getShort(2));
         assertEquals(0, content.getInt(4));
     }

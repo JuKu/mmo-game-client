@@ -78,6 +78,19 @@ public class CharacterSlot {
         return beart;
     }
 
+    public JsonObject toJson () {
+        JsonObject json = new JsonObject();
+        json.put("cid", this.cid);
+        json.put("name", this.name);
+        json.put("gender", this.gender.toString().toLowerCase());
+        json.put("skinColor", this.skinColor);
+        json.put("hairColor", this.hairColor);
+        json.put("hairStyle", this.hairStyle);
+        json.put("beart", this.beart);
+
+        return json;
+    }
+
     /**
     * factory method
     */
