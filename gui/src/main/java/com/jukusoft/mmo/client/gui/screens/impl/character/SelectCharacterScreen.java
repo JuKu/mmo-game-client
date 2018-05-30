@@ -23,6 +23,7 @@ import com.jukusoft.mmo.client.game.config.Config;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
+import com.jukusoft.mmo.client.gui.screens.Screens;
 import com.jukusoft.mmo.client.gui.utils.SkinFactory;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
@@ -267,7 +268,8 @@ public class SelectCharacterScreen implements IScreen {
                 this.slots[i].addListener(new ClickListener() {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        //TODO: go to create character screen
+                        //go to create character screen
+                        screenManager.leaveAllAndEnter(Screens.CREATE_CHARACTER);
                     }
                 });
             } else {
