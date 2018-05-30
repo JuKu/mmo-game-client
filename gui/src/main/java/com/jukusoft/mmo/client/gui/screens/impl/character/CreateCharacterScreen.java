@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jukusoft.mmo.client.engine.fps.FPSManager;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
@@ -51,6 +51,10 @@ public class CreateCharacterScreen implements IScreen {
 
     //skin paths
     String skinJsonFile = "";
+
+    //widgets
+    protected TextField characterNameTextField = null;
+    protected TextButton createButton = null;
 
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
@@ -150,6 +154,35 @@ public class CreateCharacterScreen implements IScreen {
         //hide hint label
         this.hintLabel.setVisible(false);
 
+        //text fields
+        this.characterNameTextField = new TextField("", this.skin2);
+        this.characterNameTextField.setFocusTraversal(true);
+        this.characterNameTextField.setMessageText("Character Name");
+        stage.addActor(characterNameTextField);
+
+        //submit button
+        this.createButton = new TextButton("Create", this.skin);
+        this.createButton.addListener(new ClickListener() {
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                LocalLogger.print("create character button clicked.");
+
+                //get values
+                String name = characterNameTextField.getText();
+
+                //check, if name is empty
+                if (name.isEmpty()) {
+                    characterNameTextField.getStyle().messageFontColor = Color.RED;
+                    characterNameTextField.invalidate();
+
+                    return;
+                }
+
+                LocalLogger.print("try to create character...");
+            }
+        });
+        stage.addActor(createButton);
+
         //set input processor
         Gdx.input.setInputProcessor(stage);
     }
@@ -197,6 +230,21 @@ public class CreateCharacterScreen implements IScreen {
 
         hintLabel.setX((width - hintLabel.getWidth()) / 2);
         hintLabel.setY((height - hintLabel.getHeight()) / 2 - 200);
+
+        float startY = (height - characterNameTextField.getHeight()) / 2;
+
+        characterNameTextField.setWidth(400);
+        characterNameTextField.setX((width - characterNameTextField.getWidth()) / 2);
+        characterNameTextField.setY(startY);
+
+        createButton.setWidth(200);
+        createButton.setX((width - createButton.getWidth()) / 2);
+        createButton.setY(startY - 50);
+
+        //invalidate widgets, because width and height was changed
+        characterNameTextField.invalidate();
+        hintLabel.invalidate();
+        createButton.invalidate();
     }
 
     @Override
