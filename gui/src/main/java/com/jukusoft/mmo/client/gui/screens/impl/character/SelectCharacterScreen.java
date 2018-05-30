@@ -74,7 +74,6 @@ public class SelectCharacterScreen implements IScreen {
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
         this.screenManager = screenManager;
 
-
         //read image paths from config
         Profile.Section section = null;
         Profile.Section skinSection = null;
