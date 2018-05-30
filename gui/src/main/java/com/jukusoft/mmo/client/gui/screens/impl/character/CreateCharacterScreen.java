@@ -63,6 +63,9 @@ public class CreateCharacterScreen implements IScreen {
     protected CheckBox femaleCheckBox = null;
     protected ButtonGroup<CheckBox> genderButtonGroup = null;
 
+    protected static final String TEXT_CREATE = "Create";
+    protected static final String TEXT_DEFAULT = "default";
+
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
         this.screenManager = screenManager;
@@ -183,7 +186,7 @@ public class CreateCharacterScreen implements IScreen {
         genderButtonGroup.setUncheckLast(true); //If true, when the maximum number of buttons are checked and an additional button is checked, the last button to be checked is unchecked so that the maximum is not exceeded.
 
         //submit button
-        this.createButton = new TextButton("Create", this.skin);
+        this.createButton = new TextButton(TEXT_CREATE, this.skin);
         this.createButton.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
@@ -206,7 +209,7 @@ public class CreateCharacterScreen implements IScreen {
                 createButton.setDisabled(true);
 
                 //try to create character on server
-                CharacterSlot character = CharacterSlot.create(name, (maleCheckBox.isChecked() ? CharacterSlot.GENDER.MALE : CharacterSlot.GENDER.FEMALE), "default", "default", "default", "default");
+                CharacterSlot character = CharacterSlot.create(name, (maleCheckBox.isChecked() ? CharacterSlot.GENDER.MALE : CharacterSlot.GENDER.FEMALE), TEXT_DEFAULT, TEXT_DEFAULT, TEXT_DEFAULT, TEXT_DEFAULT);
                 game.getCharacterSlots().createCharacter(character, res -> {
                     if (res == CharacterSlots.CREATE_CHARACTER_RESULT.DUPLICATE_NAME) {
                         //character name already exists on server
@@ -214,7 +217,7 @@ public class CreateCharacterScreen implements IScreen {
                         hintLabel.setVisible(true);
                         hintLabel.invalidate();
 
-                        createButton.setText("Create");
+                        createButton.setText(TEXT_CREATE);
                         createButton.setDisabled(false);
                     } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.SERVER_ERROR) {
                         //server error
@@ -222,7 +225,7 @@ public class CreateCharacterScreen implements IScreen {
                         hintLabel.setVisible(true);
                         hintLabel.invalidate();
 
-                        createButton.setText("Create");
+                        createButton.setText(TEXT_CREATE);
                         createButton.setDisabled(false);
                     } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.CLIENT_ERROR) {
                         //server error
@@ -230,7 +233,7 @@ public class CreateCharacterScreen implements IScreen {
                         hintLabel.setVisible(true);
                         hintLabel.invalidate();
 
-                        createButton.setText("Create");
+                        createButton.setText(TEXT_CREATE);
                         createButton.setDisabled(false);
                     } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.SUCCESS) {
                         //character was created, go back to character screen

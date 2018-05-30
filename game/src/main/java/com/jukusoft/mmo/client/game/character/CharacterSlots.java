@@ -1,7 +1,6 @@
 package com.jukusoft.mmo.client.game.character;
 
 import com.jukusoft.mmo.client.game.config.Config;
-import com.jukusoft.mmo.client.game.login.LoginManager;
 import io.vertx.core.Handler;
 
 import java.util.List;
