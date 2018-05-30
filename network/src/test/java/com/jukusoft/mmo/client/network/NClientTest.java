@@ -2,6 +2,7 @@ package com.jukusoft.mmo.client.network;
 
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
+import com.jukusoft.mmo.client.game.character.CharacterSlots;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.handler.NetHandler;
@@ -226,6 +227,7 @@ public class NClientTest {
     @Test
     public void testLogin () {
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
         NClient client = new NClient(game);
         client.start();
