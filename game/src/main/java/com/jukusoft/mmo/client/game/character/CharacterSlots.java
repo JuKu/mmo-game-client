@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.game.character;
 
 import com.jukusoft.mmo.client.game.config.Config;
+import com.jukusoft.mmo.client.game.login.LoginManager;
 import io.vertx.core.Handler;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public class CharacterSlots {
     protected AtomicBoolean isLoaded = new AtomicBoolean(false);
 
     protected CharacterSlot selectedCharacterSlot = null;
+
+    protected Handler<CreateCharacterRequest> createCharacterExecutor = null;
 
     public enum CREATE_CHARACTER_RESULT {
         DUPLICATE_NAME, ERROR, SUCCESS
@@ -57,7 +60,15 @@ public class CharacterSlots {
         return this.selectedCharacterSlot;
     }
 
+    public void setCreateCharacterExecutor (Handler<CreateCharacterRequest> handler) {
+        this.createCharacterExecutor = handler;
+    }
+
     public void createCharacter (CharacterSlot character, Handler<CREATE_CHARACTER_RESULT> handler) {
+        if (this.createCharacterExecutor == null) {
+            throw new IllegalStateException("create character executor wasnt set before.");
+        }
+
         if (character == null) {
             throw new NullPointerException("character cannot be null.");
         }
@@ -66,7 +77,18 @@ public class CharacterSlots {
             throw new IllegalArgumentException("character wasnt created from client.");
         }
 
-        handler.handle(CREATE_CHARACTER_RESULT.DUPLICATE_NAME);
+        //call network module to send create character request to proxy server
+        this.createCharacterExecutor.handle(new CreateCharacterRequest(character, handler));
+    }
+
+    public static class CreateCharacterRequest {
+        public final CharacterSlot character;
+        public final Handler<CREATE_CHARACTER_RESULT> loginHandler;
+
+        public CreateCharacterRequest (CharacterSlot character, Handler<CREATE_CHARACTER_RESULT> loginHandler) {
+            this.character = character;
+            this.loginHandler = loginHandler;
+        }
     }
 
 }

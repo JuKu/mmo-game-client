@@ -23,9 +23,12 @@ public class AuthHandler implements NetHandler {
 
     protected Handler<LoginManager.LOGIN_RESPONSE> loginHandler = null;
 
-    public AuthHandler(NClient client) {
+    public AuthHandler(NClient client, Game game) {
         //register login executor
         LoginManager.getInstance().setLoginExecutor((LoginManager.LoginRequest req) -> this.executeLogin(client, req));
+
+        //register create character executor
+        game.getCharacterSlots().setCreateCharacterExecutor(req -> this.executeCreateCharacter(client, req));
     }
 
     protected void executeLogin (NClient client, LoginManager.LoginRequest req) {
@@ -44,6 +47,10 @@ public class AuthHandler implements NetHandler {
         }
 
         this.loginHandler = req.loginHandler;
+    }
+
+    protected void executeCreateCharacter (NClient client, CharacterSlots.CreateCharacterRequest req) {
+        LocalLogger.print("try to create character");
     }
 
     @Override
