@@ -14,6 +14,7 @@ import com.jukusoft.mmo.client.engine.fps.FPSManager;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
+import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
@@ -55,6 +56,9 @@ public class CreateCharacterScreen implements IScreen {
     //widgets
     protected TextField characterNameTextField = null;
     protected TextButton createButton = null;
+    protected CheckBox maleCheckBox = null;
+    protected CheckBox femaleCheckBox = null;
+    protected ButtonGroup<CheckBox> genderButtonGroup = null;
 
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
@@ -160,6 +164,21 @@ public class CreateCharacterScreen implements IScreen {
         this.characterNameTextField.setMessageText("Character Name");
         stage.addActor(characterNameTextField);
 
+        //gender radio buttons
+        this.maleCheckBox = new CheckBox("Male", this.skin);
+        this.maleCheckBox.setChecked(true);
+        stage.addActor(maleCheckBox);
+        this.femaleCheckBox = new CheckBox("Female", this.skin);
+        stage.addActor(femaleCheckBox);
+
+        this.genderButtonGroup = new ButtonGroup<>(maleCheckBox, femaleCheckBox);
+
+        genderButtonGroup.setMaxCheckCount(1);
+        genderButtonGroup.setMinCheckCount(1);
+
+        //it may be useful to use this method:
+        genderButtonGroup.setUncheckLast(true); //If true, when the maximum number of buttons are checked and an additional button is checked, the last button to be checked is unchecked so that the maximum is not exceeded.
+
         //submit button
         this.createButton = new TextButton("Create", this.skin);
         this.createButton.addListener(new ClickListener() {
@@ -181,6 +200,8 @@ public class CreateCharacterScreen implements IScreen {
                 }
 
                 LocalLogger.print("try to create character...");
+
+                //CharacterSlot character = CharacterSlot.create()
             }
         });
         stage.addActor(createButton);
@@ -239,9 +260,17 @@ public class CreateCharacterScreen implements IScreen {
         characterNameTextField.setX((width - characterNameTextField.getWidth()) / 2);
         characterNameTextField.setY(startY);
 
+        float paddingBetweenCheckBoxes = 50;
+        float checkBoxX = (width - maleCheckBox.getWidth() - femaleCheckBox.getWidth() - paddingBetweenCheckBoxes) / 2;
+
+        maleCheckBox.setX(checkBoxX);
+        maleCheckBox.setY(startY - 50);
+        femaleCheckBox.setX(checkBoxX + maleCheckBox.getWidth() + paddingBetweenCheckBoxes);
+        femaleCheckBox.setY(startY - 50);
+
         createButton.setWidth(200);
         createButton.setX((width - createButton.getWidth()) / 2);
-        createButton.setY(startY - 50);
+        createButton.setY(startY - 100);
 
         //invalidate widgets, because width and height was changed
         characterNameTextField.invalidate();

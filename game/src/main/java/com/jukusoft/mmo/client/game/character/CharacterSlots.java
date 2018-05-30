@@ -52,4 +52,8 @@ public class CharacterSlots {
         return this.selectedCharacterSlot;
     }
 
+    public void createCharacter (CharacterSlot character) {
+        //
+    }
+
 }
