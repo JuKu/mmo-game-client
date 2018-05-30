@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jukusoft.mmo.client.engine.fps.FPSManager;
@@ -46,6 +48,7 @@ public class SelectCharacterScreen implements IScreen {
     protected String logoPath = "";
     protected String slotBGPath = "";
     protected String newSlotPath = "";
+    protected String newSlotHoverPath = "";
 
     //images
     protected Image screenBG = null;
@@ -62,6 +65,7 @@ public class SelectCharacterScreen implements IScreen {
 
     protected Texture slotBG = null;
     protected Texture newSlotBG = null;
+    protected Texture newSlotHoverBG = null;
 
     protected ImageButton[] slots = new ImageButton[Config.MAX_CHARACTER_SLOTS];
 
@@ -88,6 +92,7 @@ public class SelectCharacterScreen implements IScreen {
         this.logoPath = section.get("logo");
         this.slotBGPath = section.get("slotBackground");
         this.newSlotPath = section.get("newSlot");
+        this.newSlotHoverPath = section.get("newSlotHover");
         this.skinJsonFile = skinSection.get("json");
 
         //create UI stage
@@ -102,6 +107,8 @@ public class SelectCharacterScreen implements IScreen {
 
     @Override
     public void onResume(Game game) {
+        this.loaded = false;
+
         //create skin
         this.skin = SkinFactory.createSkin(this.skinJsonFile);
 
@@ -113,6 +120,7 @@ public class SelectCharacterScreen implements IScreen {
         assetManager.load(this.logoPath, Texture.class);
         assetManager.load(this.slotBGPath, Texture.class);
         assetManager.load(this.newSlotPath, Texture.class);
+        assetManager.load(this.newSlotHoverPath, Texture.class);
 
         assetManager.finishLoading();
 
@@ -124,6 +132,7 @@ public class SelectCharacterScreen implements IScreen {
 
         this.slotBG = assetManager.get(this.slotBGPath, Texture.class);
         this.newSlotBG = assetManager.get(this.newSlotPath, Texture.class);
+        this.newSlotHoverBG = assetManager.get(this.newSlotHoverPath, Texture.class);
 
         //add widgets to stage
         stage.addActor(screenBG);
@@ -186,6 +195,7 @@ public class SelectCharacterScreen implements IScreen {
         assetManager.unload(this.logoPath);
         assetManager.unload(this.slotBGPath);
         assetManager.unload(this.newSlotPath);
+        assetManager.unload(this.newSlotHoverPath);
 
         this.labelColor.dispose();
         this.labelColor = null;
@@ -237,13 +247,37 @@ public class SelectCharacterScreen implements IScreen {
     protected void init (Game game, CharacterSlot[] slots) {
         for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
             Drawable drawable = new TextureRegionDrawable(new TextureRegion(this.slotBG, this.slotBG.getWidth(), this.slotBG.getHeight()));
+            Drawable drawable_hover = new TextureRegionDrawable(new TextureRegion(this.slotBG, this.slotBG.getWidth(), this.slotBG.getHeight()));
 
             if (slots[i] == null) {
                 //slot is empty
                 drawable = new TextureRegionDrawable(new TextureRegion(this.newSlotBG, this.newSlotBG.getWidth(), this.newSlotBG.getHeight()));
+                drawable_hover = new TextureRegionDrawable(new TextureRegion(this.newSlotHoverBG, this.newSlotBG.getWidth(), this.newSlotBG.getHeight()));
             }
 
-            this.slots[i] = new ImageButton(drawable);
+            this.slots[i] = new ImageButton(drawable, drawable_hover, drawable_hover);
+            this.slots[i].getStyle().over = drawable_hover;
+            this.slots[i].getStyle().imageOver = drawable_hover;
+            this.slots[i].getStyle().checkedOver = drawable_hover;
+            this.slots[i].getStyle().imageCheckedOver = drawable_hover;
+
+            this.slots[i].setChecked(false);
+
+            if (slots[i] == null) {
+                this.slots[i].addListener(new ClickListener() {
+                    @Override
+                    public void clicked (InputEvent event, float x, float y) {
+                        //TODO: go to create character screen
+                    }
+                });
+            } else {
+                this.slots[i].addListener(new ClickListener() {
+                    @Override
+                    public void clicked (InputEvent event, float x, float y) {
+                        //TODO: join character
+                    }
+                });
+            }
 
             stage.addActor(this.slots[i]);
         }
