@@ -79,4 +79,30 @@ public class CharacterSlotTest {
         assertEquals("beart", slot.getBeart());
     }
 
+    @Test
+    public void testCreateMaleCharacter () {
+        CharacterSlot slot = CharacterSlot.create("name", CharacterSlot.GENDER.MALE, "skinColor", "hairColor", "hairStyle", "beart");
+
+        assertEquals(Integer.MAX_VALUE, slot.getCID());
+        assertEquals("name", slot.getName());
+        assertEquals(CharacterSlot.GENDER.MALE, slot.getGender());
+        assertEquals("skinColor", slot.getSkinColor());
+        assertEquals("hairColor", slot.getHairColor());
+        assertEquals("hairStyle", slot.getHairStyle());
+        assertEquals("beart", slot.getBeart());
+    }
+
+    @Test
+    public void testCreateFemaleCharacter () {
+        CharacterSlot slot = CharacterSlot.create("name", CharacterSlot.GENDER.FEMALE, "skinColor", "hairColor", "hairStyle", "beart");
+
+        assertEquals(Integer.MAX_VALUE, slot.getCID());
+        assertEquals("name", slot.getName());
+        assertEquals(CharacterSlot.GENDER.FEMALE, slot.getGender());
+        assertEquals("skinColor", slot.getSkinColor());
+        assertEquals("hairColor", slot.getHairColor());
+        assertEquals("hairStyle", slot.getHairStyle());
+        assertEquals("beart", slot.getBeart());
+    }
+
 }
