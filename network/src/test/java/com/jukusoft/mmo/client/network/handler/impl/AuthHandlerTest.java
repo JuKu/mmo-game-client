@@ -26,6 +26,7 @@ public class AuthHandlerTest {
     @Test
     public void testConstructor () {
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
         NClient client = Mockito.mock(NClient.class);
         new AuthHandler(client, game);
     }
@@ -33,6 +34,7 @@ public class AuthHandlerTest {
     @Test
     public void testConstructor1 () {
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
         NClient client = new NClient(Mockito.mock(WritableGame.class)) {
 
             @Override
@@ -49,6 +51,7 @@ public class AuthHandlerTest {
     @Test
     public void testExecuteLogin () throws NoSuchAlgorithmException {
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
         NClient client = new NClient(Mockito.mock(WritableGame.class)) {
 
             @Override
@@ -66,6 +69,7 @@ public class AuthHandlerTest {
     @Test
     public void testExecuteLogin1 () throws NoSuchAlgorithmException {
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
         NClient client = Mockito.mock(NClient.class);
 
         EncryptionUtils.init(EncryptionUtils.generateKeyPair().getPublic());
@@ -78,6 +82,7 @@ public class AuthHandlerTest {
     public void testHandleLoginFailedResponse () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
         AuthHandler handler = new AuthHandler(client, game);
         handler.loginHandler = Mockito.mock(Handler.class);
@@ -88,6 +93,7 @@ public class AuthHandlerTest {
     public void testHandleLoginSuccessResponse () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
         AuthHandler handler = new AuthHandler(client, game);
         handler.loginHandler = Mockito.mock(Handler.class);
@@ -100,6 +106,7 @@ public class AuthHandlerTest {
     public void testHandleLoginSuccessResponseWithoutRequest () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
         AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
@@ -109,6 +116,7 @@ public class AuthHandlerTest {
     public void testHandleUnknownExtendedType () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
         AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
@@ -118,6 +126,7 @@ public class AuthHandlerTest {
     public void testHandleUnknownType () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
         AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
@@ -127,6 +136,7 @@ public class AuthHandlerTest {
     public void testHandleUnknownType1 () {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
         AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
