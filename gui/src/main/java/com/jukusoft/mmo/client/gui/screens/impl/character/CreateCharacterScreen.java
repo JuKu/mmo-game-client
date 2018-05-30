@@ -189,9 +189,6 @@ public class CreateCharacterScreen implements IScreen {
             public void clicked (InputEvent event, float x, float y) {
                 LocalLogger.print("create character button clicked.");
 
-                createButton.setText("Loading...");
-                createButton.setDisabled(true);
-
                 //get values
                 String name = characterNameTextField.getText();
 
@@ -205,13 +202,17 @@ public class CreateCharacterScreen implements IScreen {
                     return;
                 }
 
+                createButton.setText("Loading...");
+                createButton.setDisabled(true);
+
                 LocalLogger.print("try to create character...");
 
+                //try to create character on server
                 CharacterSlot character = CharacterSlot.create(name, (maleCheckBox.isChecked() ? CharacterSlot.GENDER.MALE : CharacterSlot.GENDER.FEMALE), "default", "default", "default", "default");
                 game.getCharacterSlots().createCharacter(character, res -> {
                     if (res == CharacterSlots.CREATE_CHARACTER_RESULT.DUPLICATE_NAME) {
                         //character name already exists on server
-                        hintLabel.setText("Error! Character name already exists!");
+                        hintLabel.setText(" Error! Character name already exists!");
                         hintLabel.setVisible(true);
                         hintLabel.invalidate();
 
@@ -219,7 +220,7 @@ public class CreateCharacterScreen implements IScreen {
                         createButton.setDisabled(false);
                     } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.ERROR) {
                         //server error
-                        hintLabel.setText("Server Error!");
+                        hintLabel.setText(" Server Error!");
                         hintLabel.setVisible(true);
                         hintLabel.invalidate();
 
