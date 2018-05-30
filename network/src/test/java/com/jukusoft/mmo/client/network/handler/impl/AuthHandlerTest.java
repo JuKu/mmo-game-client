@@ -25,12 +25,14 @@ public class AuthHandlerTest {
 
     @Test
     public void testConstructor () {
+        WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = Mockito.mock(NClient.class);
-        new AuthHandler(client);
+        new AuthHandler(client, game);
     }
 
     @Test
     public void testConstructor1 () {
+        WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(Mockito.mock(WritableGame.class)) {
 
             @Override
@@ -38,7 +40,7 @@ public class AuthHandlerTest {
                 throw new RuntimeException("test exception");
             }
         };
-        new AuthHandler(client);
+        new AuthHandler(client, game);
 
         //try to login
         LoginManager.getInstance().login("user", "password", Mockito.mock(Handler.class));
@@ -46,6 +48,7 @@ public class AuthHandlerTest {
 
     @Test
     public void testExecuteLogin () throws NoSuchAlgorithmException {
+        WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(Mockito.mock(WritableGame.class)) {
 
             @Override
@@ -56,17 +59,18 @@ public class AuthHandlerTest {
 
         EncryptionUtils.init(EncryptionUtils.generateKeyPair().getPublic());
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.executeLogin(client, new LoginManager.LoginRequest("user", "password", Mockito.mock(Handler.class)));
     }
 
     @Test
     public void testExecuteLogin1 () throws NoSuchAlgorithmException {
+        WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = Mockito.mock(NClient.class);
 
         EncryptionUtils.init(EncryptionUtils.generateKeyPair().getPublic());
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.executeLogin(client, new LoginManager.LoginRequest("user", "password", Mockito.mock(Handler.class)));
     }
 
@@ -75,7 +79,7 @@ public class AuthHandlerTest {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.loginHandler = Mockito.mock(Handler.class);
         handler.handle(createLoginFailedResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
     }
@@ -85,7 +89,7 @@ public class AuthHandlerTest {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.loginHandler = Mockito.mock(Handler.class);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
 
@@ -97,7 +101,7 @@ public class AuthHandlerTest {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
     }
 
@@ -106,7 +110,7 @@ public class AuthHandlerTest {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
     }
 
@@ -115,7 +119,7 @@ public class AuthHandlerTest {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, client, game);
     }
 
@@ -124,7 +128,7 @@ public class AuthHandlerTest {
         NClient client = Mockito.mock(NClient.class);
         WritableGame game = Mockito.mock(WritableGame.class);
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createLoginSuccessResponse(), Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, client, game);
     }
 
@@ -134,7 +138,7 @@ public class AuthHandlerTest {
         WritableGame game = Mockito.mock(WritableGame.class);
         Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createCharacterSlotsResponse(Config.MAX_CHARACTER_SLOTS + 1), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, client, game);
     }
 
@@ -148,7 +152,7 @@ public class AuthHandlerTest {
         assertEquals(false, slots.isLoaded());
         assertEquals(0, slots.countSlots());
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createCharacterSlotsResponse(1), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, client, game);
 
         assertEquals(true, slots.isLoaded());
@@ -172,7 +176,7 @@ public class AuthHandlerTest {
         assertEquals(false, slots.isLoaded());
         assertEquals(0, slots.countSlots());
 
-        AuthHandler handler = new AuthHandler(client);
+        AuthHandler handler = new AuthHandler(client, game);
         handler.handle(createCharacterSlotsResponse(Config.MAX_CHARACTER_SLOTS), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, client, game);
 
         assertEquals(true, slots.isLoaded());

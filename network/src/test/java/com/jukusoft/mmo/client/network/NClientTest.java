@@ -231,7 +231,7 @@ public class NClientTest {
         client.start();
         ServerManager.getInstance().setSelectServer(new ServerManager.Server("127.0.0.1", 10, "test", "test", true));
 
-        client.addHandler(Protocol.MSG_TYPE_AUTH, new AuthHandler(client));
+        client.addHandler(Protocol.MSG_TYPE_AUTH, new AuthHandler(client, game));
         LoginManager.getInstance().login("user", "password", Mockito.mock(Handler.class));
 
         client.stop();

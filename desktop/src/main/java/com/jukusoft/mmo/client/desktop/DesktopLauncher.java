@@ -87,7 +87,7 @@ public class DesktopLauncher {
         nClient.start();
 
         //add handlers
-        nClient.addHandler(Protocol.MSG_TYPE_AUTH, new AuthHandler(nClient));
+        nClient.addHandler(Protocol.MSG_TYPE_AUTH, new AuthHandler(nClient, game));
 
         Utils.printSection("Window");
 
