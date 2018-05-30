@@ -175,6 +175,8 @@ public class CreateCharacterScreen implements IScreen {
                     characterNameTextField.getStyle().messageFontColor = Color.RED;
                     characterNameTextField.invalidate();
 
+                    LocalLogger.warn("character name field is empty.");
+
                     return;
                 }
 
