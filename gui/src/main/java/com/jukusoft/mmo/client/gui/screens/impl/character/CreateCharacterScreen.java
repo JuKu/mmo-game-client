@@ -179,6 +179,7 @@ public class CreateCharacterScreen implements IScreen {
 
         this.genderButtonGroup = new ButtonGroup<>(maleCheckBox, femaleCheckBox);
 
+        //set toggle mode
         genderButtonGroup.setMaxCheckCount(1);
         genderButtonGroup.setMinCheckCount(1);
 
