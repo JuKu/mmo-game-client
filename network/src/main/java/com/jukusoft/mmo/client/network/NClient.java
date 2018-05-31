@@ -6,6 +6,7 @@ import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.network.handler.NetHandler;
+import com.jukusoft.mmo.client.network.stream.BufferStream;
 import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
@@ -14,6 +15,9 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
 import io.vertx.core.net.NetClientOptions;
 import io.vertx.core.net.NetSocket;
+import io.vertx.core.parsetools.RecordParser;
+import io.vertx.core.parsetools.impl.RecordParserImpl;
+import io.vertx.core.streams.ReadStream;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
@@ -34,9 +38,6 @@ public class NClient {
     protected NetClientOptions options = new NetClientOptions();
     protected NetClient client = null;
 
-    //socket
-    protected NetSocket socket = null;
-
     protected int rttInterval = 100;
     protected AtomicBoolean rttMsgReceived = new AtomicBoolean(true);
     protected AtomicLong lastRttTime = new AtomicLong(0);
@@ -45,6 +46,9 @@ public class NClient {
 
     //array with handlers (8 bit --> 256 possible types)
     protected NetHandler[] handlerArray = new NetHandler[256];
+
+    //buffer stream is responsible for reconstructing fragmented tcp messages to original sized packages
+    protected BufferStream bufferStream = null;
 
     /**
     * default constructor
@@ -120,10 +124,18 @@ public class NClient {
     protected void connect (ServerManager.ConnectRequest req, AsyncResult<NetSocket> res) {
         if (res.succeeded()) {
             //get socket
-            socket = res.result();
+            NetSocket socket = res.result();
+
+            this.bufferStream = new BufferStream(socket, socket);
+
+            //pause reading data
+            bufferStream.pause();
 
             //initialize socket
-            this.initSocket(socket);
+            this.initSocket(bufferStream);
+
+            //resume reading data
+            bufferStream.resume();
 
             LocalLogger.print("Connected to proxy server " + req.server.ip + ":" + req.server.port);
 
@@ -168,13 +180,19 @@ public class NClient {
         this.send(msg);
     }
 
-    protected void initSocket (NetSocket socket) {
+    protected void initSocket (BufferStream bufferStream) {
         //set handler
-        socket.handler(this::handleMessageWithDelay);
-        socket.closeHandler(this::onConnectionClosed);
+        bufferStream.handler(this::handleMessageWithDelay);
+        bufferStream.endHandler(this::onConnectionClosed);
     }
 
     protected void handleMessageWithDelay (Buffer content) {
+        if (content.length() < 4) {
+            throw new IllegalArgumentException("received buffer doesnt contains 4 bytes (message length).");
+        }
+
+        //https://github.com/vert-x3/vertx-examples/blob/master/core-examples/src/main/java/io/vertx/example/core/net/stream/BatchStream.java
+
         if (this.receiveDelay > 0) {
             //delay message and handle them
             vertx.setTimer(this.receiveDelay, timerID -> handleMessage(content));
@@ -285,17 +303,16 @@ public class NClient {
     }
 
     public void send (Buffer content) {
-        if (this.socket == null) {
+        if (this.bufferStream == null) {
             throw new IllegalStateException("no connection is established.");
         }
 
         //if configuration has send delay enable, delay sending message to simulate external server
         if (this.sendDelay > 0) {
-            vertx.setTimer(this.sendDelay, timerID -> this.socket.write(content));
-            return;
+            vertx.setTimer(this.sendDelay, timerID -> this.bufferStream.write(content));
+        } else {
+            this.bufferStream.write(content);
         }
-
-        this.socket.write(content);
     }
 
     /**
