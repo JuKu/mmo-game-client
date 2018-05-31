@@ -104,7 +104,7 @@ public class AuthHandler implements NetHandler {
                 this.handleCharacterSlotResponse(game, content);
             } else if (extendedType == Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE) {
                 //create character response
-                this.handleCreateCharacterResponse(game, content, client);
+                this.handleCreateCharacterResponse(content, client);
             } else {
                 throw new IllegalArgumentException("extended type 0x" + ByteUtils.byteToHex(extendedType) + " isnt supported by AuthHandler.");
             }
@@ -146,7 +146,7 @@ public class AuthHandler implements NetHandler {
         characterSlots.load(list);
     }
 
-    protected void handleCreateCharacterResponse (Game game, Buffer content, NClient client) {
+    protected void handleCreateCharacterResponse (Buffer content, NClient client) {
         if (this.createCharacterHandler == null) {
             throw new IllegalStateException("no create character handler is registered, so client hasnt send any create character request.");
         }
