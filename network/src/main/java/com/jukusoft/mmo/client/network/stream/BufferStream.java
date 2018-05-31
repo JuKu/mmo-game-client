@@ -51,9 +51,7 @@ public class BufferStream implements ReadStream<Buffer>, WriteStream<Buffer> {
     @Override
     public BufferStream write(Buffer content) {
         if (content == null) {
-            if (exceptionHandler != null) {
-                exceptionHandler.handle(new NullPointerException());
-            }
+            throw new NullPointerException("content cannot be null.");
         } else {
             Buffer protocol = Buffer.buffer(content.length() + 4);
             protocol.appendInt(0);
@@ -111,7 +109,7 @@ public class BufferStream implements ReadStream<Buffer>, WriteStream<Buffer> {
 
                     handler.handle(payload);
                 }
-            } catch (Throwable throwable) {
+            } catch (Exception throwable) {
                 if (exceptionHandler != null) {
                     exceptionHandler.handle(throwable);
                 }
