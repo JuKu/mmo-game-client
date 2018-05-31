@@ -151,6 +151,8 @@ public class AuthHandler implements NetHandler {
             throw new IllegalStateException("no create character handler is registered, so client hasnt send any create character request.");
         }
 
+        LocalLogger.print("received create character response.");
+
         //get result code
         int resultCode = content.getInt(Protocol.MSG_BODY_OFFSET);
 

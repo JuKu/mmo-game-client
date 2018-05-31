@@ -248,7 +248,7 @@ public class CreateCharacterScreen implements IScreen {
                         createButton.setDisabled(false);
                     } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.SUCCESS) {
                         //character was created, go back to character screen
-                        Platform.runOnUIThread(() -> screenManager.leaveAllAndEnter(Screens.SELECT_SERVER_SCREEN));
+                        Platform.runOnUIThread(() -> screenManager.leaveAllAndEnter(Screens.CHARACTER_SELECTION));
                     }
                 });
             }
