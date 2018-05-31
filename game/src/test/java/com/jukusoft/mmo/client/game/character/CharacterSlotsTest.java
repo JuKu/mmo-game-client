@@ -48,7 +48,8 @@ public class CharacterSlotsTest {
         CharacterSlots slots = new CharacterSlots();
         slots.setCreateCharacterExecutor(Mockito.mock(Handler.class));
 
-        CharacterSlot character = new CharacterSlot(0, "name", CharacterSlot.GENDER.MALE, "skinColor", "hairColor", "hairStyle", "beart");
+        CharacterSlot character = new CharacterSlot(1, "name", CharacterSlot.GENDER.MALE, "skinColor", "hairColor", "hairStyle", "beart");
+        assertEquals(1, character.getCID());
         slots.createCharacter(character, Mockito.mock(Handler.class));
     }
 
