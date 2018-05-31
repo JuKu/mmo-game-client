@@ -134,7 +134,7 @@ public class NClient {
             //resume reading data
             bufferStream.resume();
 
-            LocalLogger.print("Connected to proxy server " + req.server.ip + ":" + req.server.port);
+            LocalLogger.print("Connected to proxy server " + req.server.ip + ":" + req.server.port + " (own port: " + socket.localAddress().port() + ").");
 
             this.setRttTimer();
 
@@ -183,6 +183,15 @@ public class NClient {
         bufferStream.endHandler(this::onConnectionClosed);
     }
 
+    protected void handleTestMessageWithDelay (Buffer content) {
+        Buffer protocol = Buffer.buffer(content.length() + 4);
+        protocol.appendInt(0);
+        protocol.appendBuffer(content);
+        protocol.setInt(0, protocol.length() - 4);
+
+        this.handleMessageWithDelay(content);
+    }
+
     protected void handleMessageWithDelay (Buffer content) {
         if (content.length() < 4) {
             throw new IllegalArgumentException("received buffer doesnt contains 4 bytes (message length).");
@@ -197,6 +206,15 @@ public class NClient {
             //handle message without delay
             handleMessage(content);
         }
+    }
+
+    protected void handleTestMessage (Buffer content) {
+        Buffer protocol = Buffer.buffer(content.length() + 4);
+        protocol.appendInt(0);
+        protocol.appendBuffer(content);
+        protocol.setInt(0, protocol.length() - 4);
+
+        this.handleMessage(content);
     }
 
     protected void handleMessage (Buffer content) {

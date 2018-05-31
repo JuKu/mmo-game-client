@@ -155,7 +155,7 @@ public class NClientTest {
 
             @Override
             public SocketAddress localAddress() {
-                return null;
+                return Mockito.mock(SocketAddress.class);
             }
 
             @Override
@@ -433,14 +433,14 @@ public class NClientTest {
     public void testHandleNullMessage () {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
-        client.handleMessage(null);
+        client.handleTestMessage(null);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testHandleEmptyMessage () {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
-        client.handleMessage(Buffer.buffer());
+        client.handleTestMessage(Buffer.buffer());
     }
 
     @Test
@@ -449,7 +449,7 @@ public class NClientTest {
         NClient client = new NClient(game);
 
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
     }
 
     @Test
@@ -460,7 +460,7 @@ public class NClientTest {
         client.sendDelay = 0;
 
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
-        client.handleMessageWithDelay(content);
+        client.handleTestMessageWithDelay(content);
     }
 
     @Test
@@ -472,7 +472,7 @@ public class NClientTest {
         client.start();
 
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_RTT, 0);
-        client.handleMessageWithDelay(content);
+        client.handleTestMessageWithDelay(content);
 
         client.stop();
     }
@@ -627,7 +627,7 @@ public class NClientTest {
         client.start();
 
         Buffer content = this.createPublicKeyResponse(EncryptionUtils.generateKeyPair().getPublic(), false);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
 
         client.stop();
     }
@@ -641,7 +641,7 @@ public class NClientTest {
         client.start();
 
         Buffer content = this.createPublicKeyResponse(EncryptionUtils.generateKeyPair().getPublic(), true);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
 
         client.stop();
     }
@@ -657,7 +657,7 @@ public class NClientTest {
         Buffer content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, 0);
         content.setInt(Protocol.MSG_BODY_OFFSET, 10);
         content.setBytes(Protocol.MSG_BODY_OFFSET + 4, new byte[10]);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
 
         client.stop();
     }
@@ -680,7 +680,7 @@ public class NClientTest {
         Buffer content = MessageUtils.createMsg((byte) 0xFF, Protocol.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, 0);
 
         //no exception should be thrown, only a log output should be written to console
-        client.handleMessage(content);
+        client.handleTestMessage(content);
 
         client.stop();
     }
@@ -710,22 +710,22 @@ public class NClientTest {
     }
 
     @Test
-    public void testHandleMessage () {
+    public void testhandleTestMessage () {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
 
         Buffer content = MessageUtils.createMsg((byte) 0xFF, (byte) 0xFF, 0);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
 
         content = MessageUtils.createMsg(Protocol.MSG_TYPE_PROXY, (byte) 0xFF, 0);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
 
         content = MessageUtils.createMsg((byte) 0xFF, (byte) Protocol.MSG_EXTENDED_TYPE_RTT, 0);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
     }
 
     @Test
-    public void testHandleMessage1 () {
+    public void testhandleTestMessage1 () {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
 
@@ -739,7 +739,7 @@ public class NClientTest {
         });
 
         Buffer content = MessageUtils.createMsg((byte) 0xFF, (byte) 0xFF, 0);
-        client.handleMessage(content);
+        client.handleTestMessage(content);
 
         //check, if handler was executed
         assertEquals(true, b);
