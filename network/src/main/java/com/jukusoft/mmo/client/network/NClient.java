@@ -188,10 +188,6 @@ public class NClient {
     }
 
     protected void handleMessageWithDelay (Buffer content) {
-        if (content.length() < 4) {
-            throw new IllegalArgumentException("received buffer doesnt contains 4 bytes (message length).");
-        }
-
         //https://github.com/vert-x3/vertx-examples/blob/master/core-examples/src/main/java/io/vertx/example/core/net/stream/BatchStream.java
 
         if (this.receiveDelay > 0) {
