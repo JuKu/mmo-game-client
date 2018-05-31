@@ -207,7 +207,10 @@ public class AuthHandlerTest {
         Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
         AuthHandler handler = new AuthHandler(client, game);
 
-        CharacterSlots.CreateCharacterRequest req = new CharacterSlots.CreateCharacterRequest(Mockito.mock(CharacterSlot.class), Mockito.mock(Handler.class));
+        CharacterSlot slot = Mockito.mock(CharacterSlot.class);
+        Mockito.when(slot.toJson()).thenReturn(new JsonObject());
+
+        CharacterSlots.CreateCharacterRequest req = new CharacterSlots.CreateCharacterRequest(slot, Mockito.mock(Handler.class));
         handler.executeCreateCharacter(client, req);
     }
 
