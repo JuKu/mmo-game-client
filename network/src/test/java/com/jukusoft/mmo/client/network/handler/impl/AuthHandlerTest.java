@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.network.handler.impl;
 
 import com.jukusoft.mmo.client.engine.utils.EncryptionUtils;
+import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.game.character.CharacterSlots;
@@ -197,6 +198,29 @@ public class AuthHandlerTest {
         for (int i = 0; i < Config.MAX_CHARACTER_SLOTS; i++) {
             assertNotNull(slotArray[i]);
         }
+    }
+
+    @Test
+    public void testExecuteCreateCharacter () {
+        NClient client = Mockito.mock(NClient.class);
+        Game game = Mockito.mock(Game.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
+        AuthHandler handler = new AuthHandler(client, game);
+
+        CharacterSlots.CreateCharacterRequest req = new CharacterSlots.CreateCharacterRequest(Mockito.mock(CharacterSlot.class), Mockito.mock(Handler.class));
+        handler.executeCreateCharacter(client, req);
+    }
+
+    @Test
+    public void testExecuteCreateCharacter1 () {
+        NClient client = Mockito.mock(NClient.class);
+        Mockito.doThrow(Exception.class).when(client).send(Mockito.isA(Buffer.class));
+        Game game = Mockito.mock(Game.class);
+        Mockito.when(game.getCharacterSlots()).thenReturn(new CharacterSlots());
+        AuthHandler handler = new AuthHandler(client, game);
+
+        CharacterSlots.CreateCharacterRequest req = new CharacterSlots.CreateCharacterRequest(Mockito.mock(CharacterSlot.class), Mockito.mock(Handler.class));
+        handler.executeCreateCharacter(client, req);
     }
 
     protected Buffer createCharacterSlotsResponse (int length) {
