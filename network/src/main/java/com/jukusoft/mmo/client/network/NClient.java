@@ -15,9 +15,6 @@ import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
 import io.vertx.core.net.NetClientOptions;
 import io.vertx.core.net.NetSocket;
-import io.vertx.core.parsetools.RecordParser;
-import io.vertx.core.parsetools.impl.RecordParserImpl;
-import io.vertx.core.streams.ReadStream;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
