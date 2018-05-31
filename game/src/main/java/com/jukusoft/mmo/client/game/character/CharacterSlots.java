@@ -14,6 +14,7 @@ public class CharacterSlots {
     protected CharacterSlot selectedCharacterSlot = null;
 
     protected Handler<CreateCharacterRequest> createCharacterExecutor = null;
+    protected Handler<SelectCharacterRequest> selectCharacterExecutor = null;
 
     public enum CREATE_CHARACTER_RESULT {
         DUPLICATE_NAME, INVALIDE_NAME, SERVER_ERROR, CLIENT_ERROR, SUCCESS
@@ -59,6 +60,15 @@ public class CharacterSlots {
         return this.selectedCharacterSlot;
     }
 
+    public void selectCharacterSlot (CharacterSlot slot, Handler<Boolean> handler) {
+        if (this.selectCharacterExecutor == null) {
+            throw new IllegalStateException("select character executor wasnt set before.");
+        }
+
+        this.selectedCharacterSlot = slot;
+        this.selectCharacterExecutor.handle(new SelectCharacterRequest(slot, handler));
+    }
+
     public void setCreateCharacterExecutor (Handler<CreateCharacterRequest> handler) {
         this.createCharacterExecutor = handler;
     }
@@ -98,6 +108,16 @@ public class CharacterSlots {
         public CreateCharacterRequest (CharacterSlot character, Handler<CREATE_CHARACTER_RESULT> loginHandler) {
             this.character = character;
             this.createCharacterHandler = loginHandler;
+        }
+    }
+
+    public static class SelectCharacterRequest {
+        public final CharacterSlot character;
+        public final Handler<Boolean> selectCharacterHandler;
+
+        public SelectCharacterRequest (CharacterSlot character, Handler<Boolean> selectCharacterHandler) {
+            this.character = character;
+            this.selectCharacterHandler = selectCharacterHandler;
         }
     }
 

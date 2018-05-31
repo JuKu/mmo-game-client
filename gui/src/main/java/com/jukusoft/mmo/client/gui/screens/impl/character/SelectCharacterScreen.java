@@ -69,8 +69,11 @@ public class SelectCharacterScreen implements IScreen {
 
     protected Button[] slots = new Button[Config.MAX_CHARACTER_SLOTS];
 
+    protected Game game = null;
+
     @Override
     public void onStart(Game game, ScreenManager<IScreen> screenManager) {
+        this.game = game;
         this.screenManager = screenManager;
 
         //read image paths from config
@@ -289,10 +292,19 @@ public class SelectCharacterScreen implements IScreen {
                     }
                 });
             } else {
+                final int slotID = i;
+
                 this.slots[i].addListener(new ClickListener() {
                     @Override
                     public void clicked (InputEvent event, float x, float y) {
-                        //TODO: join character
+                        //select character
+                        game.getCharacterSlots().selectCharacterSlot(slots[slotID], res -> {
+                            if (res) {
+                                //TODO: go to loading screen
+                            } else {
+                                LocalLogger.warn("Cannot select character slot " + slotID);
+                            }
+                        });
                     }
                 });
             }
