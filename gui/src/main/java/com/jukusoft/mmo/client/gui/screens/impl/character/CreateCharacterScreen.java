@@ -222,6 +222,14 @@ public class CreateCharacterScreen implements IScreen {
 
                         createButton.setText(TEXT_CREATE);
                         createButton.setDisabled(false);
+                    } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.INVALIDE_NAME) {
+                        //server error
+                        hintLabel.setText(" Invalide character name! Only A-Z, a-z and 0-9 is allowed.");
+                        hintLabel.setVisible(true);
+                        hintLabel.invalidate();
+
+                        createButton.setText(TEXT_CREATE);
+                        createButton.setDisabled(false);
                     } else if (res == CharacterSlots.CREATE_CHARACTER_RESULT.SERVER_ERROR) {
                         //server error
                         hintLabel.setText(" Server Error!");

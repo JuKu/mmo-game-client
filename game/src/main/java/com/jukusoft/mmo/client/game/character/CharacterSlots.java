@@ -16,7 +16,7 @@ public class CharacterSlots {
     protected Handler<CreateCharacterRequest> createCharacterExecutor = null;
 
     public enum CREATE_CHARACTER_RESULT {
-        DUPLICATE_NAME, SERVER_ERROR, CLIENT_ERROR, SUCCESS
+        DUPLICATE_NAME, INVALIDE_NAME, SERVER_ERROR, CLIENT_ERROR, SUCCESS
     }
 
     public boolean isLoaded () {

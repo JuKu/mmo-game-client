@@ -102,6 +102,9 @@ public class AuthHandler implements NetHandler {
                 this.loginHandler = null;
             } else if (extendedType == Protocol.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE) {
                 this.handleCharacterSlotResponse(game, content);
+            } else if (extendedType == Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE) {
+                //create character response
+                this.handleCreateCharacterResponse(game, content);
             } else {
                 throw new IllegalArgumentException("extended type 0x" + ByteUtils.byteToHex(extendedType) + " isnt supported by AuthHandler.");
             }
@@ -141,6 +144,44 @@ public class AuthHandler implements NetHandler {
 
         //load slots
         characterSlots.load(list);
+    }
+
+    protected void handleCreateCharacterResponse (Game game, Buffer content) {
+        if (this.createCharacterHandler == null) {
+            throw new IllegalStateException("no create character handler is registered, so client hasnt send any create character request.");
+        }
+
+        //get result code
+        int resultCode = content.getInt(Protocol.MSG_BODY_OFFSET);
+
+        switch (resultCode) {
+            case 1:
+                //success
+                this.createCharacterHandler.handle(CharacterSlots.CREATE_CHARACTER_RESULT.SUCCESS);
+
+                break;
+            case 2:
+                //name already exists
+                this.createCharacterHandler.handle(CharacterSlots.CREATE_CHARACTER_RESULT.DUPLICATE_NAME);
+
+                break;
+            case 3:
+                //invalide name
+                this.createCharacterHandler.handle(CharacterSlots.CREATE_CHARACTER_RESULT.INVALIDE_NAME);
+
+                break;
+            case 4:
+                //internal server error
+                this.createCharacterHandler.handle(CharacterSlots.CREATE_CHARACTER_RESULT.SERVER_ERROR);
+
+                break;
+            default:
+                //unknown error
+                this.createCharacterHandler.handle(CharacterSlots.CREATE_CHARACTER_RESULT.CLIENT_ERROR);
+
+                break;
+        }
+
     }
 
 }
