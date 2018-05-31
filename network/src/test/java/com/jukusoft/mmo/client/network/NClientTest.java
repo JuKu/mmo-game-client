@@ -7,6 +7,7 @@ import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.login.LoginManager;
 import com.jukusoft.mmo.client.network.handler.NetHandler;
 import com.jukusoft.mmo.client.network.handler.impl.AuthHandler;
+import com.jukusoft.mmo.client.network.stream.BufferStream;
 import com.jukusoft.mmo.client.network.utils.MessageUtils;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
@@ -256,7 +257,7 @@ public class NClientTest {
         NClient client = new NClient(game);
         client.rttMsgReceived.set(true);
 
-        client.socket = new NetSocket() {
+        NetSocket socket = new NetSocket() {
             @Override
             public NetSocket exceptionHandler(Handler<Throwable> handler) {
                 return null;
@@ -382,6 +383,7 @@ public class NClientTest {
                 return false;
             }
         };
+        client.bufferStream = new BufferStream(socket, socket);
 
         client.executeRTTCheck();
         assertEquals(false, client.rttMsgReceived.get());
@@ -392,7 +394,7 @@ public class NClientTest {
         WritableGame game = Mockito.mock(WritableGame.class);
         NClient client = new NClient(game);
         client.rttMsgReceived.set(true);
-        client.socket = null;
+        client.bufferStream = null;
 
         client.executeRTTCheck();
         assertEquals(false, client.rttMsgReceived.get());
@@ -482,7 +484,7 @@ public class NClientTest {
         client.receiveDelay = 50;
         client.sendDelay = 50;
         client.start();
-        client.socket = new NetSocket() {
+        NetSocket socket = new NetSocket() {
             @Override
             public NetSocket exceptionHandler(Handler<Throwable> handler) {
                 return null;
@@ -608,6 +610,7 @@ public class NClientTest {
                 return false;
             }
         };
+        client.bufferStream = new BufferStream(socket, socket);
 
         Buffer content = MessageUtils.createPublicKeyRequest();
         client.send(content);
