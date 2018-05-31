@@ -24,6 +24,8 @@ import static org.junit.Assert.assertNull;
 
 public class AuthHandlerTest {
 
+    protected boolean exected = false;
+
     @Test
     public void testConstructor () {
         WritableGame game = Mockito.mock(WritableGame.class);
@@ -200,6 +202,61 @@ public class AuthHandlerTest {
         }
     }
 
+    @Test (expected = IllegalStateException.class)
+    public void testHandleReceiveCreateCharacterResponseWithoutCreateHandler () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+        CharacterSlots slots = new CharacterSlots();
+        Mockito.when(game.getCharacterSlots()).thenReturn(slots);
+
+        assertEquals(false, slots.isLoaded());
+        assertEquals(0, slots.countSlots());
+
+        AuthHandler handler = new AuthHandler(client, game);
+        handler.handle(createCharacterResponse(1), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE, client, game);
+    }
+
+    @Test
+    public void testHandleReceiveCreateCharacterResponse () {
+        NClient client = Mockito.mock(NClient.class);
+        WritableGame game = Mockito.mock(WritableGame.class);
+        CharacterSlots slots = new CharacterSlots();
+        Mockito.when(game.getCharacterSlots()).thenReturn(slots);
+
+        assertEquals(false, slots.isLoaded());
+        assertEquals(0, slots.countSlots());
+
+        AuthHandler handler = new AuthHandler(client, game);
+        handler.createCharacterHandler = new Handler<CharacterSlots.CREATE_CHARACTER_RESULT>() {
+            @Override
+            public void handle(CharacterSlots.CREATE_CHARACTER_RESULT res) {
+                exected = true;
+            }
+        };
+
+        assertEquals(false, this.exected);
+
+        handler.handle(createCharacterResponse(1), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE, client, game);
+        assertEquals(true, this.exected);
+        this.exected = false;
+
+        handler.handle(createCharacterResponse(2), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE, client, game);
+        assertEquals(true, this.exected);
+        this.exected = false;
+
+        handler.handle(createCharacterResponse(3), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE, client, game);
+        assertEquals(true, this.exected);
+        this.exected = false;
+
+        handler.handle(createCharacterResponse(4), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE, client, game);
+        assertEquals(true, this.exected);
+        this.exected = false;
+
+        handler.handle(createCharacterResponse(5), Protocol.MSG_TYPE_AUTH, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE, client, game);
+        assertEquals(true, this.exected);
+        this.exected = false;
+    }
+
     @Test
     public void testExecuteCreateCharacter () {
         NClient client = Mockito.mock(NClient.class);
@@ -258,6 +315,20 @@ public class AuthHandlerTest {
 
         content.setInt(Protocol.MSG_BODY_OFFSET, jsonStr.length());
         content.setString(Protocol.MSG_BODY_OFFSET + 4, jsonStr);
+
+        return content;
+    }
+
+    protected Buffer createCharacterResponse (int resultCode) {
+        Buffer content = Buffer.buffer();
+
+        //set header
+        content.setByte(0, Protocol.MSG_TYPE_AUTH);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE);
+        content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        content.setInt(Protocol.MSG_BODY_OFFSET, resultCode);
 
         return content;
     }
