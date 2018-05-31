@@ -184,10 +184,10 @@ public class NClient {
     }
 
     protected void handleTestMessageWithDelay (Buffer content) {
-        Buffer protocol = Buffer.buffer(content.length() + 4);
+        /*Buffer protocol = Buffer.buffer(content.length() + 4);
         protocol.appendInt(0);
         protocol.appendBuffer(content);
-        protocol.setInt(0, protocol.length() - 4);
+        protocol.setInt(0, protocol.length() - 4);*/
 
         this.handleMessageWithDelay(content);
     }
@@ -209,10 +209,10 @@ public class NClient {
     }
 
     protected void handleTestMessage (Buffer content) {
-        Buffer protocol = Buffer.buffer(content.length() + 4);
+        /*Buffer protocol = Buffer.buffer(content.length() + 4);
         protocol.appendInt(0);
         protocol.appendBuffer(content);
-        protocol.setInt(0, protocol.length() - 4);
+        protocol.setInt(0, protocol.length() - 4);*/
 
         this.handleMessage(content);
     }
