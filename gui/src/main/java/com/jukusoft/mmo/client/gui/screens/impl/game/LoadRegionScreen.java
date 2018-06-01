@@ -72,7 +72,7 @@ public class LoadRegionScreen implements IScreen {
 
         // Grab the regions from the atlas and create some images
         logo = new Image(atlas.findRegion("logo_large"));
-        loadingFrame = new Image(atlas.findRegion("loading-frame"));
+        loadingFrame = new Image(atlas.findRegion("loading-frame2"));
         loadingBarHidden = new Image(atlas.findRegion("loading-bar-hidden"));
         screenBg = new Image(this.bgTexture);
         loadingBg = new Image(atlas.findRegion("loading-frame-bg"));
@@ -115,7 +115,7 @@ public class LoadRegionScreen implements IScreen {
         logo.setX((width - logo.getWidth()) / 2);
         logo.setY((height - logo.getHeight()) / 2 + yOffset);
 
-        float loadingBarOffsetY = -100;
+        float loadingBarOffsetY = -200;
 
         // Place the loading frame in the middle of the screen
         loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
