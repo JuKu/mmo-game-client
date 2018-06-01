@@ -119,6 +119,9 @@ public class AuthHandler implements NetHandler {
             } else if (extendedType == Protocol.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE) {
                 //create character response
                 this.handleCreateCharacterResponse(content, client);
+            } else if (extendedType == Protocol.MSG_EXTENDED_TYPE_SELECT_CHARACTER_RESPONSE) {
+                //select character response
+                this.handleSelectCharacterResponse(content, client);
             } else {
                 throw new IllegalArgumentException("extended type 0x" + ByteUtils.byteToHex(extendedType) + " isnt supported by AuthHandler.");
             }
@@ -203,6 +206,21 @@ public class AuthHandler implements NetHandler {
                 break;
         }
 
+    }
+
+    protected void handleSelectCharacterResponse (Buffer content, NClient client) {
+        if (this.selectCharacterHandler == null) {
+            throw new IllegalStateException("no select character handler is registered, so client hasnt send any select character request.");
+        }
+
+        LocalLogger.print("received select character response.");
+
+        //get result code
+        int resultCode = content.getInt(Protocol.MSG_BODY_OFFSET);
+        boolean success = (resultCode == 1 ? true : false);
+
+        //call handler
+        this.selectCharacterHandler.handle(success);
     }
 
 }

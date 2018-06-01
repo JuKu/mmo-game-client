@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jukusoft.mmo.client.engine.fps.FPSManager;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
+import com.jukusoft.mmo.client.engine.utils.Platform;
 import com.jukusoft.mmo.client.engine.version.Version;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.game.character.CharacterSlot;
@@ -300,7 +301,10 @@ public class SelectCharacterScreen implements IScreen {
                         //select character
                         game.getCharacterSlots().selectCharacterSlot(slots[slotID], res -> {
                             if (res) {
-                                //TODO: go to loading screen
+                                LocalLogger.print("character selected successfully.");
+
+                                //go to loading region screen
+                                Platform.runOnUIThread(() -> screenManager.leaveAllAndEnter(Screens.LOAD_REGION));
                             } else {
                                 LocalLogger.warn("Cannot select character slot " + slotID);
                             }
