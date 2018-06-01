@@ -23,6 +23,7 @@ public class AuthHandler implements NetHandler {
 
     protected Handler<LoginManager.LOGIN_RESPONSE> loginHandler = null;
     protected Handler<CharacterSlots.CREATE_CHARACTER_RESULT> createCharacterHandler = null;
+    protected Handler<Boolean> selectCharacterHandler = null;
 
     public AuthHandler(NClient client, Game game) {
         //register login executor
@@ -30,6 +31,9 @@ public class AuthHandler implements NetHandler {
 
         //register create character executor
         game.getCharacterSlots().setCreateCharacterExecutor(req -> this.executeCreateCharacter(client, req));
+
+        //register select character executor
+        game.getCharacterSlots().setSelectCharacterExecutor(req -> this.executeSelectCharacter(client, req));
     }
 
     protected void executeLogin (NClient client, LoginManager.LoginRequest req) {
@@ -67,6 +71,16 @@ public class AuthHandler implements NetHandler {
         }
 
         this.createCharacterHandler = req.createCharacterHandler;
+    }
+
+    protected void executeSelectCharacter (NClient client, CharacterSlots.SelectCharacterRequest req) {
+        this.selectCharacterHandler = req.selectCharacterHandler;
+
+        LocalLogger.print("send select character request...");
+
+        //send select character request
+        Buffer msg = MessageUtils.createSelectCharacterRequest(req.character.getCID());
+        client.send(msg);
     }
 
     @Override

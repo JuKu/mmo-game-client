@@ -94,6 +94,27 @@ public class MessageUtils {
         return content;
     }
 
+    public static Buffer createSelectCharacterRequest (int cid) {
+        if (cid <= 0) {
+            throw new IllegalArgumentException("cid has to be greater than 0.");
+        }
+
+        if (cid == Integer.MAX_VALUE) {
+            throw new IllegalArgumentException("cid has to be != Integer.MAX_INTEGER.");
+        }
+
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Protocol.MSG_TYPE_AUTH);
+        content.setByte(1, Protocol.MSG_EXTENDED_TYPE_SELECT_CHARACTER_REQUEST);
+        content.setShort(2, Protocol.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        content.setInt(Protocol.MSG_BODY_OFFSET, cid);
+
+        return content;
+    }
+
     public static Buffer createErrorMsg (byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 

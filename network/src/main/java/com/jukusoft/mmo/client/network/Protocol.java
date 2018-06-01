@@ -30,6 +30,8 @@ public class Protocol {
     public static final byte MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE = 0x04;
     public static final byte MSG_EXTENDED_TYPE_CREATE_CHARACTER_REQUEST = 0x05;
     public static final byte MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE = 0x06;
+    public static final byte MSG_EXTENDED_TYPE_SELECT_CHARACTER_REQUEST = 0x07;
+    public static final byte MSG_EXTENDED_TYPE_SELECT_CHARACTER_RESPONSE = 0x08;
 
     //type 0x0B error
     public static final byte MSG_TYPE_ERROR = 0x0B;

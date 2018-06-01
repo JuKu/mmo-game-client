@@ -69,6 +69,10 @@ public class CharacterSlots {
         this.selectCharacterExecutor.handle(new SelectCharacterRequest(slot, handler));
     }
 
+    public void setSelectCharacterExecutor (Handler<SelectCharacterRequest> handler) {
+        this.selectCharacterExecutor = handler;
+    }
+
     public void setCreateCharacterExecutor (Handler<CreateCharacterRequest> handler) {
         this.createCharacterExecutor = handler;
     }

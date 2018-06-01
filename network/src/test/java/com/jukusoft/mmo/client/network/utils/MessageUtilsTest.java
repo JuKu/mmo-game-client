@@ -93,6 +93,30 @@ public class MessageUtilsTest {
         assertEquals(0, content.getInt(4));
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void testCreateSelectCharacterNullCIDRequest () {
+        Buffer content = MessageUtils.createSelectCharacterRequest(0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testCreateSelectIntegerMaxValueCharacterRequest () {
+        Buffer content = MessageUtils.createSelectCharacterRequest(Integer.MAX_VALUE);
+    }
+
+    @Test
+    public void testCreateSelectCharacterRequest () {
+        Buffer content = MessageUtils.createSelectCharacterRequest(10);
+
+        //check header
+        assertEquals(Protocol.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Protocol.MSG_EXTENDED_TYPE_SELECT_CHARACTER_REQUEST, content.getByte(1));
+        assertEquals(Protocol.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //check cid
+        assertEquals(10, content.getInt(Protocol.MSG_BODY_OFFSET));
+    }
+
     @Test
     public void testCreateErrorMsg () {
         Buffer content = MessageUtils.createErrorMsg(Protocol.MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR, 200);
