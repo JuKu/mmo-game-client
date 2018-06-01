@@ -115,7 +115,7 @@ public class LoadRegionScreen implements IScreen {
         logo.setX((width - logo.getWidth()) / 2);
         logo.setY((height - logo.getHeight()) / 2 + yOffset);
 
-        float loadingBarOffsetY = -150/*-200*/;
+        float loadingBarOffsetY = -120/*-200*/;
 
         // Place the loading frame in the middle of the screen
         loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
