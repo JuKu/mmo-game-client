@@ -75,7 +75,7 @@ public class LoadRegionScreen implements IScreen {
         loadingFrame = new Image(atlas.findRegion("loading-frame2"));
         loadingBarHidden = new Image(atlas.findRegion("loading-bar-hidden"));
         screenBg = new Image(this.bgTexture);
-        loadingBg = new Image(atlas.findRegion("loading-frame-bg"));
+        loadingBg = new Image(atlas.findRegion("loading-frame-bg2"));
 
         // Add the loading bar animation
         Animation anim = new Animation(0.05f, atlas.findRegions("loading-bar-anim") );
