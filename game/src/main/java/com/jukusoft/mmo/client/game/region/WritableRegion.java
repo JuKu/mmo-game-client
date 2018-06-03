@@ -6,6 +6,11 @@ public class WritableRegion extends Region {
         this.title = title;
     }
 
+    public void setID (int regionID, int instanceID) {
+        this.regionID = regionID;
+        this.instanceID = instanceID;
+    }
+
     /**
     * player joins new region
     */

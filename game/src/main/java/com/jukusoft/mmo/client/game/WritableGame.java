@@ -24,4 +24,9 @@ public interface WritableGame extends Game {
     */
     public void setGameMode (GameMode mode);
 
+    /**
+    * show load region screen
+    */
+    public void enterRegionLoadingcreen ();
+
 }

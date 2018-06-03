@@ -54,6 +54,10 @@ public class GameGUI implements ApplicationListener {
 
         //activate screen
         this.screenManager.leaveAllAndEnter(Screens.LOADING_SCREEN);
+
+        game.setEnterRegionLoadScreenHandler(v -> {
+            Platform.runOnUIThread(() -> this.screenManager.leaveAllAndEnter(Screens.LOAD_REGION));
+        });
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.jukusoft.mmo.client.game.character.CharacterSlots;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.mode.GameMode;
 import com.jukusoft.mmo.client.game.region.Region;
+import io.vertx.core.Handler;
 
 public interface Game {
 
@@ -36,5 +37,7 @@ public interface Game {
     public CharacterSlots getCharacterSlots();
 
     public GameMode getGameMode ();
+
+    public void setEnterRegionLoadScreenHandler (Handler<Void> handler);
 
 }

@@ -7,6 +7,7 @@ import com.jukusoft.mmo.client.game.connection.ServerManager;
 import com.jukusoft.mmo.client.game.mode.GameMode;
 import com.jukusoft.mmo.client.game.region.Region;
 import com.jukusoft.mmo.client.game.region.WritableRegion;
+import io.vertx.core.Handler;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,6 +17,7 @@ public class GameImpl implements WritableGame {
     protected AtomicInteger ping = new AtomicInteger(0);
     protected CharacterSlots characterSlots = new CharacterSlots();
     protected GameMode gameMode = GameMode.PLAY_MODE;
+    protected Handler<Void> enterLoadRegionScreenHandler = null;
 
     public GameImpl () {
         //
@@ -67,8 +69,22 @@ public class GameImpl implements WritableGame {
     }
 
     @Override
+    public void setEnterRegionLoadScreenHandler(Handler<Void> handler) {
+        this.enterLoadRegionScreenHandler = handler;
+    }
+
+    @Override
     public void setGameMode(GameMode mode) {
         this.gameMode = mode;
+    }
+
+    @Override
+    public void enterRegionLoadingcreen() {
+        if (this.enterLoadRegionScreenHandler == null) {
+            throw new IllegalStateException("enter load region screen handler wasnt set before from GameGUI.");
+        }
+
+        this.enterLoadRegionScreenHandler.handle(null);
     }
 
 }

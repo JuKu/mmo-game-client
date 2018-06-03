@@ -6,3 +6,18 @@ https://opengameart.org/content/rpg-gui-construction-kit-v10 (UI Widgets)
 https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480 (Textures)
 https://opengameart.org/content/whispers-of-avalon-grassland-tileset (nice Tileset)
 https://opengameart.org/content/light-wood-1024x1024 (wood texture)
+
+Effects:
+https://opengameart.org/content/hit-animation-2-frame-by-frame (hit animation)
+https://opengameart.org/content/simple-explosion-bleeds-game-art (explosion)
+https://opengameart.org/content/water-splash (Water Splash, e.q. if a fish is in water)
+
+Orthogonal Tilesets:
+https://opengameart.org/content/lpc-animated-water-and-fire (water and fire)
+
+Isometric:
+opengameart.org/content/isometric-road-tiles-nova (water)
+https://opengameart.org/content/isometric-road-tiles-water-expansion (water)
+
+General Graphics:
+https://opengameart.org/content/rpg-city-art (city art)

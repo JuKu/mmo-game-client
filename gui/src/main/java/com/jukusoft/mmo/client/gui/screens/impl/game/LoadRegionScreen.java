@@ -131,7 +131,7 @@ public class LoadRegionScreen implements IScreen {
         // Make the background fill the screen
         screenBg.setSize(width, height);
 
-        float yOffset = 100;
+        float yOffset = 90;
 
         // Place the logo in the middle of the screen and 100 px up
         logo.setX((width - logo.getWidth()) / 2);
@@ -160,7 +160,7 @@ public class LoadRegionScreen implements IScreen {
         loadingBg.setY(loadingBarHidden.getY() + 3);
 
         label.setX((width - label.getWidth()) / 2);
-        label.setY((height - label.getHeight()) / 2 + yOffset + 200);
+        label.setY((height - label.getHeight()) / 2 + yOffset + 220);
     }
 
     @Override
