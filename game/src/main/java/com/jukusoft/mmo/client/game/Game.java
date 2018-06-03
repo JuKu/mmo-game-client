@@ -3,6 +3,7 @@ package com.jukusoft.mmo.client.game;
 import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.game.character.CharacterSlots;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
+import com.jukusoft.mmo.client.game.mode.GameMode;
 import com.jukusoft.mmo.client.game.region.Region;
 
 public interface Game {
@@ -33,5 +34,7 @@ public interface Game {
     * list all available characters of player
     */
     public CharacterSlots getCharacterSlots();
+
+    public GameMode getGameMode ();
 
 }

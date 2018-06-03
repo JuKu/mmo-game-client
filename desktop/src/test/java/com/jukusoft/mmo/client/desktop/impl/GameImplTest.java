@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.client.desktop.impl;
 
 import com.jukusoft.mmo.client.game.connection.ServerManager;
+import com.jukusoft.mmo.client.game.mode.GameMode;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -26,6 +27,13 @@ public class GameImplTest {
         //set ping
         game.setPing(50);
         assertEquals(50, game.getPing());
+
+        //set game mode
+        game.setGameMode(GameMode.OBSERVE_MODE);
+        assertEquals(GameMode.OBSERVE_MODE, game.getGameMode());
+
+        game.setGameMode(GameMode.PLAY_MODE);
+        assertEquals(GameMode.PLAY_MODE, game.getGameMode());
     }
 
     @Test (expected = IllegalStateException.class)

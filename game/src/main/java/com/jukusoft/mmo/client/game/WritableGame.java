@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.client.game;
 
+import com.jukusoft.mmo.client.game.mode.GameMode;
 import com.jukusoft.mmo.client.game.region.WritableRegion;
 
 public interface WritableGame extends Game {
@@ -17,5 +18,10 @@ public interface WritableGame extends Game {
      * @param ping network ping to proxy server
     */
     public void setPing (int ping);
+
+    /**
+    * set game mode
+    */
+    public void setGameMode (GameMode mode);
 
 }

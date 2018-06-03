@@ -33,6 +33,11 @@ public class Protocol {
     public static final byte MSG_EXTENDED_TYPE_SELECT_CHARACTER_REQUEST = 0x07;
     public static final byte MSG_EXTENDED_TYPE_SELECT_CHARACTER_RESPONSE = 0x08;
 
+    //type 0x06 general client state information (e.q. show loading screen)
+    public static final byte MSG_TYPE_GENERAL_CLIENT_STATE_INFORMATION = 0x06;
+
+    public static final byte MSG_EXTENDED_TYPE_SHOW_LOADING_SCREEN = 0x01;
+
     //type 0x0B error
     public static final byte MSG_TYPE_ERROR = 0x0B;
 

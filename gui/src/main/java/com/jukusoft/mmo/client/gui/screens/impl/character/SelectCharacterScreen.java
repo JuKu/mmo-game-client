@@ -304,7 +304,25 @@ public class SelectCharacterScreen implements IScreen {
                                 LocalLogger.print("character selected successfully.");
 
                                 //go to loading region screen
-                                Platform.runOnUIThread(() -> screenManager.leaveAllAndEnter(Screens.LOAD_REGION));
+                                //Platform.runOnUIThread(() -> screenManager.leaveAllAndEnter(Screens.LOAD_REGION));
+
+                                Platform.runOnUIThread(() -> {
+                                    //hide all buttons, except selected region
+
+                                    for (int i = 0; i < SelectCharacterScreen.this.slots.length; i++) {
+                                        if (i != slotID) {
+                                            //hide button
+                                            SelectCharacterScreen.this.slots[i].setVisible(false);
+                                        }
+                                    }
+
+                                    SelectCharacterScreen.this.slots[slotID].setDisabled(true);
+
+                                    if (SelectCharacterScreen.this.slots[slotID] instanceof TextButton) {
+                                        TextButton btn1 = (TextButton) SelectCharacterScreen.this.slots[slotID];
+                                        btn1.setText("Loading...");
+                                    }
+                                });
                             } else {
                                 LocalLogger.warn("Cannot select character slot " + slotID);
                             }

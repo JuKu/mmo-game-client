@@ -4,6 +4,7 @@ import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.game.character.CharacterSlot;
 import com.jukusoft.mmo.client.game.character.CharacterSlots;
 import com.jukusoft.mmo.client.game.connection.ServerManager;
+import com.jukusoft.mmo.client.game.mode.GameMode;
 import com.jukusoft.mmo.client.game.region.Region;
 import com.jukusoft.mmo.client.game.region.WritableRegion;
 
@@ -14,6 +15,7 @@ public class GameImpl implements WritableGame {
     protected WritableRegion region = new WritableRegion();
     protected AtomicInteger ping = new AtomicInteger(0);
     protected CharacterSlots characterSlots = new CharacterSlots();
+    protected GameMode gameMode = GameMode.PLAY_MODE;
 
     public GameImpl () {
         //
@@ -57,6 +59,16 @@ public class GameImpl implements WritableGame {
     @Override
     public CharacterSlots getCharacterSlots() {
         return this.characterSlots;
+    }
+
+    @Override
+    public GameMode getGameMode() {
+        return this.gameMode;
+    }
+
+    @Override
+    public void setGameMode(GameMode mode) {
+        this.gameMode = mode;
     }
 
 }
