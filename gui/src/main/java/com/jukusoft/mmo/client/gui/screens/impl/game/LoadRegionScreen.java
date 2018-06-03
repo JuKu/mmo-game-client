@@ -90,7 +90,7 @@ public class LoadRegionScreen implements IScreen {
         loadingBg = new Image(atlas.findRegion("loading-frame-bg"));
 
         //add label with region title
-        this.label = new Label("  Region: " + game.getRegion().getTitle() + "  ", this.skin);
+        this.label = new Label("  Loading " + game.getRegion().getTitle() + "...  ", this.skin);
         this.label.getStyle().background = new TextureRegionDrawable(atlas.findRegion("label"));
         this.label.setHeight(50);
         this.label.invalidate();

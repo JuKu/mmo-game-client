@@ -2,7 +2,7 @@ package com.jukusoft.mmo.client.game.region;
 
 public class Region {
 
-    protected String title = "Kardor";
+    protected String title = "";
     protected int regionID = 0;
     protected int instanceID = 0;
 
