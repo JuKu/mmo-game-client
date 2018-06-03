@@ -46,6 +46,9 @@ public class LoadRegionScreen implements IScreen {
     protected Image loadingBg;
     protected Label label;
 
+    protected Image header;
+    protected Image footer;
+
     //loading bar
     protected Actor loadingBar;
 
@@ -89,8 +92,11 @@ public class LoadRegionScreen implements IScreen {
         screenBg = new Image(this.bgTexture);
         loadingBg = new Image(atlas.findRegion("loading-frame-bg"));
 
+        this.header = new Image(atlas.findRegion("footer_bg"));
+        this.footer = new Image(atlas.findRegion("footer_bg"));
+
         //add label with region title
-        this.label = new Label("  Loading " + game.getRegion().getTitle() + "...  ", this.skin);
+        this.label = new Label("   Loading " + game.getRegion().getTitle() + "...   ", this.skin);
         this.label.getStyle().background = new TextureRegionDrawable(atlas.findRegion("label"));
         this.label.setHeight(50);
         this.label.invalidate();
@@ -102,6 +108,8 @@ public class LoadRegionScreen implements IScreen {
 
         // Add all the actors to the stage
         stage.addActor(screenBg);
+        stage.addActor(header);
+        stage.addActor(footer);
         stage.addActor(loadingBar);
         stage.addActor(loadingBg);
         stage.addActor(loadingBarHidden);
@@ -127,6 +135,9 @@ public class LoadRegionScreen implements IScreen {
     public void onResize(int width, int height) {
         stage.getViewport().setScreenWidth(width);
         stage.getViewport().setScreenHeight(height);
+        stage.getCamera().viewportWidth = width;
+        stage.getCamera().viewportHeight = height;
+        stage.getCamera().update();
 
         // Make the background fill the screen
         screenBg.setSize(width, height);
@@ -141,7 +152,7 @@ public class LoadRegionScreen implements IScreen {
 
         // Place the loading frame in the middle of the screen
         loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
-        loadingFrame.setY((stage.getHeight() - loadingFrame.getHeight()) / 2 + loadingBarOffsetY);
+        loadingFrame.setY(/*(stage.getHeight() - loadingFrame.getHeight()) / 2 + loadingBarOffsetY*/0);
 
         // Place the loading bar at the same spot as the frame, adjusted a few px
         loadingBar.setX(loadingFrame.getX() + 15);
@@ -161,6 +172,17 @@ public class LoadRegionScreen implements IScreen {
 
         label.setX((width - label.getWidth()) / 2);
         label.setY((height - label.getHeight()) / 2 + yOffset + 220);
+
+        //set position of header and footer
+        header.setWidth(width);
+        header.setHeight(50);
+        header.setX(0);
+        header.setY(height - header.getHeight());
+
+        footer.setWidth(width);
+        footer.setHeight(50);
+        footer.setX(0);
+        footer.setY(0);
     }
 
     @Override
