@@ -180,7 +180,7 @@ public class LoadRegionScreen implements IScreen {
         header.setY(height - header.getHeight());
 
         footer.setWidth(width);
-        footer.setHeight(50);
+        footer.setHeight(60);
         footer.setX(0);
         footer.setY(0);
     }
