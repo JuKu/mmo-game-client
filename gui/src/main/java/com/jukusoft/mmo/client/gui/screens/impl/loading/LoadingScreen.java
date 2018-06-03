@@ -151,6 +151,7 @@ public class LoadingScreen implements IScreen {
         loadingBg.setSize(450, 50);
         loadingBg.setX(loadingBarHidden.getX() + 30);
         loadingBg.setY(loadingBarHidden.getY() + 3);
+        loadingBg.invalidate();
     }
 
     @Override

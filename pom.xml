@@ -32,7 +32,7 @@
 		<hppc.version>0.7.3</hppc.version>
 
 		<!-- libGDX version -->
-		<libgdx.version>1.9.6</libgdx.version>
+		<libgdx.version>1.9.8</libgdx.version>
 
 		<!-- VisUI - ui library for libGDX -->
 		<vis.ui.version>1.4.0</vis.ui.version>

@@ -205,8 +205,13 @@ public class SelectServerScreen implements IScreen {
 
     @Override
     public void onResize(int width, int height) {
+        System.out.println("onResize: " + width + "x" + height);
+
         stage.getViewport().setScreenWidth(width);
         stage.getViewport().setScreenHeight(height);
+        stage.getViewport().update(width, height, true);
+        stage.getViewport().setScreenPosition(0, 0);
+        stage.getViewport().setScreenSize(width, height);
 
         //make the background fill the screen
         screenBG.setSize(width, height);
@@ -215,12 +220,14 @@ public class SelectServerScreen implements IScreen {
         //place the logo in the middle of the screen and 100 px up
         logo.setX((width - logo.getWidth()) / 2);
         logo.setY((height - logo.getHeight()) / 2 + 200);
+        logo.invalidate();
 
         float startY = (height - logo.getHeight()) / 2 + 50;
 
         for (int i = 0; i < this.buttons.length; i++) {
             buttons[i].setX((width - buttons[i].getWidth()) / 2);
             buttons[i].setY(startY - i * 50);
+            buttons[i].invalidate();
         }
 
         versionLabel.setX(20);
