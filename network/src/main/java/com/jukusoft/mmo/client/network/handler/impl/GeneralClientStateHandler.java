@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.client.network.handler.impl;
 
+import com.jukusoft.mmo.client.engine.cache.Cache;
 import com.jukusoft.mmo.client.engine.logging.LocalLogger;
 import com.jukusoft.mmo.client.game.WritableGame;
 import com.jukusoft.mmo.client.network.NClient;
@@ -26,6 +27,9 @@ public class GeneralClientStateHandler implements NetHandler {
             game.getWritableRegion().setID(regionID, instanceID);
 
             LocalLogger.print("load region " + regionID + ", instanceID: " + instanceID + " .");
+
+            //create cache dir
+            Cache.getInstance().createDirIfAbsent("region_" + regionID + "_" + instanceID);
 
             //set load region screen
             game.enterRegionLoadingcreen();

@@ -39,6 +39,7 @@ public class Cache {
         FileUtils.createWritableDirIfAbsent(CACHE_PATH);
         FileUtils.createWritableDirIfAbsent(CACHE_PATH + "assets/");
         FileUtils.createWritableDirIfAbsent(CACHE_PATH + "security/");
+        FileUtils.createWritableDirIfAbsent(CACHE_PATH + "maps/");
     }
 
     /**
@@ -58,6 +59,10 @@ public class Cache {
 
     public String getPath () {
         return CACHE_PATH;
+    }
+
+    public void createDirIfAbsent (String dirName) {
+        FileUtils.createWritableDirIfAbsent(CACHE_PATH + dirName + "/");
     }
 
 }
