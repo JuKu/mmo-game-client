@@ -8,12 +8,16 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jukusoft.mmo.client.engine.cache.Cache;
 import com.jukusoft.mmo.client.game.Game;
 import com.jukusoft.mmo.client.gui.assetmanager.GameAssetManager;
 import com.jukusoft.mmo.client.gui.screens.IScreen;
 import com.jukusoft.mmo.client.gui.screens.ScreenManager;
 import com.jukusoft.mmo.client.gui.screens.impl.loading.LoadingBar;
+import com.jukusoft.mmo.client.gui.utils.SkinFactory;
 
 import java.io.File;
 
@@ -26,9 +30,13 @@ public class LoadRegionScreen implements IScreen {
     //paths
     protected static final String WALLPAPER_PATH = new File("data/misc/placeholders/loading_region.png").getAbsolutePath().replace("\\", "/");
     protected static final String TEXTURE_ATLAS_PATH = Cache.getInstance().getPath() + "assets/loading/loading.pack.atlas";
+    protected static final String SKIN_JSON_PATH = "data/misc/skins/default/uiskin.json";
 
     //background texture
     protected Texture bgTexture = null;
+
+    //skins
+    protected Skin skin = null;
 
     //widgets
     protected Image logo;
@@ -36,6 +44,7 @@ public class LoadRegionScreen implements IScreen {
     protected Image loadingBarHidden;
     protected Image screenBg;
     protected Image loadingBg;
+    protected Label label;
 
     //loading bar
     protected Actor loadingBar;
@@ -70,12 +79,21 @@ public class LoadRegionScreen implements IScreen {
         // Get our textureatlas from the manager
         TextureAtlas atlas = assetManager.get(TEXTURE_ATLAS_PATH, TextureAtlas.class);
 
+        //create skin
+        this.skin = SkinFactory.createSkin(SKIN_JSON_PATH);
+
         // Grab the regions from the atlas and create some images
         logo = new Image(atlas.findRegion("logo_large"));
         loadingFrame = new Image(atlas.findRegion("loading-frame"));
         loadingBarHidden = new Image(atlas.findRegion("loading-bar-hidden"));
         screenBg = new Image(this.bgTexture);
         loadingBg = new Image(atlas.findRegion("loading-frame-bg"));
+
+        //add label with region title
+        this.label = new Label("  Region: " + game.getRegion().getTitle() + "  ", this.skin);
+        this.label.getStyle().background = new TextureRegionDrawable(atlas.findRegion("label"));
+        this.label.setHeight(50);
+        this.label.invalidate();
 
         // Add the loading bar animation
         Animation anim = new Animation(0.05f, atlas.findRegions("loading-bar-anim") );
@@ -89,6 +107,7 @@ public class LoadRegionScreen implements IScreen {
         stage.addActor(loadingBarHidden);
         stage.addActor(loadingFrame);
         stage.addActor(logo);
+        stage.addActor(label);
 
         //dont accept input while loading region
         Gdx.input.setInputProcessor(null);
@@ -99,6 +118,9 @@ public class LoadRegionScreen implements IScreen {
     public void onPause(Game game) {
         assetManager.unload(WALLPAPER_PATH);
         assetManager.unload(TEXTURE_ATLAS_PATH);
+
+        this.skin.dispose();
+        this.skin = null;
     }
 
     @Override
@@ -115,7 +137,7 @@ public class LoadRegionScreen implements IScreen {
         logo.setX((width - logo.getWidth()) / 2);
         logo.setY((height - logo.getHeight()) / 2 + yOffset);
 
-        float loadingBarOffsetY = /*-120*/-200;
+        float loadingBarOffsetY = /*-120*//*-200*/-210;
 
         // Place the loading frame in the middle of the screen
         loadingFrame.setX((stage.getWidth() - loadingFrame.getWidth()) / 2);
@@ -136,6 +158,9 @@ public class LoadRegionScreen implements IScreen {
         loadingBg.setSize(450, 50);
         loadingBg.setX(loadingBarHidden.getX() + 30);
         loadingBg.setY(loadingBarHidden.getY() + 3);
+
+        label.setX((width - label.getWidth()) / 2);
+        label.setY((height - label.getHeight()) / 2 + yOffset + 200);
     }
 
     @Override
